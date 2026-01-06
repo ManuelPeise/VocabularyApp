@@ -7,6 +7,8 @@ namespace Data.Database
     {
         public AppDbContext CreateDbContext(string[] args)
         {
+            SQLitePCL.Batteries.Init();
+
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
             var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "VocabularyAppDb.db");

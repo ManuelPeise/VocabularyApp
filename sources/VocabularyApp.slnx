@@ -1,1 +1,18 @@
-<Solution />
+<Solution>
+  <Folder Name="/01 Core/">
+    <Project Path="Core.App/Core.App.csproj" Id="01106208-b0fb-4190-bdb7-c068aa1a201c">
+      <Deploy Solution="Debug|*" />
+    </Project>
+  </Folder>
+  <Folder Name="/02 Services/" />
+  <Folder Name="/03 Logic/">
+    <Project Path="Logic.Shared/Logic.Shared.csproj" Id="3e422777-8677-4829-ba95-328932e5ed79" />
+  </Folder>
+  <Folder Name="/04 Data/">
+    <Project Path="Data.Accessor/Data.Accessor.csproj" Id="2e48173e-8148-4fba-a617-6e065123f7ab" />
+    <Project Path="Data.Database/Data.Database.csproj" Id="6b4add55-8383-4c4c-a7d6-2968646a7960" />
+  </Folder>
+  <Folder Name="/05 Shared/">
+    <Project Path="Shared.Enums/Shared.Enums.csproj" Id="0ff81abe-f80d-4f88-9dfd-da2fe1f0e16d" />
+  </Folder>
+</Solution>
