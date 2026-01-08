@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -55,8 +56,10 @@ namespace Data.Database.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    UserIdExternal = table.Column<Guid>(type: "TEXT", nullable: false),
                     FirstName = table.Column<string>(type: "TEXT", nullable: false),
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    UserName = table.Column<string>(type: "TEXT", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserRole = table.Column<int>(type: "INTEGER", nullable: false),
                     UserCredentialsId = table.Column<int>(type: "INTEGER", nullable: false),
@@ -83,8 +86,8 @@ namespace Data.Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "UserTable",
-                columns: new[] { "Id", "CreatedAt", "CreatedBy", "DateOfBirth", "FirstName", "LastName", "UpdatedAt", "UpdatedBy", "UserCredentialsId", "UserRole" },
-                values: new object[] { 1, new DateTime(2026, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "System", new DateTime(1980, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", "User", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, 1 });
+                columns: new[] { "Id", "CreatedAt", "CreatedBy", "DateOfBirth", "FirstName", "LastName", "UpdatedAt", "UpdatedBy", "UserCredentialsId", "UserIdExternal", "UserName", "UserRole" },
+                values: new object[] { 1, new DateTime(2026, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "System", new DateTime(1980, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", "User", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", 1, new Guid("95f6f461-b8eb-48f8-aecf-78bbd0cc0c3d"), "Admin.User", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserTable_UserCredentialsId",

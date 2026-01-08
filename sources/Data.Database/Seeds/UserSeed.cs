@@ -15,8 +15,10 @@ namespace Data.Database.Seeds
             builder.HasData(new UserEntity
             {
                 Id = 1,
+                UserIdExternal = new Guid("95f6f461-b8eb-48f8-aecf-78bbd0cc0c3d"),
                 FirstName = "Admin",
                 LastName = "User",
+                UserName = "Admin.User",
                 DateOfBirth = DateTime.Parse("1980.04.20", CultureInfo.InvariantCulture),
                 UserRole = UserRoleEnum.Admin,
                 CreatedAt = timeStamp,

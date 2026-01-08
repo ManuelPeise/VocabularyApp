@@ -17,14 +17,19 @@ namespace Core.App
                 });
 
             Database.RegisterDatabaseServices(builder);
-            
+           
             builder.RegisterAppServices();
+
+            builder.Services.RegisterViewModels();
+            builder.Services.RegisterViews();
 
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
 
             var app = builder.Build();
+
+            Database.Migrate(app);
 
             return app;
         }

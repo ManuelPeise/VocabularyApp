@@ -79,7 +79,7 @@ namespace Data.Accessor.Interfaces
         /// if the entity was added; otherwise, 0.</returns>
         Task<int> AddAsync(
             TEntity entity, 
-            Expression<Func<TEntity, bool>> whereExpression);
+            Expression<Func<TEntity, bool>>? whereExpression = null);
         /// <summary>
         /// Asynchronously updates the specified entity in the data store.
         /// </summary>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Views.Shared.LoadingOverlay"
+             x:Name="root"
+             IsVisible="{Binding IsLoading, Source={x:Reference root}}">
+    <Grid BackgroundColor="#80000000"
+          RowDefinitions="*"
+          ColumnDefinitions="*"
+          VerticalOptions="Fill"
+          HorizontalOptions="Fill">
+        <ActivityIndicator IsRunning="True"
+                           Color="{StaticResource TextOrange}"
+                           WidthRequest="60"
+                           HeightRequest="60"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+    </Grid>
+</ContentView>

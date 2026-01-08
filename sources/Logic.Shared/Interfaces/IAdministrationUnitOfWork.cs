@@ -9,6 +9,7 @@ namespace Logic.Shared.Interfaces
         IRepositoryBase<LogMessageEntity> LogRepository { get; }
         IRepositoryBase<UserEntity> UserRepository { get; }
         IRepositoryBase<UserCredentialsEntity> UserCredentialsRepository { get; }
+        Task CommittChanges(string userName);
         Task<IEnumerable<LogMessageEntity>> GetAllLogMessagesAsync(Expression<Func<LogMessageEntity, bool>>? expression = null);
     }
 }

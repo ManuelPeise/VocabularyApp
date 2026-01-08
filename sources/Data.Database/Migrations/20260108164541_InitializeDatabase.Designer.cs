@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260106202748_InitializeDatabase")]
+    [Migration("20260108164541_InitializeDatabase")]
     partial class InitializeDatabase
     {
         /// <inheritdoc />
@@ -141,6 +141,13 @@ namespace Data.Database.Migrations
                     b.Property<int>("UserCredentialsId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("UserIdExternal")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("UserRole")
                         .HasColumnType("INTEGER");
 
@@ -162,6 +169,8 @@ namespace Data.Database.Migrations
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UpdatedBy = "",
                             UserCredentialsId = 1,
+                            UserIdExternal = new Guid("95f6f461-b8eb-48f8-aecf-78bbd0cc0c3d"),
+                            UserName = "Admin.User",
                             UserRole = 1
                         });
                 });

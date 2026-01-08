@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Views.Public.LoginPage"
+             xmlns:resx="clr-namespace:Resx;assembly=Shared.Resources"
+             xmlns:shared="clr-namespace:Core.App.Views.Shared"
+             xmlns:converters="clr-namespace:Core.App.Converters"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InvertBookConverter x:Key="InvertBookConverter" />
+            <converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="*, Auto, *">
+        <!-- Background Image -->
+        <Image Source="waves.jpg"
+               Opacity="0.8"
+               Aspect="AspectFill"
+               Grid.RowSpan="3"
+               Grid.ColumnSpan="2" />
+        <Border Style="{StaticResource CardBorder}"
+                Grid.Row="1"
+                VerticalOptions="Center">
+            <Grid RowDefinitions="*, Auto, *, *, *, *"
+                  Padding="10">
+                <Label Grid.Row="0"
+                       Margin="0,10,0,30"
+                       Style="{StaticResource TitleLabelStyle}"
+                       TextColor="{StaticResource SecondaryTextColor}"
+                       Text="{x:Static resx:Core.LabelLogin}" />
+                <Entry x:Name="usernameEntry"
+                       Grid.Row="1"
+                       Style="{StaticResource Entry}"
+                       Placeholder="{x:Static resx:Core.PlaceholderEnterUserName}"
+                       Text="{Binding UserName}"
+                       Margin="15"
+                       VerticalOptions="End"
+                       IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}"/>
+                <Entry x:Name="passwordEntry"
+                       Grid.Row="2"
+                       Style="{StaticResource Entry}"
+                       Placeholder="{x:Static resx:Core.PlaceholderEnterPassword}"
+                       Text="{Binding Password}"
+                       IsPassword="True"
+                       Margin="15"
+                       VerticalOptions="End"
+                       IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}"/>
+                <Label Grid.Row="3" 
+                       Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       FontAttributes="Bold"
+                       Margin="0,5"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
+                <HorizontalStackLayout Grid.Row="4"
+                                       Margin="15,5">
+                    <CheckBox IsChecked="{Binding RememberMe}"
+                              IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
+                    <Label Style="{StaticResource CheckboxLabel}"
+                           Text="{x:Static resx:Core.LabelRememberMe}"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Grid x:Name="loginButtonGroup"
+                      Grid.Row="5"
+                      ColumnDefinitions="*, *"
+                      ColumnSpacing="10"
+                      Margin="0,30">
+                    <Button Grid.Column="0"
+                            Text="{x:Static resx:Core.LabelCancel}"
+                            Style="{StaticResource OutlinedAccentButton}"
+                            Command="{Binding NavigateToStartCommand}"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}"/>
+                    <Button Grid.Column="1"
+                            Text="{x:Static resx:Core.LabelLogin}"
+                            Style="{StaticResource OutlinedAccentButton}"
+                            Command="{Binding LoginCommand}"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}"/>
+                </Grid>
+            </Grid>
+        </Border>
+        <shared:LoadingOverlay IsLoading="{Binding IsBusy}"
+                               Grid.Row="0"
+                               Grid.RowSpan="3"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2" />
+    </Grid>
+</ContentPage>

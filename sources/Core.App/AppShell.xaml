@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="Core.App.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Core.App"
-    Title="Core.App">
+<Shell x:Class="Core.App.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:public="clr-namespace:Core.App.Views.Public"
+       xmlns:user="clr-namespace:Core.App.Views.Private.User">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <ShellContent Route="StartPage"
+                  ContentTemplate="{DataTemplate public:StartPage}"
+                  Shell.FlyoutBehavior="Disabled" />
+    <ShellContent Route="LoginPage"
+                  ContentTemplate="{DataTemplate public:LoginPage}"
+                  Shell.FlyoutBehavior="Disabled" />
+    <ShellContent Route="RegisterPage"
+                  ContentTemplate="{DataTemplate public:RegisterPage}"
+                  Shell.FlyoutBehavior="Disabled" />
+    <ShellContent Route="HomePage"
+                  ContentTemplate="{DataTemplate user:HomePage}"
+                  Shell.FlyoutBehavior="Flyout" />
 
 </Shell>

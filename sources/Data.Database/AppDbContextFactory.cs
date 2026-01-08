@@ -11,7 +11,9 @@ namespace Data.Database
 
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "VocabularyAppDb.db");
+            var dbPath = args.Length > 0
+           ? args[0]
+           : Path.Combine(AppContext.BaseDirectory, "VocabularyAppDb.db");
             optionsBuilder.UseSqlite($"Data Source={dbPath}");
 
             return new AppDbContext(optionsBuilder.Options);

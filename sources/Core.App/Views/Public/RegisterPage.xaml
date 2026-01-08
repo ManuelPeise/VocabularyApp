@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Views.Public.RegisterPage"
+             xmlns:resx="clr-namespace:Resx;assembly=Shared.Resources"
+             xmlns:shared="clr-namespace:Core.App.Views.Shared"
+             xmlns:converters="clr-namespace:Core.App.Converters"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InvertBookConverter x:Key="InvertBookConverter" />
+            <converters:StringNotNullOrEmptyConverter x:Key="StringNotNullOrEmptyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="*, Auto, *">
+        <!-- Background Image -->
+        <Image Source="waves.jpg"
+               Opacity="0.8"
+               Aspect="AspectFill"
+               Grid.RowSpan="3"
+               Grid.ColumnSpan="2" />
+        <Border Style="{StaticResource CardBorder}"
+                Grid.Row="1"
+                VerticalOptions="Center">
+            <Grid RowDefinitions="*, Auto,*,*,*,*,*,*,*"
+                  Padding="10">
+                <Label Grid.Row="0"
+                       Margin="0,10,0,30"
+                       Style="{StaticResource TitleLabelStyle}"
+                       TextColor="{StaticResource SecondaryTextColor}"
+                       Text="{x:Static resx:Core.LabelCreateAccount}" />
+                <Entry x:Name="firstNameEntry"
+                       Grid.Row="1"
+                       Style="{StaticResource Entry}"
+                       Placeholder="{x:Static resx:Core.PlaceholderEnterFirstName}"
+                       Text="{Binding FirstName}"
+                       Margin="15"
+                       VerticalOptions="End"
+                       IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
+                <Entry x:Name="lastNameEntry"
+                       Grid.Row="2"
+                       Style="{StaticResource Entry}"
+                       Placeholder="{x:Static resx:Core.PlaceholderEnterLastName}"
+                       Text="{Binding LastName}"
+                       IsPassword="False"
+                       Margin="15"
+                       VerticalOptions="End"
+                       IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
+                <Entry x:Name="userNameEntry"
+                       Grid.Row="3"
+                       Style="{StaticResource Entry}"
+                       Placeholder="{x:Static resx:Core.PlaceholderEnterUserName}"
+                       Text="{Binding UserName}"
+                       IsPassword="False"
+                       Margin="15"
+                       VerticalOptions="End"
+                       IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
+                <DatePicker x:Name="dateOfBirthDatePicker"
+                            Grid.Row="4"
+                            Style="{StaticResource DatePicker}"
+                            MinimumDate="{Binding MinDate}"
+                            MaximumDate="{Binding MaxDate}"
+                            Date="{Binding DateOfBirth}"
+                            Margin="15"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
+                <Entry x:Name="passwordEntry"
+                       Grid.Row="5"
+                       Style="{StaticResource Entry}"
+                       Placeholder="{x:Static resx:Core.PlaceholderEnterPassword}"
+                       Text="{Binding Password}"
+                       IsPassword="True"
+                       Margin="15"
+                       VerticalOptions="End"
+                       IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
+                <Entry x:Name="passwordReplicationEntry"
+                       Grid.Row="6"
+                       Style="{StaticResource Entry}"
+                       Placeholder="{x:Static resx:Core.PlaceholderEnterPassword}"
+                       Text="{Binding PasswordReplication}"
+                       IsPassword="True"
+                       Margin="15"
+                       VerticalOptions="End"
+                       IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
+                <Label Text="{Binding ErrorMessage}"
+                       Grid.Row="7"
+                       TextColor="Red"
+                       FontAttributes="Italic"
+                       Margin="0,5"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
+                <Grid x:Name="registerButtonGroup"
+                      Grid.Row="8"
+                      ColumnDefinitions="*, *"
+                      ColumnSpacing="10"
+                      Margin="0,30">
+                    <Button Grid.Column="0"
+                            Text="{x:Static resx:Core.LabelCancel}"
+                            Style="{StaticResource OutlinedAccentButton}"
+                            Command="{Binding NavigateToStartCommand}"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
+                    <Button Grid.Column="1"
+                            Text="{x:Static resx:Core.LabelCreateAccount}"
+                            Style="{StaticResource OutlinedAccentButton}"
+                            Command="{Binding CreateAccountCommand}"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
+                </Grid>
+            </Grid>
+        </Border>
+        <shared:LoadingOverlay IsLoading="{Binding IsBusy}"
+                               Grid.Row="0"
+                               Grid.RowSpan="3"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2" />
+    </Grid>
+</ContentPage>

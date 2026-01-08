@@ -7,11 +7,13 @@ namespace Data.Accessor
 {
     public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : AEntityBase
     {
+        private AppDbContext _context;
         private readonly DbSet<TEntity> _table;
 
         public RepositoryBase(AppDbContext context)
         {
-            _table = context.Set<TEntity>();
+            _context = context;
+            _table = _context.Set<TEntity>();
         }
 
         public Task<HashSet<TEntity>> GetAllAsync(
@@ -95,11 +97,11 @@ namespace Data.Accessor
 
         public async Task<int> AddAsync(
             TEntity entity, 
-            Expression<Func<TEntity, bool>> whereExpression)
+            Expression<Func<TEntity, bool>>? whereExpression = null)
         {
             var table = _table.AsQueryable();
 
-            var isExisting = table.Any(whereExpression);
+            var isExisting = whereExpression == null ? false : table.Any(whereExpression);
 
             if(isExisting)
             {
@@ -107,7 +109,7 @@ namespace Data.Accessor
             }
             
             var result = await _table.AddAsync(entity);
-
+ 
             return await Task.FromResult(result.Entity.Id);
         }
 

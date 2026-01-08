@@ -33,5 +33,8 @@ namespace Logic.Shared.UnitsOfWork
 
             return await _logRepository.GetAllAsync();
         }
+
+        public async Task CommittChanges(string userName) => await SaveChangesAsync(userName);
+        
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Views.Private.User.HomePage"
+             xmlns:shared="clr-namespace:Core.App.Views.Shared"
+             Title="HomePage">
+    <Grid RowDefinitions="*,Auto,*">
+        <Label Grid.Row="1"
+               Text="{Binding GreetingText}"
+               VerticalOptions="Center"
+               HorizontalOptions="Center" />
+
+        <Button Grid.Row="2"
+                Text="Toggle"
+                Command="{Binding ToggleIsLoadingCommand}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+        <shared:LoadingOverlay IsLoading="{Binding IsBusy}"
+                               Grid.Row="0"
+                               Grid.RowSpan="3"
+                               Grid.Column="0"
+                               />
+    </Grid>
+</ContentPage>

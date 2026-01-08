@@ -1,18 +1,49 @@
 <Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
   <Folder Name="/01 Core/">
     <Project Path="Core.App/Core.App.csproj" Id="01106208-b0fb-4190-bdb7-c068aa1a201c">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
       <Deploy Solution="Debug|*" />
     </Project>
   </Folder>
   <Folder Name="/02 Services/" />
   <Folder Name="/03 Logic/">
-    <Project Path="Logic.Shared/Logic.Shared.csproj" Id="3e422777-8677-4829-ba95-328932e5ed79" />
+    <Project Path="Logic.Administration/Logic.Administration.csproj" Id="40a5eb4d-7804-4a59-a2ee-a3716df051eb">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="Debug|x86" Project="x86" />
+    </Project>
+    <Project Path="Logic.Shared/Logic.Shared.csproj" Id="3e422777-8677-4829-ba95-328932e5ed79">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
   </Folder>
   <Folder Name="/04 Data/">
-    <Project Path="Data.Accessor/Data.Accessor.csproj" Id="2e48173e-8148-4fba-a617-6e065123f7ab" />
-    <Project Path="Data.Database/Data.Database.csproj" Id="6b4add55-8383-4c4c-a7d6-2968646a7960" />
+    <Project Path="Data.Accessor/Data.Accessor.csproj" Id="2e48173e-8148-4fba-a617-6e065123f7ab">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="Data.Database/Data.Database.csproj" Id="6b4add55-8383-4c4c-a7d6-2968646a7960">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
   </Folder>
   <Folder Name="/05 Shared/">
-    <Project Path="Shared.Enums/Shared.Enums.csproj" Id="0ff81abe-f80d-4f88-9dfd-da2fe1f0e16d" />
+    <Project Path="Shared.Enums/Shared.Enums.csproj" Id="0ff81abe-f80d-4f88-9dfd-da2fe1f0e16d">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="Shared.Models/Shared.Models.csproj" Id="38d30ffc-c3d2-4dc0-8d0f-6c95cf3beec1">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="Debug|x86" Project="x86" />
+    </Project>
+    <Project Path="Shared.Resources/Shared.Resources.csproj" Id="e4dfa3ad-fb5a-4439-88ad-8c6f57ca337e">
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
   </Folder>
 </Solution>
