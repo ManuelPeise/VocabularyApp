@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Core.App.Services.Interfaces;
 using Logic.Administration.Interfaces;
 using Shared.Models.Authentication;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace Core.App.ViewModels
 {
@@ -10,37 +12,47 @@ namespace Core.App.ViewModels
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IUserAuthentication _authenticationService;
+        private readonly ISecureStorageHandler _secureStorageHandler;
 
         [ObservableProperty]
-        private string _userName = string.Empty;
-        [ObservableProperty]
-        private string _password = string.Empty;
-        [ObservableProperty]
-        private bool _rememberMe = false;
+        private AuthenticationRequestModel _authData = new AuthenticationRequestModel();
         [ObservableProperty]
         private string? _errorMessage;
 
-        public LoginViewModel(IUserAuthentication authenticationService, ICurrentUserService currentUserService)
+        public LoginViewModel(
+            IUserAuthentication authenticationService, 
+            ICurrentUserService currentUserService,
+            ISecureStorageHandler secureStorageHandler)
         {
             _authenticationService = authenticationService;
             _currentUserService = currentUserService;
-            IsBusy = false;
-
-            Debug.WriteLine($"Is Busy: {IsBusy}");
+            _secureStorageHandler = secureStorageHandler;
+           
+            Task.Run(async () => await InitializeAsync());
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             if (query.TryGetValue("userName", out var userNameObj) && userNameObj is string userName)
             {
-                UserName = userName;
+                AuthData.UserName = userName;
             }
+        }
+
+        private async Task InitializeAsync()
+        {
+            var authData = await _secureStorageHandler.GetAsync(StorageKeys.LoginDataKey);
+
+            if (!string.IsNullOrEmpty(authData))
+            {
+                AuthData = JsonSerializer.Deserialize<AuthenticationRequestModel>(authData) ?? new AuthenticationRequestModel();
+            }   
         }
 
         [RelayCommand]
         private async Task NavigateToStart()
         {
-            await Shell.Current.GoToAsync("//StartPage");
+            await Shell.Current.GoToAsync("StartPage");
         }
 
         [RelayCommand]
@@ -52,15 +64,22 @@ namespace Core.App.ViewModels
             {
                 IsBusy = true;
 
-                var result = await _authenticationService.AuthenticateUser(new AuthenticationRequestModel
-                {
-                    UserName = UserName,
-                    Password = Password
-                });
+                var result = await _authenticationService.AuthenticateUser(AuthData);
 
                 if (result.IsAuthenticated)
                 {
                     _currentUserService.SetCurrentUser(result);
+
+                    if (AuthData.RememberMe)
+                    {
+                        await _secureStorageHandler.SetAsync(StorageKeys.LoginDataKey, JsonSerializer.Serialize(AuthData));
+                    }
+                    else
+                    {
+                        _secureStorageHandler.Remove(StorageKeys.LoginDataKey);
+                    }
+
+                    await _secureStorageHandler.SetAsync(StorageKeys.UserData, JsonSerializer.Serialize(result));
                     await Shell.Current.GoToAsync("//HomePage");
                 }
                 else

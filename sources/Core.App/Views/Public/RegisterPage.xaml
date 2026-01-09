@@ -5,7 +5,8 @@
              xmlns:resx="clr-namespace:Resx;assembly=Shared.Resources"
              xmlns:shared="clr-namespace:Core.App.Views.Shared"
              xmlns:converters="clr-namespace:Core.App.Converters"
-             NavigationPage.HasNavigationBar="False">
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:InvertBookConverter x:Key="InvertBookConverter" />

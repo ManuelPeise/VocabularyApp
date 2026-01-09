@@ -3,19 +3,20 @@
        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:public="clr-namespace:Core.App.Views.Public"
-       xmlns:user="clr-namespace:Core.App.Views.Private.User">
+       xmlns:user="clr-namespace:Core.App.Views.Private.User"
+       xmlns:shared="clr-namespace:Core.App.Views.Shared"
+       Padding="0">
 
-    <ShellContent Route="StartPage"
-                  ContentTemplate="{DataTemplate public:StartPage}"
-                  Shell.FlyoutBehavior="Disabled" />
-    <ShellContent Route="LoginPage"
-                  ContentTemplate="{DataTemplate public:LoginPage}"
-                  Shell.FlyoutBehavior="Disabled" />
-    <ShellContent Route="RegisterPage"
-                  ContentTemplate="{DataTemplate public:RegisterPage}"
-                  Shell.FlyoutBehavior="Disabled" />
-    <ShellContent Route="HomePage"
-                  ContentTemplate="{DataTemplate user:HomePage}"
-                  Shell.FlyoutBehavior="Flyout" />
+    <Shell.FlyoutHeader>
+        <shared:FlyoutMenuHeader UserName="{Binding AuthResult.UserName}"
+                                 LogoutCommand="{Binding HandleLogoutCommand}" />
+    </Shell.FlyoutHeader>
+    <FlyoutItem Title="Home"
+                Route="HomePage"
+                Shell.FlyoutBehavior="Flyout"
+                Icon="home_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate user:HomePage}" />
+    </FlyoutItem>
+
 
 </Shell>

@@ -3,22 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Views.Private.User.HomePage"
              xmlns:shared="clr-namespace:Core.App.Views.Shared"
-             Title="HomePage">
-    <Grid RowDefinitions="*,Auto,*">
-        <Label Grid.Row="1"
-               Text="{Binding GreetingText}"
-               VerticalOptions="Center"
-               HorizontalOptions="Center" />
+             Padding="0"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="Auto,*">
+        <shared:NavigationBar Grid.Row="0"
+                              Title="HOME"
+                              LogoutCommand="{Binding HandleLogoutCommand}" />
+        <Grid Grid.Row="1">
+            <Grid RowDefinitions="*,Auto,*">
+                <Label Grid.Row="1"
+                       Text="{Binding AuthResult.UserName}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center" />
 
-        <Button Grid.Row="2"
-                Text="Toggle"
-                Command="{Binding ToggleIsLoadingCommand}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center" />
-        <shared:LoadingOverlay IsLoading="{Binding IsBusy}"
-                               Grid.Row="0"
-                               Grid.RowSpan="3"
-                               Grid.Column="0"
-                               />
+                <Button Grid.Row="2"
+                        Text="Toggle"
+                        Command="{Binding ToggleIsLoadingCommand}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center" />
+                <shared:LoadingOverlay IsLoading="{Binding IsBusy}"
+                                       Grid.Row="0"
+                                       Grid.RowSpan="3"
+                                       Grid.Column="0" />
+            </Grid>
+        </Grid>
     </Grid>
+   
+    
 </ContentPage>

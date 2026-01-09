@@ -1,22 +1,19 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
+using Core.App.Services.Interfaces;
 using Logic.Administration.Interfaces;
+using Shared.Models.Authentication;
+
 
 
 namespace Core.App.ViewModels
 {
-    public partial class HomePageViewModel : ViewModelBase
+    public partial class HomePageViewModel : PrivateViewModelBase
     {
-        private const string Greeting = "Hallo {User}!";
-        private readonly ICurrentUserService _currentUserService;
-
-        [ObservableProperty]
-        private string _greetingText;
-
-        public HomePageViewModel(ICurrentUserService currentUserService)
+     
+        public HomePageViewModel(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler) :
+            base(currentUserService, secureStorageHandler)
         {
-            _currentUserService = currentUserService;
-            GreetingText = Greeting.Replace("{User}", _currentUserService.UserName);
+           
         }
 
         [RelayCommand]

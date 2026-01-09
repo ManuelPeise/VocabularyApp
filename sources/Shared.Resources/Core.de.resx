@@ -134,6 +134,6 @@
     <value>Ungültiger Benutzername oder Passwort.</value>
   </data>
   <data name="LabelRegistrationError" xml:space="preserve">
-    <value>Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.</value>
+    <value>Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut!</value>
   </data>
 </root>

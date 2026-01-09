@@ -5,10 +5,7 @@ namespace Logic.Administration.Interfaces
 {
     public interface ICurrentUserService
     {
-        public int UserId { get; }
-        public string UserName { get; }
-        public UserRoleEnum? UserRole { get; }
-        public bool IsAuthenticated { get; }
+        public AuthenticationResult AuthenticationResult { get; }
         public void SetCurrentUser(AuthenticationResult authenticationResult);
     }
 }

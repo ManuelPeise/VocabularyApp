@@ -1,12 +1,17 @@
-﻿using Shared.Enums;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Shared.Enums;
 
 namespace Shared.Models.Authentication
 {
-    public class AuthenticationResult
+    public partial class AuthenticationResult: ObservableObject
     {
-        public int UserId { get; set; }
-        public string UserName { get; set; } = string.Empty;
-        public UserRoleEnum UserRole { get; set; }
-        public bool IsAuthenticated { get; set; }
+        [ObservableProperty]
+        private int _userId;
+        [ObservableProperty]
+        private string _userName;
+        [ObservableProperty]
+        private UserRoleEnum _userRole;
+        [ObservableProperty]
+        private bool _isAuthenticated;
     }
 }

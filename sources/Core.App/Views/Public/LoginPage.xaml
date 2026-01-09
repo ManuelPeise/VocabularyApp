@@ -5,7 +5,8 @@
              xmlns:resx="clr-namespace:Resx;assembly=Shared.Resources"
              xmlns:shared="clr-namespace:Core.App.Views.Shared"
              xmlns:converters="clr-namespace:Core.App.Converters"
-             NavigationPage.HasNavigationBar="False">
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:InvertBookConverter x:Key="InvertBookConverter" />
@@ -33,7 +34,7 @@
                        Grid.Row="1"
                        Style="{StaticResource Entry}"
                        Placeholder="{x:Static resx:Core.PlaceholderEnterUserName}"
-                       Text="{Binding UserName}"
+                       Text="{Binding AuthData.UserName}"
                        Margin="15"
                        VerticalOptions="End"
                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}"/>
@@ -41,7 +42,7 @@
                        Grid.Row="2"
                        Style="{StaticResource Entry}"
                        Placeholder="{x:Static resx:Core.PlaceholderEnterPassword}"
-                       Text="{Binding Password}"
+                       Text="{Binding AuthData.Password}"
                        IsPassword="True"
                        Margin="15"
                        VerticalOptions="End"
@@ -54,7 +55,7 @@
                        IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyConverter}}" />
                 <HorizontalStackLayout Grid.Row="4"
                                        Margin="15,5">
-                    <CheckBox IsChecked="{Binding RememberMe}"
+                    <CheckBox IsChecked="{Binding AuthData.RememberMe}"
                               IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
                     <Label Style="{StaticResource CheckboxLabel}"
                            Text="{x:Static resx:Core.LabelRememberMe}"

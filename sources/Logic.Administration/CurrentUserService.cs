@@ -1,29 +1,44 @@
 ﻿using Logic.Administration.Interfaces;
 using Shared.Enums;
 using Shared.Models.Authentication;
+using System.ComponentModel;
 
 namespace Logic.Administration
 {
-    public class CurrentUserService : ICurrentUserService
+    public class CurrentUserService : ICurrentUserService, INotifyPropertyChanged
     {
-        private AuthenticationResult _currentUser;
-
+        private AuthenticationResult _authenticationResult;
+       
         public CurrentUserService()
         {
-            _currentUser = new AuthenticationResult
+            _authenticationResult = new AuthenticationResult
             {
                 IsAuthenticated = false
             };
         }
 
-        public int UserId => _currentUser.UserId == 0 ? -1 : _currentUser.UserId;
-        public string UserName => _currentUser.UserName ?? string.Empty;
-        public UserRoleEnum? UserRole => _currentUser.UserRole;
-        public bool IsAuthenticated => _currentUser.IsAuthenticated;
+       
+        public AuthenticationResult AuthenticationResult
+        {
+            get => _authenticationResult;
+            private set
+            {
+                if(_authenticationResult != value)
+                {
+                    _authenticationResult = value;
+                    OnPropertyChanged(nameof(AuthenticationResult));
+                }
+            }
+        }
+       
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public void SetCurrentUser(AuthenticationResult authenticationResult)
         {
-            _currentUser = authenticationResult;
+            AuthenticationResult = authenticationResult;
         }
     }
 }

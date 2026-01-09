@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Views.Shared.FlyoutMenuHeader"
+             xmlns:resx="clr-namespace:Resx;assembly=Shared.Resources"
+             Padding="0"
+             MaximumHeightRequest="300"
+             x:Name="root">
+    <Grid RowDefinitions="*,*,*"
+          ColumnDefinitions="*,*,*"
+          BackgroundColor="#ffffff"
+          Padding="0"
+          Margin="0">
+        <Image Grid.Row="0"
+               Grid.RowSpan="3"
+               Grid.Column="0"
+               Grid.ColumnSpan="3"
+               Source="waves.jpg"
+               Aspect="AspectFill"
+               HorizontalOptions="Center"
+               Margin="0" />
+        <BoxView Grid.Row="0"
+                 Grid.RowSpan="3"
+                 Grid.Column="0"
+                 Grid.ColumnSpan="3"
+                 BackgroundColor="#80000000" />
+        <VerticalStackLayout Grid.Row="2"
+                             Grid.ColumnSpan="3">
+            <Label TextColor="{StaticResource PrimaryTextColor}"
+                   Text="{x:Static resx:Core.CaptionAppTitle}"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   Padding="20,0"
+                   Margin="0" />
+            <Grid ColumnDefinitions="20,*,*"
+                  Padding="20,0">
+                <Label Grid.Column="0"
+                       Grid.ColumnSpan="1"
+                       Text="&#xf007;"
+                       FontFamily="FASolid"
+                       FontSize="20"
+                       TextColor="{StaticResource TextOrange}" />
+                <Label x:Name="userName"
+                       Grid.Column="1"
+                       Grid.ColumnSpan="2"
+                       TextColor="{StaticResource TextOrange}"
+                       Text="{Binding UserName, Source={x:Reference root}}"
+                       FontAttributes="None"
+                       FontSize="20"
+                       Margin="5,0" />
+                <Button Grid.Column="2"
+                        Text="&#xf2f5;"
+                        FontFamily="FASolid"
+                        FontSize="20"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource TextOrange}"
+                        Command="{Binding LogoutCommand, Source={x:Reference root}}"
+                        Padding="0"
+                        Margin="10,0,0,0"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center" />
+            </Grid>
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentView>

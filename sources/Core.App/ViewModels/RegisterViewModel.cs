@@ -38,7 +38,7 @@ namespace Core.App.ViewModels
         [RelayCommand]
         private async Task NavigateToStart()
         {
-            await Shell.Current.GoToAsync("//StartPage");
+            await Shell.Current.GoToAsync("StartPage");
         }
 
         [RelayCommand]
@@ -66,7 +66,7 @@ namespace Core.App.ViewModels
 
                 if (registration.Result)
                 {
-                    await Shell.Current.GoToAsync("//LoginPage", new Dictionary<string, object>
+                    await Shell.Current.GoToAsync("LoginPage", new Dictionary<string, object>
                     {
                         { "userName", UserName }
                     });

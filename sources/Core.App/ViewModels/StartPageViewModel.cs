@@ -13,14 +13,14 @@ namespace Core.App.ViewModels
         [RelayCommand]
         private async Task NavigateToLogin()
         {
-            await Shell.Current.GoToAsync("//LoginPage");
+            await Shell.Current.GoToAsync("LoginPage");
         }
 
 
         [RelayCommand]
         private async Task NavigateToRegister()
         {
-            await Shell.Current.GoToAsync("//RegisterPage");
+            await Shell.Current.GoToAsync("RegisterPage");
         }
     }
 }
