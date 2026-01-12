@@ -70,6 +70,24 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your Profile Data ähnelt.
+        /// </summary>
+        public static string CaptionYourProfileData {
+            get {
+                return ResourceManager.GetString("CaptionYourProfileData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die All fields must be filled. ähnelt.
+        /// </summary>
+        public static string LabelAllFieldsMustBeFilled {
+            get {
+                return ResourceManager.GetString("LabelAllFieldsMustBeFilled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Cancel ähnelt.
         /// </summary>
         public static string LabelCancel {
@@ -79,11 +97,65 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change password failed. ähnelt.
+        /// </summary>
+        public static string LabelChangePasswordFaild {
+            get {
+                return ResourceManager.GetString("LabelChangePasswordFaild", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Create Account ähnelt.
         /// </summary>
         public static string LabelCreateAccount {
             get {
                 return ResourceManager.GetString("LabelCreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Current password does not match. ähnelt.
+        /// </summary>
+        public static string LabelCurrentPasswordDoesNotMatch {
+            get {
+                return ResourceManager.GetString("LabelCurrentPasswordDoesNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Birthday ähnelt.
+        /// </summary>
+        public static string LabelDateOfBirth {
+            get {
+                return ResourceManager.GetString("LabelDateOfBirth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die First name ähnelt.
+        /// </summary>
+        public static string LabelFirstName {
+            get {
+                return ResourceManager.GetString("LabelFirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Home ähnelt.
+        /// </summary>
+        public static string LabelHome {
+            get {
+                return ResourceManager.GetString("LabelHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Last name ähnelt.
+        /// </summary>
+        public static string LabelLastName {
+            get {
+                return ResourceManager.GetString("LabelLastName", resourceCulture);
             }
         }
         
@@ -106,11 +178,29 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The new entered passwords does not match. ähnelt.
+        /// </summary>
+        public static string LabelPasswordsDoesNotMatch {
+            get {
+                return ResourceManager.GetString("LabelPasswordsDoesNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Practice and expand your ähnelt.
         /// </summary>
         public static string LabelPrimaryAppDescription {
             get {
                 return ResourceManager.GetString("LabelPrimaryAppDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Profile ähnelt.
+        /// </summary>
+        public static string LabelProfile {
+            get {
+                return ResourceManager.GetString("LabelProfile", resourceCulture);
             }
         }
         
@@ -133,11 +223,29 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Save ähnelt.
+        /// </summary>
+        public static string LabelSave {
+            get {
+                return ResourceManager.GetString("LabelSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die vocabulary in a fun and effective way. ähnelt.
         /// </summary>
         public static string LabelSecondaryAppDescription {
             get {
                 return ResourceManager.GetString("LabelSecondaryAppDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die User name ähnelt.
+        /// </summary>
+        public static string LabelUsername {
+            get {
+                return ResourceManager.GetString("LabelUsername", resourceCulture);
             }
         }
         

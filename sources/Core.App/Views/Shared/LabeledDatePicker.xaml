@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Views.Shared.LabeledDatePicker"
+             x:Name="root">
+    <Grid RowDefinitions="Auto,Auto"
+          ColumnDefinitions="30,*">
+        <Label Grid.Row="0"
+               Grid.Column="1"
+               Text="{Binding Label, Source={x:Reference root}}"
+               FontAttributes="Bold"
+               Margin="0,0,0,2" />
+        <Label Grid.Row="1"
+               Grid.Column="0"
+               Text="{Binding Icon, Source={x:Reference root}}"
+               FontFamily="FASolid"
+               FontSize="20"
+               FontAttributes="Bold"
+               Margin="5,0,5,12"
+               HorizontalOptions="End"
+               VerticalOptions="End"
+               IsVisible="True" />
+        <DatePicker Grid.Row="1"
+                    Grid.Column="2"
+                    Style="{StaticResource DatePicker}"
+                    Date="{Binding Date, Source={x:Reference root}}"
+                    Format="dd.MM.yyyy"
+                    IsEnabled="{Binding IsEnabled, Source={x:Reference root}}" />
+    </Grid>
+</ContentView>

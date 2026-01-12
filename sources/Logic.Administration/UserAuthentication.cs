@@ -40,6 +40,7 @@ namespace Logic.Administration
                     UserId = user.Id,
                     UserName = user.UserName,
                     UserRole = user.UserRole,
+                    ProfileImage = user.ProfileImage,
                     IsAuthenticated = true
                 };
             }

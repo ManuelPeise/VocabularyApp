@@ -21,6 +21,25 @@ public partial class NavigationBar : ContentView
         get => (ICommand)GetValue(LogoutCommandProperty);
         set => SetValue(LogoutCommandProperty, value);
     }
+
+    public static readonly BindableProperty NavigateToProfileCommandProperty =
+       BindableProperty.Create(nameof(NavigateToProfileCommand), typeof(ICommand), typeof(NavigationBar));
+
+    public ICommand NavigateToProfileCommand
+    {
+        get => (ICommand)GetValue(NavigateToProfileCommandProperty);
+        set => SetValue(NavigateToProfileCommandProperty, value);
+    }
+
+    public static readonly BindableProperty ShowProfileIconProperty =
+            BindableProperty.Create(nameof(ShowProfileIcon), typeof(bool), typeof(NavigationBar), true);
+
+    public bool ShowProfileIcon
+    {
+        get => (bool)GetValue(ShowProfileIconProperty);
+        set => SetValue(ShowProfileIconProperty, value);
+    }
+
     public NavigationBar()
 	{
 		InitializeComponent();

@@ -10,6 +10,8 @@ namespace Shared.Models.Authentication
         [ObservableProperty]
         private string _userName;
         [ObservableProperty]
+        private byte[]? _profileImage;
+        [ObservableProperty]
         private UserRoleEnum _userRole;
         [ObservableProperty]
         private bool _isAuthenticated;

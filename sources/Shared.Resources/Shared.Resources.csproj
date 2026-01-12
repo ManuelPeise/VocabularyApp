@@ -13,6 +13,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Core.resx</DependentUpon>
     </Compile>
+    <Compile Update="Images.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Images.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +26,11 @@
       <LastGenOutput>Core.Designer.cs</LastGenOutput>
       <CustomToolNamespace>Resx</CustomToolNamespace>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Images.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Resx</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 

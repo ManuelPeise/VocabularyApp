@@ -2,6 +2,7 @@
 using Core.App.Services.Interfaces;
 using Core.App.ViewModels;
 using Core.App.Views.Private.User;
+using Core.App.Views.Private.User.Profile;
 using Core.App.Views.Public;
 using Data.Accessor.DI;
 using Logic.Administration.DI;
@@ -26,6 +27,7 @@ namespace Core.App.Bundles
             services.AddTransient<LoginViewModel>();
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<HomePageViewModel>();
+            services.AddTransient<UserProfilePageViewModel>();
         }
 
         internal static void RegisterViews(this IServiceCollection services)
@@ -35,6 +37,7 @@ namespace Core.App.Bundles
             services.AddTransient<LoginPage>();
             services.AddTransient<RegisterPage>();
             services.AddTransient<HomePage>();
+            services.AddTransient<UserProfilePage>();
         }
     }
 }

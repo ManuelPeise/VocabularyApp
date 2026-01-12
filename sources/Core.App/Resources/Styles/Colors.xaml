@@ -27,6 +27,7 @@
 
     <!-- Divider & Border -->
     <Color x:Key="DividerColor">#333333</Color>
+    <Color x:Key="DividerSecondaryColor">#e6e6e6</Color>
     <Color x:Key="BorderColor">#444444</Color>
 
 </ResourceDictionary>

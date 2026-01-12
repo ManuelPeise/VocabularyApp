@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Core.App.Converters"
+             x:Class="Core.App.Views.Private.User.Profile.ProfileHeaderView"
+             BackgroundColor="{StaticResource ButtonAccentColor}"
+             x:Name="root">
+    <Grid RowDefinitions="*,Auto,*"
+          ColumnDefinitions="*,Auto,*"
+          RowSpacing="10"
+          Padding="20">
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                BackgroundColor="#ffffff"
+                WidthRequest="140"
+                HeightRequest="140"
+                Stroke="{StaticResource PrimaryTextColor}"
+                StrokeThickness="1"
+                StrokeShape="Ellipse">
+            <Image WidthRequest="140"
+                   HeightRequest="140"
+                   Aspect="AspectFill"
+                   Source="{Binding ProfileImage, Source={x:Reference root}}">
+                <Image.Clip>
+                    <EllipseGeometry Center="70,70"
+                                     RadiusX="70"
+                                     RadiusY="70" />
+                </Image.Clip>
+            </Image>
+        </Border>
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                BackgroundColor="{StaticResource PrimaryTextColor}"
+                WidthRequest="50"
+                HeightRequest="50"
+                Stroke="{StaticResource ButtonBackgroundColor}"
+                StrokeThickness="1"
+                StrokeShape="Ellipse"
+                Margin="100,90,0,0">
+            <Button Text="&#xf030;"
+                    FontFamily="FASolid"
+                    FontSize="16"
+                    Command="{Binding ChangeImageCommand,Source={x:Reference root}}"
+                    BackgroundColor="{StaticResource PrimaryTextColor}"
+                    TextColor="{StaticResource ButtonBackgroundColor}" />
+        </Border>
+        <Label Grid.Row="3"
+               Grid.Column="1"
+               Style="{StaticResource SubTitleLabelStyle}"
+               Text="{Binding UserName}"
+               FontAttributes="Italic"/>
+    </Grid>
+</ContentView>

@@ -136,4 +136,40 @@
   <data name="LabelRegistrationError" xml:space="preserve">
     <value>Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut!</value>
   </data>
+  <data name="LabelHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="LabelProfile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="LabelFirstName" xml:space="preserve">
+    <value>Vorname</value>
+  </data>
+  <data name="LabelLastName" xml:space="preserve">
+    <value>Familienname</value>
+  </data>
+  <data name="LabelUsername" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
+  <data name="LabelDateOfBirth" xml:space="preserve">
+    <value>Geburtsdatum</value>
+  </data>
+  <data name="CaptionYourProfileData" xml:space="preserve">
+    <value>Deine Profildaten</value>
+  </data>
+  <data name="LabelSave" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="LabelAllFieldsMustBeFilled" xml:space="preserve">
+    <value>Alle Felder müssen ausgefüllt werden.</value>
+  </data>
+  <data name="LabelPasswordsDoesNotMatch" xml:space="preserve">
+    <value>Die neuen Passwörter stimmen nicht überein.</value>
+  </data>
+  <data name="LabelCurrentPasswordDoesNotMatch" xml:space="preserve">
+    <value>Das aktuelle Passwort ist fehlerhaft.</value>
+  </data>
+  <data name="LabelChangePasswordFaild" xml:space="preserve">
+    <value>Passwortaktualisierung fehlgeschlagen.</value>
+  </data>
 </root>

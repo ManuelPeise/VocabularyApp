@@ -66,6 +66,12 @@ namespace Core.App.ViewModels
             await Shell.Current.GoToAsync("LoginPage");
         }
 
+        [RelayCommand]
+        private async Task NavigateToUserProfile() 
+        {
+            await Shell.Current.GoToAsync("UserProfilePage");
+        }
+
         private void AuthenticationResult_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(CurrentUserService.AuthenticationResult.UserName))

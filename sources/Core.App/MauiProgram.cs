@@ -1,4 +1,5 @@
-﻿using Core.App.Bundles;
+﻿using CommunityToolkit.Maui;
+using Core.App.Bundles;
 using Microsoft.Extensions.Logging;
 
 namespace Core.App
@@ -10,6 +11,7 @@ namespace Core.App
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

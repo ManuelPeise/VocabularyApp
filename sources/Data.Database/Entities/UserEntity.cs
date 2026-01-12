@@ -9,6 +9,7 @@ namespace Data.Database.Entities
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
+        public byte[] ProfileImage { get; set; } = Array.Empty<byte>();
         public DateTime DateOfBirth { get; set; }
         public UserRoleEnum UserRole { get; set; }
         public int UserCredentialsId { get; set; }

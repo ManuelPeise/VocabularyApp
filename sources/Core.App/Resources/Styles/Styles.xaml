@@ -41,7 +41,31 @@
         <Setter Property="LineBreakMode"
                 Value="WordWrap" />
     </Style>
-    
+
+    <Style x:Key="PageCaptionLabelStyle"
+           TargetType="Label">
+        <Setter Property="TextColor"
+                Value="{StaticResource SecondaryTextColor}" />
+        <Setter Property="FontAttributes"
+                Value="Italic" />
+        <Setter Property="FontSize"
+                Value="{OnIdiom Phone=20, Tablet=16, Desktop=20}" />
+        <Setter Property="FontAttributes"
+                Value="None" />
+        <Setter Property="FontFamily"
+                Value="FASolid" />
+        <Setter Property="Margin"
+                Value="0,15" />
+        <Setter Property="HorizontalOptions"
+                Value="Center" />
+        <Setter Property="VerticalOptions"
+                Value="Center" />
+        <Setter Property="CharacterSpacing"
+                Value="2" />
+        <Setter Property="LineBreakMode"
+                Value="WordWrap" />
+    </Style>
+
     <Style x:Key="CheckboxLabel"
            TargetType="Label">
         <Setter Property="FontSize"
@@ -96,7 +120,7 @@
         <Setter Property="BorderColor" 
                 Value="{StaticResource ButtonTextColor}" />
         <Setter Property="CornerRadius"
-                Value="{OnIdiom Phone=20, Tablet=22, Desktop=24}" />
+                Value="{OnIdiom Phone=5, Tablet=5, Desktop=24}" />
         <Setter Property="HeightRequest"
                 Value="{OnIdiom Phone=50, Tablet=50, Desktop=100}" />
     </Style>
@@ -112,9 +136,9 @@
         <Setter Property="BorderColor"
                 Value="{StaticResource AccentColor}" />
         <Setter Property="CornerRadius"
-                Value="{OnIdiom Phone=20, Tablet=22, Desktop=24}" />
+                Value="{OnIdiom Phone=5, Tablet=5, Desktop=24}" />
         <Setter Property="HeightRequest"
-                Value="{OnIdiom Phone=50, Tablet=50, Desktop=100}" />
+                Value="{OnIdiom Phone=40, Tablet=40, Desktop=100}" />
     </Style>
 
 </ResourceDictionary>
