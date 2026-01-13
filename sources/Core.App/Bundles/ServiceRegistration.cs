@@ -28,6 +28,7 @@ namespace Core.App.Bundles
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<HomePageViewModel>();
             services.AddTransient<UserProfilePageViewModel>();
+            services.AddTransient<ChangePasswordViewModel>();
         }
 
         internal static void RegisterViews(this IServiceCollection services)
@@ -38,6 +39,7 @@ namespace Core.App.Bundles
             services.AddTransient<RegisterPage>();
             services.AddTransient<HomePage>();
             services.AddTransient<UserProfilePage>();
+            services.AddTransient<ChangePasswordPopup>();
         }
     }
 }

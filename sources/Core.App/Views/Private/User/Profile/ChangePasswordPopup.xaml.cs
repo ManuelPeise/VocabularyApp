@@ -4,8 +4,9 @@ namespace Core.App.Views.Private.User.Profile;
 
 public partial class ChangePasswordPopup : Popup
 {
-	public ChangePasswordPopup()
+	public ChangePasswordPopup(ChangePasswordViewModel vm)
 	{
 		InitializeComponent();
+		BindingContext = vm;
 	}
 }

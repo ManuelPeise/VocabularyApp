@@ -13,6 +13,7 @@ namespace Core.App.Views.Private.User.Profile
     public partial class UserProfilePageViewModel : PrivateViewModelBase
     {
         private readonly IUserAdministration _userAdministration;
+        private readonly ChangePasswordPopup _popup;
         private UserProfile? _originalUserProfileModel;
         [ObservableProperty]
         private UserProfile? _userProfileModel = new UserProfile();
@@ -21,11 +22,12 @@ namespace Core.App.Views.Private.User.Profile
         [ObservableProperty]
         private bool _isModified = true;
 
-        public UserProfilePageViewModel(ICurrentUserService currentUserService,
+        public UserProfilePageViewModel(ChangePasswordPopup popup, ICurrentUserService currentUserService,
             ISecureStorageHandler secureStorageHandler, IUserAdministration userAdministration) :
             base(currentUserService, secureStorageHandler)
         {
             _userAdministration = userAdministration;
+            _popup = popup;
 
             Task.Run(async () => await InitializeAsync());
         }
@@ -83,8 +85,7 @@ namespace Core.App.Views.Private.User.Profile
         [RelayCommand]
         private async Task ShowChangePasswordPopup()
         {
-            var popup = new ChangePasswordPopup();
-            var popupResult = await Shell.Current.CurrentPage.ShowPopupAsync(popup);
+            var popupResult = await Shell.Current.CurrentPage.ShowPopupAsync(_popup);
         }
 
         partial void OnUserProfileModelChanged(UserProfile? oldValue, UserProfile? newValue)

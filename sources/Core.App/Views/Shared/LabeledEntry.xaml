@@ -23,6 +23,7 @@
                Grid.Column="1"
                Style="{StaticResource Entry}"
                Text="{Binding Text, Source={x:Reference root}}"
+               Placeholder="{Binding Placeholder, Source={x:Reference root}}"
                IsPassword="{Binding IsPassword, Source={x:Reference root}}" />
     </Grid>
 </ContentView>

@@ -172,4 +172,25 @@
   <data name="LabelChangePasswordFaild" xml:space="preserve">
     <value>Change password failed.</value>
   </data>
+  <data name="LabelCurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="LabelNewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="PlaceholderEnterCurrentPassword" xml:space="preserve">
+    <value>Enter current password...</value>
+  </data>
+  <data name="PlaceholderEnterNewPassword" xml:space="preserve">
+    <value>Enter new password...</value>
+  </data>
+  <data name="LabelPasswordConfirmation" xml:space="preserve">
+    <value>Password confirmation</value>
+  </data>
+  <data name="LabelChangePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="LabelChange" xml:space="preserve">
+    <value>Change</value>
+  </data>
 </root>

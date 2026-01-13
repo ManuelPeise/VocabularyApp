@@ -50,7 +50,7 @@
                                           Icon="&#xf133;"
                                           Date="{Binding UserProfileModel.DateOfBirth}" />
                 <Grid ColumnDefinitions="30, *"
-                      Margin="10,5">
+                      Margin="10,10">
                     <Label Grid.Column="0"
                            Text="&#xf021;"
                            FontFamily="FASolid"
@@ -59,14 +59,13 @@
                            Margin="5,0,5,12"
                            HorizontalOptions="End"
                            VerticalOptions="End"
-                           IsVisible="True"
-                           TextColor="{StaticResource AccentColor}"/>
+                           IsVisible="True"/>
                     <Button Grid.Column="1"
                             Style="{StaticResource OutlinedAccentButton}"
-                            BackgroundColor="{StaticResource AccentColor}"
-                            TextColor="#ffffff"
                             HorizontalOptions="End"
-                            Text="Change Password"
+                            Text="{x:Static resx:Core.LabelChangePassword}"
+                            TextTransform="Uppercase"
+                            Margin="5,0"
                             FontSize="16"
                             Command="{Binding ShowChangePasswordPopupCommand}"/>
 

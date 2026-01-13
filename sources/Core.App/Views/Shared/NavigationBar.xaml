@@ -6,6 +6,7 @@
     <Grid BackgroundColor="#000000"
           HeightRequest="56"
           ColumnDefinitions="60,Auto, *, 30, 30"
+          ColumnSpacing="10"
           Padding="15,0">
         <Button Grid.Column="0"
                 Text="&#xf0c9;"
@@ -33,7 +34,7 @@
                 TextColor="{StaticResource PrimaryTextColor}"
                 Command="{Binding NavigateToProfileCommand, Source={x:Reference root}}"
                 Padding="0"
-                Margin="10,0,5,0"
+                Margin="10,0,0,0"
                 HorizontalOptions="End"
                 VerticalOptions="Center" />
         <Button Grid.Column="4"

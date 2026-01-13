@@ -97,6 +97,24 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change ähnelt.
+        /// </summary>
+        public static string LabelChange {
+            get {
+                return ResourceManager.GetString("LabelChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change password ähnelt.
+        /// </summary>
+        public static string LabelChangePassword {
+            get {
+                return ResourceManager.GetString("LabelChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Change password failed. ähnelt.
         /// </summary>
         public static string LabelChangePasswordFaild {
@@ -111,6 +129,15 @@ namespace Resx {
         public static string LabelCreateAccount {
             get {
                 return ResourceManager.GetString("LabelCreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Current Password ähnelt.
+        /// </summary>
+        public static string LabelCurrentPassword {
+            get {
+                return ResourceManager.GetString("LabelCurrentPassword", resourceCulture);
             }
         }
         
@@ -174,6 +201,24 @@ namespace Resx {
         public static string LabelLoginError {
             get {
                 return ResourceManager.GetString("LabelLoginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die New Password ähnelt.
+        /// </summary>
+        public static string LabelNewPassword {
+            get {
+                return ResourceManager.GetString("LabelNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Password confirmation ähnelt.
+        /// </summary>
+        public static string LabelPasswordConfirmation {
+            get {
+                return ResourceManager.GetString("LabelPasswordConfirmation", resourceCulture);
             }
         }
         
@@ -250,6 +295,15 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter current password... ähnelt.
+        /// </summary>
+        public static string PlaceholderEnterCurrentPassword {
+            get {
+                return ResourceManager.GetString("PlaceholderEnterCurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enter first ... ähnelt.
         /// </summary>
         public static string PlaceholderEnterFirstName {
@@ -264,6 +318,15 @@ namespace Resx {
         public static string PlaceholderEnterLastName {
             get {
                 return ResourceManager.GetString("PlaceholderEnterLastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter new password... ähnelt.
+        /// </summary>
+        public static string PlaceholderEnterNewPassword {
+            get {
+                return ResourceManager.GetString("PlaceholderEnterNewPassword", resourceCulture);
             }
         }
         

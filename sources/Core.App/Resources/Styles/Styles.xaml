@@ -98,14 +98,26 @@
     <Style x:Key="Entry"
            TargetType="Entry">
         <Setter Property="FontSize"
-                Value="{OnIdiom Phone=20, Tablet=20, Desktop=30}" />
+                Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
+        <Setter Property="PlaceholderColor"
+                Value="{StaticResource SecondaryTextColor}" />
+        <Style.Triggers>
+            <Trigger TargetType="Entry"
+                     Property="IsEnabled"
+                     Value="False">
+                <Setter Property="TextColor"
+                        Value="{StaticResource SecondaryTextColor}" />
+                <Setter Property="Opacity"
+                        Value="0.6" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- DatePicker -->
     <Style x:Key="DatePicker"
            TargetType="DatePicker">
         <Setter Property="FontSize"
-                Value="{OnIdiom Phone=20, Tablet=20, Desktop=30}" />
+                Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
     </Style>
 
     <!-- BUTTONS -->
@@ -114,7 +126,7 @@
         <Setter Property="BackgroundColor"
                 Value="Transparent" />
         <Setter Property="FontSize"
-                Value="{OnIdiom Phone=18, Tablet=20, Desktop=20}" />
+                Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
         <Setter Property="TextColor"
                 Value="{StaticResource ButtonTextColor}" />
         <Setter Property="BorderColor" 
@@ -123,6 +135,18 @@
                 Value="{OnIdiom Phone=5, Tablet=5, Desktop=24}" />
         <Setter Property="HeightRequest"
                 Value="{OnIdiom Phone=50, Tablet=50, Desktop=100}" />
+        <Style.Triggers>
+            <Trigger TargetType="Button"
+                     Property="IsEnabled"
+                     Value="False">
+                <Setter Property="TextColor"
+                        Value="{StaticResource SecondaryTextColor}" />
+                <Setter Property="Opacity"
+                        Value="0.6" />
+                <Setter Property="BorderColor"
+                        Value="{StaticResource SecondaryTextColor}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="OutlinedAccentButton"
@@ -130,7 +154,7 @@
         <Setter Property="BackgroundColor"
                 Value="Transparent" />
         <Setter Property="FontSize"
-                Value="{OnIdiom Phone=18, Tablet=20, Desktop=20}" />
+                Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
         <Setter Property="TextColor"
                 Value="{StaticResource AccentColor}" />
         <Setter Property="BorderColor"
@@ -139,6 +163,18 @@
                 Value="{OnIdiom Phone=5, Tablet=5, Desktop=24}" />
         <Setter Property="HeightRequest"
                 Value="{OnIdiom Phone=40, Tablet=40, Desktop=100}" />
+        <Style.Triggers>
+            <Trigger TargetType="Button"
+                     Property="IsEnabled"
+                     Value="False">
+                <Setter Property="TextColor"
+                        Value="{StaticResource SecondaryTextColor}" />
+                <Setter Property="Opacity"
+                        Value="0.6" />
+                <Setter Property="BorderColor"
+                        Value="{StaticResource SecondaryTextColor}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>
