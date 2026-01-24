@@ -14,9 +14,10 @@ namespace Core.App.Bundles
     {
         internal static void RegisterAppServices(this MauiAppBuilder builder)
         {
-            DataAccessorServiceRegistration.RegisterDataAccessorServices(builder.Services);
-            LogicSharedServiceRegistration.RegisterSharedServices(builder.Services);
-            AdministrationServiceRegistration.RegisterAdministrationServices(builder.Services);
+            builder.Services.RegisterDataAccessorServices();
+            builder.Services.RegisterSharedServices();
+            builder.Services.RegisterAdministrationServices();
+            builder.Services.RegisterSharedServices();
             builder.Services.AddTransient<ISecureStorageHandler, SecureStorageHandler>();
         }
 

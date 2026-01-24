@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Logic.Administration.Interfaces;
+using Shared.Interfaces;
 using Shared.Models.UserAdministration;
 
 namespace Core.App.ViewModels
@@ -8,7 +9,7 @@ namespace Core.App.ViewModels
     public partial class RegisterViewModel : ViewModelBase
     {
         private readonly IUserAdministration _userAdministration;
-
+        private readonly IHttpClient<UserRegistrationResult> _registrationClient;
         [ObservableProperty]
         private string _firstName = string.Empty;
         [ObservableProperty]
@@ -29,9 +30,11 @@ namespace Core.App.ViewModels
         [ObservableProperty]
         private string? _errorMessage;
 
-        public RegisterViewModel(IUserAdministration userAdministration)
+        
+        public RegisterViewModel(IUserAdministration userAdministration, IHttpClient<UserRegistrationResult> registrationClient)
         {
             _userAdministration = userAdministration;
+            _registrationClient = registrationClient;
             IsBusy = false;
         }
 
@@ -54,6 +57,11 @@ namespace Core.App.ViewModels
                 }
 
                 IsBusy = true;
+
+                if(await _registrationClient.IsApiAvailableAsync)
+                {
+
+                }
 
                 var registration = await _userAdministration.CreateUserProfile(new UserRegistrationRequestModel
                 {
