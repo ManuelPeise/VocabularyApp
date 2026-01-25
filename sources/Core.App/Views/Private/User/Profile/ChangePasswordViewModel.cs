@@ -10,9 +10,8 @@ namespace Core.App.Views.Private.User.Profile
 {
     public partial class ChangePasswordViewModel : PrivateViewModelBase
     {
-        private readonly IUserAdministrationService _userAdministration;
+        private readonly IUserProfileService _profileService;
 
-        [ObservableProperty] private string _lockIcon = Icons.LockIcon;
         [ObservableProperty]
         private ChangePasswordModel _model;
         [ObservableProperty]
@@ -22,11 +21,13 @@ namespace Core.App.Views.Private.User.Profile
         [ObservableProperty]
         private bool _canChangePassword = false;
 
-        public ChangePasswordViewModel(ICurrentUserService currentUserService,
-            ISecureStorageHandler secureStorageHandler, IUserAdministrationService userAdministration) :
+        public ChangePasswordViewModel(
+            ICurrentUserService currentUserService,
+            ISecureStorageHandler secureStorageHandler, 
+            IUserProfileService profileService) :
             base(currentUserService, secureStorageHandler)
         {
-            _userAdministration = userAdministration;
+            _profileService = profileService;
             Model = InitializeModel();
             Model.PropertyChanged += ModelPropertyChanged;
         }
@@ -82,7 +83,7 @@ namespace Core.App.Views.Private.User.Profile
                 return;
             }
 
-            var result = await _userAdministration.ChangePassword(Model);
+            var result = await _profileService.ChangePassword(Model);
 
             if (!result.Success)
             {
@@ -107,6 +108,7 @@ namespace Core.App.Views.Private.User.Profile
             IsNewPasswordEnabled = false;
             IsPasswordConfirmationEnabled = false;
             CanChangePassword = false;
+            
             return new ChangePasswordModel
             {
                 UserId = CurrentUserService.UserData.UserId,

@@ -80,6 +80,25 @@ namespace Services.Shared
             }
         }
 
+      
+
+        public async Task SignOutAsync()
+        {
+            try
+            {
+                _secureStorageHandler.RemoveValue(StorageKeys.UserDataKey);
+                _secureStorageHandler.RemoveValue(StorageKeys.AccessTokenKey);
+                _secureStorageHandler.RemoveValue(StorageKeys.RefreshTokenKey);
+
+                UserData = null;
+            }
+            catch (Exception exception)
+            {
+                await _logger.LogMessageAsync(
+                    "Error during logout", LogMessageTypeEnum.Error, exception);
+            }
+        }
+
         private async Task<bool> TryAuthenticateLocalUser(AuthenticationRequestModel authData, CurrentUser? localUser)
         {
             if (localUser?.UserCredentials == null ||
@@ -104,24 +123,7 @@ namespace Services.Shared
 
             return true;
         }
-
-        public async Task SignOutAsync()
-        {
-            try
-            {
-                _secureStorageHandler.RemoveValue(StorageKeys.UserDataKey);
-                _secureStorageHandler.RemoveValue(StorageKeys.AccessTokenKey);
-                _secureStorageHandler.RemoveValue(StorageKeys.RefreshTokenKey);
-
-                UserData = null;
-            }
-            catch (Exception exception)
-            {
-                await _logger.LogMessageAsync(
-                    "Error during logout", LogMessageTypeEnum.Error, exception);
-            }
-        }
-
+        
         private async Task<bool> SyncWithRemoteUser(CurrentUser localUser)
         {
             var remoteUserResponse = await _currentUserClient.GetAsync("userservice/getcurrentuser", null);
