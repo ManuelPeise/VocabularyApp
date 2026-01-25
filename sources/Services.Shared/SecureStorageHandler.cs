@@ -4,13 +4,13 @@ using System.Text.Json;
 
 namespace Services.Shared
 {
-    public class SecureStorageHandler: ISecureStorageHandler
+    public class SecureStorageHandler : ISecureStorageHandler
     {
         public async Task<T?> GetValue<T>(string key)
         {
             var json = await SecureStorage.GetAsync(key);
 
-            if(json == null || json.Length == 0)
+            if (json == null || json.Length == 0)
             {
                 return default(T?);
             }
@@ -42,6 +42,6 @@ namespace Services.Shared
             SecureStorage.Remove(key);
         }
 
-        
+
     }
 }

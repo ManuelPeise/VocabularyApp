@@ -5,6 +5,7 @@ using Shared.Enums;
 using System.Net;
 using System.Text.Json;
 using System.Web;
+using Services.Shared.Constants;
 
     
 namespace Services.Shared
@@ -12,7 +13,7 @@ namespace Services.Shared
     public class ApiHttpClient<TModel> : AHttpClient, IHttpClient<TModel> where TModel : class
     {
         private readonly Logger<ApiHttpClient<TModel>> _logger;
-        private const string BaseUrl = "http://192.168.178.46:5000/api/";
+        private static string BaseUrl => GetBaseUrl();
         private readonly Lazy<Task<bool>> _isApiAvailable;
         private readonly ISecureStorageHandler _secureStorageHandler;
         public Task<bool> IsApiAvailableAsync => _isApiAvailable.Value;
@@ -120,44 +121,70 @@ namespace Services.Shared
         {
             try
             {
-                var response = await SendAsync<object>("health", HttpMethod.Get, null, null);
+                var response = await SendAsync<object>(
+                    ApiConstants.HealthCheckEndpoint, 
+                    HttpMethod.Get, 
+                    null, 
+                    null);
                 
                 return response.StatusCode == HttpStatusCode.OK;
             }
-            catch
+            catch(Exception exception)
             {
+                var message = exception.Message;
                 return false;
             }
         }
 
         private async Task<HttpResponseMessage> SendAsync<T>(string url, HttpMethod method, T? model, Dictionary<string, object>? parameters = null)
         {
-            if (parameters != null && parameters.Count > 0)
+            try
             {
-                var queryString = HttpUtility.ParseQueryString(string.Empty);
-
-                foreach (string key in parameters.Keys)
+                if (parameters != null && parameters.Count > 0)
                 {
-                    queryString[key] = parameters[key].ToString();
+                    var queryString = HttpUtility.ParseQueryString(string.Empty);
+
+                    foreach (string key in parameters.Keys)
+                    {
+                        queryString[key] = parameters[key].ToString();
+                    }
+
+                    url += "?" + queryString.ToString();
                 }
 
-                url += "?" + queryString.ToString();
+                var requestMessage = new HttpRequestMessage
+                {
+                    Method = method,
+                    RequestUri = new Uri($"{BaseUrl}{url}"),
+                    Content = model != null
+                        ? new StringContent(JsonSerializer.Serialize(model), System.Text.Encoding.UTF8, "application/json")
+                        : null,
+                    Version = HttpVersion.Version11,
+                };
+
+                var response = await HttpClient.SendAsync(requestMessage);
+
+                return response;
+
             }
-
-            var requestMessage = new HttpRequestMessage
+            catch (Exception ex)
             {
-                Method = method,
-                RequestUri = new Uri(url, UriKind.Relative),
-                Content = model != null
-                    ? new StringContent(JsonSerializer.Serialize(model), System.Text.Encoding.UTF8, "application/json")
-                    : null,
-                Version = HttpVersion.Version11,
-            };
-
-            return await HttpClient.SendAsync(requestMessage);
+                throw new Exception($"Error sending HTTP request to {url}: {ex.Message}", ex);
+            }
         }
 
-
-       
+        private static string GetBaseUrl()
+        {
+#if ANDROID
+            // Use 10.0.2.2 for Android emulator (maps to host machine)
+            // Use actual IP for physical device
+            return DeviceInfo.DeviceType == DeviceType.Virtual 
+                ? ApiConstants.AndroidEmulatorUrl 
+                : ApiConstants.LocalNetworkUrl;
+#else
+            return ApiConstants.LocalNetworkUrl;
+#endif
+        }
     }
 }
+    

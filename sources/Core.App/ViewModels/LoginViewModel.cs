@@ -14,6 +14,7 @@ namespace Core.App.ViewModels
 
         [ObservableProperty]
         private AuthenticationRequestModel _authData = new AuthenticationRequestModel();
+
         [ObservableProperty]
         private string? _errorMessage;
 
@@ -23,7 +24,7 @@ namespace Core.App.ViewModels
         {
             _currentUserService = currentUserService;
             _secureStorageHandler = secureStorageHandler;
-           
+
             Task.Run(async () => await InitializeAsync());
         }
 
@@ -40,7 +41,11 @@ namespace Core.App.ViewModels
         {
             var authData = await _secureStorageHandler.GetValue<AuthenticationRequestModel>(StorageKeys.LoginDataKey);
 
-            AuthData = authData ?? new AuthenticationRequestModel();
+            AuthData = authData ?? new AuthenticationRequestModel
+            {
+                Email = "admin.user@app.com",
+                Password = "Pass@word",
+            };
         }
 
         [RelayCommand]

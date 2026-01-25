@@ -34,7 +34,7 @@
                        Grid.Row="1"
                        Style="{StaticResource Entry}"
                        Placeholder="{x:Static resx:Core.PlaceholderEnterUserName}"
-                       Text="{Binding AuthData.UserName}"
+                       Text="{Binding AuthData.Email}"
                        Margin="15"
                        VerticalOptions="End"
                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}"/>

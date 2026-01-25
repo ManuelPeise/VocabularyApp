@@ -193,4 +193,10 @@
   <data name="LabelChange" xml:space="preserve">
     <value>Ändern</value>
   </data>
+  <data name="LabelEmailAddress" xml:space="preserve">
+    <value>Email Addresse</value>
+  </data>
+  <data name="PlaceholderEnterEmailAddress" xml:space="preserve">
+    <value>Emailaddresse eingeben...</value>
+  </data>
 </root>

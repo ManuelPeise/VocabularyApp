@@ -8,7 +8,7 @@
        Padding="0">
 
     <Shell.FlyoutHeader>
-        <shared:FlyoutMenuHeader UserName="{Binding AuthResult.UserName}"
+        <shared:FlyoutMenuHeader UserName="{Binding UserData.Email}"
                                  LogoutCommand="{Binding HandleLogoutCommand}" />
     </Shell.FlyoutHeader>
     <FlyoutItem Title="Home"

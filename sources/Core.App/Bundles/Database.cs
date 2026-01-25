@@ -28,6 +28,7 @@ namespace Core.App.Bundles
 
                 // Sicherstellen, dass das Verzeichnis existiert
                 var dbDirectory = Path.GetDirectoryName(dbPath);
+                
                 if (!Directory.Exists(dbDirectory))
                 {
                     Directory.CreateDirectory(dbDirectory!);

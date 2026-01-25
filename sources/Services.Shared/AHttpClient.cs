@@ -11,11 +11,7 @@ namespace Services.Shared
       
         protected AHttpClient(string baseUrl)
         {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri(baseUrl, UriKind.Absolute),
-                Timeout = TimeSpan.FromSeconds(30)
-            };
+            _httpClient = new HttpClient();
         }
         protected void SetJwtToken(string? jwt)
         {

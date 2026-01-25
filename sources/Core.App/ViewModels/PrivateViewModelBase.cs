@@ -43,7 +43,7 @@ namespace Core.App.ViewModels
         public PrivateViewModelBase(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler)
         {
             CurrentUserService = currentUserService;
-            UserData = CurrentUserService.UserData;
+            UserData = CurrentUserService.UserData ?? new UserData();
             SecureStorageHandler = secureStorageHandler;
 
             if (CurrentUserService is INotifyPropertyChanged notify)

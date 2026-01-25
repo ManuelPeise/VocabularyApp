@@ -12,6 +12,7 @@ namespace Core.App.Views.Private.User.Profile
     {
         private readonly IUserAdministrationService _userAdministration;
 
+        [ObservableProperty] private string _lockIcon = Icons.LockIcon;
         [ObservableProperty]
         private ChangePasswordModel _model;
         [ObservableProperty]

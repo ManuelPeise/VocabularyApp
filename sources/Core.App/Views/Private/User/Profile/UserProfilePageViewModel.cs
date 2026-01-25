@@ -10,9 +10,12 @@ namespace Core.App.Views.Private.User.Profile
 {
     public partial class UserProfilePageViewModel : PrivateViewModelBase
     {
-        private readonly IUserAdministrationService _userAdministration;
+        private readonly IUserProfileService _profileService;
         private readonly ChangePasswordPopup _popup;
+
         private UserProfileModel? _originalUserProfileModel;
+
+
         [ObservableProperty]
         private UserProfileModel? _userProfileModel = new UserProfileModel();
         [ObservableProperty]
@@ -20,11 +23,13 @@ namespace Core.App.Views.Private.User.Profile
         [ObservableProperty]
         private bool _isModified = true;
 
-        public UserProfilePageViewModel(ChangePasswordPopup popup, ICurrentUserService currentUserService,
-            ISecureStorageHandler secureStorageHandler, IUserAdministrationService userAdministration) :
-            base(currentUserService, secureStorageHandler)
+        public UserProfilePageViewModel(
+            ChangePasswordPopup popup,
+            ICurrentUserService currentUserService,
+            ISecureStorageHandler secureStorageHandler,
+            IUserProfileService profileService) : base(currentUserService, secureStorageHandler)
         {
-            _userAdministration = userAdministration;
+            _profileService = profileService;
             _popup = popup;
 
             Task.Run(async () => await InitializeAsync());
@@ -58,7 +63,7 @@ namespace Core.App.Views.Private.User.Profile
         {
             if (_originalUserProfileModel != null)
             {
-                UserProfileModel = GetUserProfile(_originalUserProfileModel);
+                UserProfileModel = GetUserProfileCopy(_originalUserProfileModel);
             }
         }
 
@@ -68,7 +73,7 @@ namespace Core.App.Views.Private.User.Profile
         {
             if (UserProfileModel == null) { return; }
 
-            var updatedProfile = await _userAdministration.UpdateUserProfile(UserProfileModel);
+            var updatedProfile = await _profileService.UpdateProfile(UserProfileModel);
 
             if (updatedProfile == null)
             {
@@ -76,8 +81,8 @@ namespace Core.App.Views.Private.User.Profile
                 return;
             }
 
-            _originalUserProfileModel = GetUserProfile(updatedProfile);
-            UserProfileModel = GetUserProfile(updatedProfile);
+            _originalUserProfileModel = GetUserProfileCopy(updatedProfile);
+            UserProfileModel = GetUserProfileCopy(updatedProfile);
         }
 
         [RelayCommand]
@@ -104,16 +109,16 @@ namespace Core.App.Views.Private.User.Profile
 
         private async Task InitializeAsync()
         {
-            var userProfile = await _userAdministration.LoadUserProfileAsync(CurrentUserService.UserData.UserId);
+            var userProfile = await _profileService.GetProfile(CurrentUserService.UserData.UserId);
 
             if (userProfile == null) { return; }
 
             UserProfileModel = userProfile;
-            _originalUserProfileModel = GetUserProfile(userProfile);
+            _originalUserProfileModel = GetUserProfileCopy(userProfile);
             UserName = $"{UserProfileModel?.FirstName} {UserProfileModel?.LastName}";
         }
 
-        private UserProfileModel GetUserProfile(UserProfileModel userProfile)
+        private UserProfileModel GetUserProfileCopy(UserProfileModel userProfile)
         {
             return new UserProfileModel
             {

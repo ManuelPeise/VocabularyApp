@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Services.Shared.Interfaces;
 using Services.Shared.UnitOfWorks;
+using Services.Shared.UserServices;
 
 namespace Services.Shared.DI
 {
@@ -13,6 +14,7 @@ namespace Services.Shared.DI
             services.AddScoped<ISecureStorageHandler, SecureStorageHandler>();
             services.AddScoped<IUserAdministrationService, UserAdministrationService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserProfileService, UserProfileService>();
         }
     }
 }

@@ -160,6 +160,15 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Emailaddress ähnelt.
+        /// </summary>
+        public static string LabelEmailAddress {
+            get {
+                return ResourceManager.GetString("LabelEmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die First name ähnelt.
         /// </summary>
         public static string LabelFirstName {
@@ -300,6 +309,15 @@ namespace Resx {
         public static string PlaceholderEnterCurrentPassword {
             get {
                 return ResourceManager.GetString("PlaceholderEnterCurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter email address... ähnelt.
+        /// </summary>
+        public static string PlaceholderEnterEmailAddress {
+            get {
+                return ResourceManager.GetString("PlaceholderEnterEmailAddress", resourceCulture);
             }
         }
         

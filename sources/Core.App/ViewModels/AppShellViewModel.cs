@@ -1,30 +1,23 @@
-﻿using Services.Shared.Interfaces;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Services.Shared.Interfaces;
+using Services.Shared.UiModels;
 
 namespace Core.App.ViewModels
 {
     public partial class AppShellViewModel : PrivateViewModelBase
     {
-        public AppShellViewModel(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler) : 
-            base(currentUserService, secureStorageHandler) 
+        public AppShellViewModel(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler) :
+            base(currentUserService, secureStorageHandler)
         {
-            Task.Run(async () => await InitializeAsync());
         }
 
-        private async Task InitializeAsync()
+        [RelayCommand]
+        private async Task Logout()
         {
-            //var userDataJson = await SecureStorageHandler.GetAsync(StorageKeys.UserData);
-            //AuthenticationResult? authenticationResult = null;
-            
-            //if(!string.IsNullOrEmpty(userDataJson))
-            //{
-            //    authenticationResult = JsonSerializer.Deserialize<AuthenticationResult>(userDataJson);
-                
-            //}
-
-            //if(authenticationResult != null)
-            //{
-            //    CurrentUserService.SetCurrentUser(authenticationResult);
-            //}
+            await CurrentUserService.SignOutAsync();
         }
+
+
     }
 }
