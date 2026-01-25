@@ -217,7 +217,7 @@ namespace Services.Shared
 
         private bool IsUserAuthenticated(AuthenticationRequestModel model, string passwordHash)
         {
-           return PasswordHasher.HashPassword(model.Password) == passwordHash;
+           return PasswordHasher.VerifyPassword(model.Password, passwordHash);
         }
     }
 }
