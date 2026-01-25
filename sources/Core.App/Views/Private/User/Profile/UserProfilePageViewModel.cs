@@ -2,28 +2,26 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.App.ViewModels;
-using Logic.Administration.Interfaces;
-using Logic.Shared.Interfaces;
 using Services.Shared.Interfaces;
-using Shared.Models.UserAdministration;
+using Services.Shared.UiModels;
 using System.ComponentModel;
 
 namespace Core.App.Views.Private.User.Profile
 {
     public partial class UserProfilePageViewModel : PrivateViewModelBase
     {
-        private readonly IUserAdministration _userAdministration;
+        private readonly IUserAdministrationService _userAdministration;
         private readonly ChangePasswordPopup _popup;
-        private UserProfile? _originalUserProfileModel;
+        private UserProfileModel? _originalUserProfileModel;
         [ObservableProperty]
-        private UserProfile? _userProfileModel = new UserProfile();
+        private UserProfileModel? _userProfileModel = new UserProfileModel();
         [ObservableProperty]
         private string _userName = string.Empty;
         [ObservableProperty]
         private bool _isModified = true;
 
         public UserProfilePageViewModel(ChangePasswordPopup popup, ICurrentUserService currentUserService,
-            ISecureStorageHandler secureStorageHandler, IUserAdministration userAdministration) :
+            ISecureStorageHandler secureStorageHandler, IUserAdministrationService userAdministration) :
             base(currentUserService, secureStorageHandler)
         {
             _userAdministration = userAdministration;
@@ -88,7 +86,7 @@ namespace Core.App.Views.Private.User.Profile
             var popupResult = await Shell.Current.CurrentPage.ShowPopupAsync(_popup);
         }
 
-        partial void OnUserProfileModelChanged(UserProfile? oldValue, UserProfile? newValue)
+        partial void OnUserProfileModelChanged(UserProfileModel? oldValue, UserProfileModel? newValue)
         {
             if (oldValue != null)
                 oldValue.PropertyChanged -= UserProfileModel_PropertyChanged;
@@ -115,9 +113,9 @@ namespace Core.App.Views.Private.User.Profile
             UserName = $"{UserProfileModel?.FirstName} {UserProfileModel?.LastName}";
         }
 
-        private UserProfile GetUserProfile(UserProfile userProfile)
+        private UserProfileModel GetUserProfile(UserProfileModel userProfile)
         {
-            return new UserProfile
+            return new UserProfileModel
             {
                 UserId = userProfile.UserId,
                 FirstName = userProfile.FirstName,
@@ -131,9 +129,9 @@ namespace Core.App.Views.Private.User.Profile
             };
         }
 
-        private void UpdateUserProfileImage(UserProfile existing, byte[] image)
+        private void UpdateUserProfileImage(UserProfileModel existing, byte[] image)
         {
-            UserProfileModel = new UserProfile
+            UserProfileModel = new UserProfileModel
             {
                 UserId = existing.UserId,
                 FirstName = existing.FirstName,

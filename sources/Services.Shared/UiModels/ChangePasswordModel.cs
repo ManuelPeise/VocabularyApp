@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Shared.Models.UserAdministration
+namespace Services.Shared.UiModels
 {
     public partial class ChangePasswordModel : ObservableObject
     {

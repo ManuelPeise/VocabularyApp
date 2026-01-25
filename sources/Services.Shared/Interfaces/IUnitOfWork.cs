@@ -3,7 +3,8 @@ using Data.Database.Entities;
 using Data.Database.Entities.User;
 using System.Linq.Expressions;
 
-namespace Logic.Shared.Interfaces
+
+namespace Services.Shared.Interfaces
 {
     public interface IUnitOfWork
     {

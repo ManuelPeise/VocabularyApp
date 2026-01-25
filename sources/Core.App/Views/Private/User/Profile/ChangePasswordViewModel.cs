@@ -2,17 +2,15 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.App.ViewModels;
-using Logic.Administration.Interfaces;
-using Logic.Shared.Interfaces;
 using Services.Shared.Interfaces;
-using Shared.Models.UserAdministration;
+using Services.Shared.UiModels;
 using System.ComponentModel;
 
 namespace Core.App.Views.Private.User.Profile
 {
     public partial class ChangePasswordViewModel : PrivateViewModelBase
     {
-        private readonly IUserAdministration _userAdministration;
+        private readonly IUserAdministrationService _userAdministration;
 
         [ObservableProperty]
         private ChangePasswordModel _model;
@@ -24,7 +22,7 @@ namespace Core.App.Views.Private.User.Profile
         private bool _canChangePassword = false;
 
         public ChangePasswordViewModel(ICurrentUserService currentUserService,
-            ISecureStorageHandler secureStorageHandler, IUserAdministration userAdministration) :
+            ISecureStorageHandler secureStorageHandler, IUserAdministrationService userAdministration) :
             base(currentUserService, secureStorageHandler)
         {
             _userAdministration = userAdministration;

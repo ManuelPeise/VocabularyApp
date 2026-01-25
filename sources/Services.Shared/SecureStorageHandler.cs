@@ -1,5 +1,5 @@
-﻿using Logic.Shared.Interfaces;
-using Microsoft.Maui.Storage;
+﻿using Microsoft.Maui.Storage;
+using Services.Shared.Interfaces;
 using System.Text.Json;
 
 namespace Services.Shared

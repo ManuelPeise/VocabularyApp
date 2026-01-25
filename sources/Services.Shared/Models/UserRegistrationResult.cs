@@ -1,4 +1,4 @@
-﻿namespace Shared.Models.UserAdministration
+﻿namespace Services.Shared.Models
 {
     public class UserRegistrationResult
     {

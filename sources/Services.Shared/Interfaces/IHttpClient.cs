@@ -1,6 +1,6 @@
-﻿using Shared.Models;
+﻿using Services.Shared.Models;
 
-namespace Shared.Interfaces
+namespace Services.Shared.Interfaces
 {
     public interface IHttpClient<TModel> where TModel : class
     {

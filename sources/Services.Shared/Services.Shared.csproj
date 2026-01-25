@@ -8,14 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.30" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Data.Accessor\Data.Accessor.csproj" />
     <ProjectReference Include="..\Data.Database\Data.Database.csproj" />
-    <ProjectReference Include="..\Logic.Shared\Logic.Shared.csproj" />
-    <ProjectReference Include="..\Shared.Interfaces\Shared.Interfaces.csproj" />
-    <ProjectReference Include="..\Shared.Models\Shared.Models.csproj" />
+    <ProjectReference Include="..\Shared.Resources\Shared.Resources.csproj" />
   </ItemGroup>
 
 </Project>

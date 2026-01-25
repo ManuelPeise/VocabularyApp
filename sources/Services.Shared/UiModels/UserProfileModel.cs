@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Shared.Enums;
 
-namespace Shared.Models.UserAdministration
+namespace Services.Shared.UiModels
 {
-    public partial class UserProfile: ObservableObject
+    public partial class UserProfileModel : ObservableObject
     {
         [ObservableProperty] private int _userId;
         [ObservableProperty] private string _firstName;

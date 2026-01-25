@@ -1,5 +1,4 @@
 ﻿using Core.App.ViewModels;
-using Logic.Shared.Interfaces;
 using Services.Shared;
 using Services.Shared.Interfaces;
 using Services.Shared.UiModels;

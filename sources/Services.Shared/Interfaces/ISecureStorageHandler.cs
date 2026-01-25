@@ -1,4 +1,4 @@
-﻿namespace Logic.Shared.Interfaces
+﻿namespace Services.Shared.Interfaces
 {
     public interface ISecureStorageHandler
     {

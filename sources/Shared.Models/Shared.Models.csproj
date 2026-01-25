@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Shared.Enums\Shared.Enums.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserAdministration\" />
+  </ItemGroup>
+
 </Project>

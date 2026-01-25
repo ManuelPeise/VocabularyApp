@@ -1,10 +1,7 @@
 ﻿using Data.Database;
-using Data.Database.Entities;
-using Logic.Shared;
-using Logic.Shared.Interfaces;
+using Services.Shared.Interfaces;
+using Services.Shared.Models;
 using Shared.Enums;
-using Shared.Interfaces;
-using Shared.Models;
 using System.Net;
 using System.Text.Json;
 using System.Web;

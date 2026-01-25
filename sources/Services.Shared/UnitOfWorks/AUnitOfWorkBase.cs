@@ -4,12 +4,12 @@ using Data.Database;
 using Data.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Logic.Shared.UnitsOfWork
+namespace Services.Shared.UnitOfWorks
 {
     public abstract class AUnitOfWorkBase
     {
         protected readonly AppDbContext _appDbContext;
-        
+
         protected AUnitOfWorkBase(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
@@ -56,7 +56,7 @@ namespace Logic.Shared.UnitsOfWork
 
             if (save)
             {
-                await SaveChangesAsync(userName ?? "System" );
+                await SaveChangesAsync(userName ?? "System");
             }
         }
     }

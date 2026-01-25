@@ -1,4 +1,4 @@
-﻿namespace Shared.Models.Authentication
+﻿namespace Services.Shared.Models
 {
     public class AuthenticationResult
     {

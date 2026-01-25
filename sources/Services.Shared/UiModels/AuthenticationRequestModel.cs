@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Shared.Models.Authentication
+namespace Services.Shared.UiModels
 {
-    public partial class AuthenticationRequestModel: ObservableObject
+    public partial class AuthenticationRequestModel : ObservableObject
     {
         [ObservableProperty]
         private string _email = string.Empty;

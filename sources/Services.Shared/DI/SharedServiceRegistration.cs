@@ -1,7 +1,6 @@
-﻿using Logic.Shared.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Services.Shared.Interfaces;
-using Shared.Interfaces;
+using Services.Shared.UnitOfWorks;
 
 namespace Services.Shared.DI
 {
@@ -12,6 +11,8 @@ namespace Services.Shared.DI
             services.AddScoped(typeof(IHttpClient<>), typeof(ApiHttpClient<>));
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<ISecureStorageHandler, SecureStorageHandler>();
+            services.AddScoped<IUserAdministrationService, UserAdministrationService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

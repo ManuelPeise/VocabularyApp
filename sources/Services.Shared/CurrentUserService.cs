@@ -1,13 +1,9 @@
 ﻿using Data.Database;
 using Data.Database.Entities.User;
-using Logic.Shared;
-using Logic.Shared.Interfaces;
-using Logic.Shared.Models;
 using Services.Shared.Interfaces;
+using Services.Shared.Models;
 using Services.Shared.UiModels;
 using Shared.Enums;
-using Shared.Interfaces;
-using Shared.Models.Authentication;
 using System.ComponentModel;
 
 namespace Services.Shared
@@ -17,7 +13,7 @@ namespace Services.Shared
         private readonly ISecureStorageHandler _secureStorageHandler;
         private readonly IHttpClient<CurrentUser> _currentUserClient;
         private readonly IHttpClient<AuthenticationResult> _authenticationClient;
-        private readonly IAdministrationUnitOfWork _administrationUnitOfWork;
+        private readonly IUnitOfWork _administrationUnitOfWork;
         private readonly Logger<CurrentUserService> _logger;
 
         #region INotifyPropertyChanged
@@ -45,7 +41,7 @@ namespace Services.Shared
             ISecureStorageHandler secureStorageHandler,
             IHttpClient<CurrentUser> currentUserClient,
             IHttpClient<AuthenticationResult> authenticationClient,
-            IAdministrationUnitOfWork administrationUnitOfWork)
+            IUnitOfWork administrationUnitOfWork)
         {
             _secureStorageHandler = secureStorageHandler;
             _currentUserClient = currentUserClient;

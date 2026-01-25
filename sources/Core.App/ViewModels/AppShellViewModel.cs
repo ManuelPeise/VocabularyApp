@@ -1,5 +1,4 @@
-﻿using Logic.Shared.Interfaces;
-using Services.Shared.Interfaces;
+﻿using Services.Shared.Interfaces;
 
 namespace Core.App.ViewModels
 {

@@ -1,8 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using Logic.Shared.Interfaces;
 using Services.Shared.Interfaces;
-
-
 
 namespace Core.App.ViewModels
 {

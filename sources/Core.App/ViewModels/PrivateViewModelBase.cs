@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Logic.Shared.Interfaces;
 using Services.Shared.Interfaces;
 using Services.Shared.UiModels;
 using System.ComponentModel;

@@ -1,4 +1,4 @@
-﻿namespace Shared.Models
+﻿namespace Services.Shared.Models
 {
     public class ApiResponseBase<TModel> where TModel : class
     {

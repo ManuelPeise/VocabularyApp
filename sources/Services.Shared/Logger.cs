@@ -1,9 +1,9 @@
 ﻿using Data.Database;
 using Data.Database.Entities;
-using Logic.Shared.Interfaces;
+using Services.Shared.Interfaces;
 using Shared.Enums;
 
-namespace Logic.Shared
+namespace Services.Shared
 {
     public class Logger<T> : ILogger<T> where T : class
     {

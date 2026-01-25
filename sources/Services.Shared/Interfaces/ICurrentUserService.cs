@@ -1,5 +1,4 @@
 ﻿using Services.Shared.UiModels;
-using Shared.Models.Authentication;
 
 namespace Services.Shared.Interfaces
 {

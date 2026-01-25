@@ -1,6 +1,6 @@
 ﻿using Shared.Enums;
 
-namespace Logic.Shared.Interfaces
+namespace Services.Shared.Interfaces
 {
     public interface ILogger<T> where T : class
     {

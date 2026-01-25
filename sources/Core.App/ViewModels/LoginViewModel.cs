@@ -1,9 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Logic.Shared.Interfaces;
 using Services.Shared;
 using Services.Shared.Interfaces;
-using Shared.Models.Authentication;
+using Services.Shared.UiModels;
 using System.Diagnostics;
 
 namespace Core.App.ViewModels
@@ -30,7 +29,7 @@ namespace Core.App.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            if (query.TryGetValue("userName", out var userNameObj) && userNameObj is string email)
+            if (query.TryGetValue("emailAddress", out var emailObj) && emailObj is string email)
             {
                 AuthData.Email = email;
             }
