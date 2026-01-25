@@ -34,4 +34,7 @@
       <Platform Solution="*|x86" Project="x86" />
     </Project>
   </Folder>
+  <Folder Name="/Projektmappenelemente/">
+    <File Path="Agent.md" />
+  </Folder>
 </Solution>
