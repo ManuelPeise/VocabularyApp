@@ -1,10 +1,9 @@
 ﻿namespace Shared.Enums
 {
-    public enum LogLevelEnum
+    public enum LogMessageTypeEnum
     {
         Info = 0,
         Warning = 1,
         Error = 2,
-        CriticalError = 3,
     }
 }

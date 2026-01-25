@@ -1,33 +1,33 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Core.App.Services.Interfaces;
-using Logic.Administration.Interfaces;
-using Shared.Models.Authentication;
+using Logic.Shared.Interfaces;
+using Services.Shared.Interfaces;
+using Services.Shared.UiModels;
 using System.ComponentModel;
 
 namespace Core.App.ViewModels
 {
     public partial class PrivateViewModelBase : ViewModelBase
     {
-        private AuthenticationResult? _authResult;
+        private UserData? _userData;
         private PropertyChangedEventHandler? _authenticationResultHandler;
 
-        public AuthenticationResult? AuthResult
+        public UserData? UserData
         {
-            get => _authResult;
+            get => _userData;
             set
             {
-                if (_authResult != value)
+                if (_userData != value)
                 {
-                    if (_authResult is INotifyPropertyChanged oldNotify && _authenticationResultHandler != null)
+                    if (_userData is INotifyPropertyChanged oldNotify && _authenticationResultHandler != null)
                     {
                         oldNotify.PropertyChanged -= _authenticationResultHandler;
                     }
 
-                    _authResult = value;
-                    OnPropertyChanged(nameof(AuthResult));
+                    _userData = value;
+                    OnPropertyChanged(nameof(UserData));
 
-                    if (_authResult is INotifyPropertyChanged newNotify)
+                    if (_userData is INotifyPropertyChanged newNotify)
                     {
                         _authenticationResultHandler = AuthenticationResult_PropertyChanged;
                         newNotify.PropertyChanged += _authenticationResultHandler;
@@ -44,7 +44,7 @@ namespace Core.App.ViewModels
         public PrivateViewModelBase(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler)
         {
             CurrentUserService = currentUserService;
-            AuthResult = CurrentUserService.AuthenticationResult;
+            UserData = CurrentUserService.UserData;
             SecureStorageHandler = secureStorageHandler;
 
             if (CurrentUserService is INotifyPropertyChanged notify)
@@ -56,12 +56,7 @@ namespace Core.App.ViewModels
         [RelayCommand]
         private async Task HandleLogout()
         {
-            CurrentUserService.SetCurrentUser(new AuthenticationResult
-            {
-                IsAuthenticated = false
-            });
-            
-            SecureStorageHandler.Remove(StorageKeys.UserData);
+            await CurrentUserService.SignOutAsync();
             
             await Shell.Current.GoToAsync("LoginPage");
         }
@@ -74,17 +69,17 @@ namespace Core.App.ViewModels
 
         private void AuthenticationResult_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(CurrentUserService.AuthenticationResult.UserName))
+            if (e.PropertyName == nameof(CurrentUserService.UserData.Email))
             {
-                AuthResult = CurrentUserService.AuthenticationResult;
+                UserData = CurrentUserService.UserData;
             }
         }
 
         private void CurrentUserService_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(CurrentUserService.AuthenticationResult))
+            if (e.PropertyName == nameof(CurrentUserService.UserData))
             {
-                AuthResult = CurrentUserService.AuthenticationResult;
+                UserData = CurrentUserService.UserData;
             }
         }
     }

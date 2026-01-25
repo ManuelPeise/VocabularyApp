@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Core.App.Services.Interfaces;
 using Core.App.ViewModels;
 using Logic.Administration.Interfaces;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Logic.Shared.Interfaces;
+using Services.Shared.Interfaces;
 using Shared.Models.UserAdministration;
 using System.ComponentModel;
 
@@ -110,7 +110,7 @@ namespace Core.App.Views.Private.User.Profile
             CanChangePassword = false;
             return new ChangePasswordModel
             {
-                UserId = CurrentUserService.AuthenticationResult.UserId,
+                UserId = CurrentUserService.UserData.UserId,
                 CurrentPassword = string.Empty,
                 NewPassword = string.Empty,
                 PasswordReplication = string.Empty,

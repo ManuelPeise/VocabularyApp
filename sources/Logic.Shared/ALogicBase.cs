@@ -22,13 +22,5 @@ namespace Logic.Shared
 
             await _committChanges("System");
         }
-
-        protected string GetHashedPassword(string password, string salt)
-        {
-            var passwordBytes = Encoding.UTF8.GetBytes(password).ToList();
-            passwordBytes.AddRange(Encoding.UTF8.GetBytes(salt));
-
-            return Convert.ToBase64String(passwordBytes.ToArray());
-        }
     }
 }

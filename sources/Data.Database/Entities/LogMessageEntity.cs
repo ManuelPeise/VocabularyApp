@@ -8,6 +8,6 @@ namespace Data.Database.Entities
         public string? ExeptionMessage { get; set; }
         public string? Stacktrace { get; set; }
         public string Module { get; set; } = string.Empty;
-        public LogLevelEnum LogLevel { get; set; }
+        public LogMessageTypeEnum LogLevel { get; set; }
     }
 }

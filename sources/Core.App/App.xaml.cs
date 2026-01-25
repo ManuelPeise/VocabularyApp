@@ -1,8 +1,8 @@
-﻿using Core.App.Services.Interfaces;
-using Core.App.ViewModels;
-using Logic.Administration.Interfaces;
-using Shared.Models.Authentication;
-using System.Text.Json;
+﻿using Core.App.ViewModels;
+using Logic.Shared.Interfaces;
+using Services.Shared;
+using Services.Shared.Interfaces;
+using Services.Shared.UiModels;
 
 namespace Core.App
 {
@@ -10,6 +10,7 @@ namespace Core.App
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly ISecureStorageHandler _secureStorageHandler;
+        
         public App(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler)
         {
             InitializeComponent();
@@ -24,24 +25,16 @@ namespace Core.App
 
         protected override async void OnStart()
         {
-            AuthenticationResult? authResult = null;
+            var userData = await _secureStorageHandler.GetValue<UserData>(StorageKeys.UserDataKey);
 
-            var authResultJson = await _secureStorageHandler.GetAsync(StorageKeys.UserData);
-
-            if(!string.IsNullOrEmpty(authResultJson))
+            if (userData != null) 
             {
-                authResult = JsonSerializer.Deserialize<AuthenticationResult>(authResultJson);
+                _currentUserService.UserData = userData;
+
+                return;
             }
 
-
-            if(authResult != null && authResult.IsAuthenticated)
-            {
-                _currentUserService.SetCurrentUser(authResult);
-            } 
-            else
-            {
-                await Shell.Current.GoToAsync("StartPage");
-            }
+            await Shell.Current.GoToAsync("StartPage");
         }
     }
 }

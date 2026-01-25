@@ -9,25 +9,21 @@ namespace Services.Shared
         private bool _disposed;
         
         protected HttpClient HttpClient => _httpClient;
-        protected Func<LogMessageEntity, Task> LogMessageCallback;
-        
-        protected AHttpClient(string baseUrl, Func<LogMessageEntity, Task> logMessageCallback, string? jsonWebToken = null)
+      
+        protected AHttpClient(string baseUrl)
         {
-            LogMessageCallback = logMessageCallback;
-            
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri(baseUrl, UriKind.Absolute),
                 Timeout = TimeSpan.FromSeconds(30)
             };
-
-            if (!string.IsNullOrEmpty(jsonWebToken))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", jsonWebToken);
-            }
         }
-      
+        protected void SetJwtToken(string? jwt)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", jwt);
+        }
+
         public void Dispose()
         {
             Dispose(true);

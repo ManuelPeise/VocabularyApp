@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using Core.App.Services.Interfaces;
-using Logic.Administration.Interfaces;
-using Shared.Models.Authentication;
+using Logic.Shared.Interfaces;
+using Services.Shared.Interfaces;
 
 
 

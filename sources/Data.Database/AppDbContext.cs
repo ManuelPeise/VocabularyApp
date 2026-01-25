@@ -1,5 +1,5 @@
 ﻿using Data.Database.Entities;
-using Data.Database.Seeds;
+using Data.Database.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Database
@@ -15,12 +15,11 @@ namespace Data.Database
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new UserCredentialsSeed());
-            modelBuilder.ApplyConfiguration(new UserSeed());
         }
 
         public DbSet<UserEntity> UserTable { get; set; }
         public DbSet<UserCredentialsEntity> UserCredentialsTable { get; set; }
         public DbSet<LogMessageEntity> LogMessageTable { get; set; }
+        public DbSet<UserSettingsEntity> UserSettingsTable { get; set; }
     }
 }

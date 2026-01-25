@@ -7,7 +7,7 @@ namespace Logic.Shared.DI
     public static class LogicSharedServiceRegistration
     {
 
-        public static void RegisterSharedServices(this IServiceCollection services)
+        public static void RegisterLogicSharedServices(this IServiceCollection services)
         {
             services.AddScoped<IAdministrationUnitOfWork, AdministrationUnitOfWork>();
         }

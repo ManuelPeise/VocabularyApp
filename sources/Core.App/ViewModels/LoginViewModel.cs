@@ -1,17 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Core.App.Services.Interfaces;
-using Logic.Administration.Interfaces;
+using Logic.Shared.Interfaces;
+using Services.Shared;
+using Services.Shared.Interfaces;
 using Shared.Models.Authentication;
 using System.Diagnostics;
-using System.Text.Json;
 
 namespace Core.App.ViewModels
 {
     public partial class LoginViewModel : ViewModelBase, IQueryAttributable
     {
         private readonly ICurrentUserService _currentUserService;
-        private readonly IUserAuthentication _authenticationService;
         private readonly ISecureStorageHandler _secureStorageHandler;
 
         [ObservableProperty]
@@ -20,11 +19,9 @@ namespace Core.App.ViewModels
         private string? _errorMessage;
 
         public LoginViewModel(
-            IUserAuthentication authenticationService, 
             ICurrentUserService currentUserService,
             ISecureStorageHandler secureStorageHandler)
         {
-            _authenticationService = authenticationService;
             _currentUserService = currentUserService;
             _secureStorageHandler = secureStorageHandler;
            
@@ -33,20 +30,18 @@ namespace Core.App.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            if (query.TryGetValue("userName", out var userNameObj) && userNameObj is string userName)
+            if (query.TryGetValue("userName", out var userNameObj) && userNameObj is string email)
             {
-                AuthData.UserName = userName;
+                AuthData.Email = email;
             }
+
         }
 
         private async Task InitializeAsync()
         {
-            var authData = await _secureStorageHandler.GetAsync(StorageKeys.LoginDataKey);
+            var authData = await _secureStorageHandler.GetValue<AuthenticationRequestModel>(StorageKeys.LoginDataKey);
 
-            if (!string.IsNullOrEmpty(authData))
-            {
-                AuthData = JsonSerializer.Deserialize<AuthenticationRequestModel>(authData) ?? new AuthenticationRequestModel();
-            }   
+            AuthData = authData ?? new AuthenticationRequestModel();
         }
 
         [RelayCommand]
@@ -64,22 +59,17 @@ namespace Core.App.ViewModels
             {
                 IsBusy = true;
 
-                var result = await _authenticationService.AuthenticateUser(AuthData);
-
-                if (result.IsAuthenticated)
+                if (await _currentUserService.AuthenticateUser(AuthData))
                 {
-                    _currentUserService.SetCurrentUser(result);
-
                     if (AuthData.RememberMe)
                     {
-                        await _secureStorageHandler.SetAsync(StorageKeys.LoginDataKey, JsonSerializer.Serialize(AuthData));
+                        await _secureStorageHandler.SetValue(StorageKeys.LoginDataKey, AuthData);
                     }
                     else
                     {
-                        _secureStorageHandler.Remove(StorageKeys.LoginDataKey);
+                        _secureStorageHandler.RemoveValue(StorageKeys.LoginDataKey);
                     }
 
-                    await _secureStorageHandler.SetAsync(StorageKeys.UserData, JsonSerializer.Serialize(result));
                     await Shell.Current.GoToAsync("//HomePage");
                 }
                 else

@@ -1,12 +1,11 @@
-﻿using Core.App.Services;
-using Core.App.Services.Interfaces;
-using Core.App.ViewModels;
+﻿using Core.App.ViewModels;
 using Core.App.Views.Private.User;
 using Core.App.Views.Private.User.Profile;
 using Core.App.Views.Public;
 using Data.Accessor.DI;
 using Logic.Administration.DI;
 using Logic.Shared.DI;
+using Services.Shared.DI;
 
 namespace Core.App.Bundles
 {
@@ -15,10 +14,10 @@ namespace Core.App.Bundles
         internal static void RegisterAppServices(this MauiAppBuilder builder)
         {
             builder.Services.RegisterDataAccessorServices();
+            builder.Services.RegisterLogicSharedServices();
             builder.Services.RegisterSharedServices();
             builder.Services.RegisterAdministrationServices();
-            builder.Services.RegisterSharedServices();
-            builder.Services.AddTransient<ISecureStorageHandler, SecureStorageHandler>();
+
         }
 
         internal static void RegisterViewModels(this IServiceCollection services)

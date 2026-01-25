@@ -67,7 +67,7 @@ namespace Core.App.ViewModels
                 {
                     FirstName = FirstName,
                     LastName = LastName,
-                    UserName = UserName,
+                    Email = UserName,
                     DateOfBirth = DateOfBirth,
                     Password = Password,
                 });

@@ -1,6 +1,7 @@
 ﻿using Data.Accessor.Interfaces;
 using Data.Database;
 using Data.Database.Entities;
+using Data.Database.Entities.User;
 using Logic.Shared.Interfaces;
 using System.Linq.Expressions;
 
@@ -16,12 +17,16 @@ namespace Logic.Shared.UnitsOfWork
 
         private readonly IRepositoryBase<UserCredentialsEntity> _userCredentialsRepository;
         public IRepositoryBase<UserCredentialsEntity> UserCredentialsRepository => _userCredentialsRepository;
+        
+        private readonly IRepositoryBase<UserSettingsEntity> _userSettingsRepository;
+        public IRepositoryBase<UserSettingsEntity> UserSettingsRepository => _userSettingsRepository;
 
         public AdministrationUnitOfWork(AppDbContext appDbContext) : base(appDbContext)
         {
             _logRepository = CreateRepository<LogMessageEntity>();
             _userRepository = CreateRepository<UserEntity>();
             _userCredentialsRepository = CreateRepository<UserCredentialsEntity>();
+            _userSettingsRepository = CreateRepository<UserSettingsEntity>();
         }
 
         public async Task<IEnumerable<LogMessageEntity>> GetAllLogMessagesAsync(Expression<Func<LogMessageEntity, bool>>? expression = null)

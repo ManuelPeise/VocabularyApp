@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Maui.Extensions;
-using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Core.App.Services.Interfaces;
 using Core.App.ViewModels;
 using Logic.Administration.Interfaces;
+using Logic.Shared.Interfaces;
+using Services.Shared.Interfaces;
 using Shared.Models.UserAdministration;
 using System.ComponentModel;
 
@@ -106,7 +106,7 @@ namespace Core.App.Views.Private.User.Profile
 
         private async Task InitializeAsync()
         {
-            var userProfile = await _userAdministration.LoadUserProfileAsync(CurrentUserService.AuthenticationResult.UserId);
+            var userProfile = await _userAdministration.LoadUserProfileAsync(CurrentUserService.UserData.UserId);
 
             if (userProfile == null) { return; }
 

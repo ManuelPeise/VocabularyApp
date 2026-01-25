@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Logic.Shared\Logic.Shared.csproj" />
+    <ProjectReference Include="..\Services.Shared\Services.Shared.csproj" />
+    <ProjectReference Include="..\Shared.Interfaces\Shared.Interfaces.csproj" />
     <ProjectReference Include="..\Shared.Models\Shared.Models.csproj" />
     <ProjectReference Include="..\Shared.Resources\Shared.Resources.csproj" />
   </ItemGroup>

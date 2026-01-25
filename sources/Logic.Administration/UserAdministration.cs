@@ -1,22 +1,25 @@
-﻿using Data.Database.Entities;
+﻿using Data.Database;
+using Data.Database.Entities.User;
 using Logic.Administration.Interfaces;
 using Logic.Shared;
 using Logic.Shared.Interfaces;
+using Services.Shared;
 using Shared.Enums;
 using Shared.Models.UserAdministration;
-using System.Net.Http.Headers;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace Logic.Administration
 {
     public class UserAdministration : ALogicBase, IUserAdministration
     {
+        private readonly Logger<UserAdministration> _logger;
         private readonly IAdministrationUnitOfWork _administrationUnitOfWork;
 
-        public UserAdministration(IAdministrationUnitOfWork administrationUnitOfWork) :
+        public UserAdministration(AppDbContext dbContext, IAdministrationUnitOfWork administrationUnitOfWork) :
             base(administrationUnitOfWork.LogRepository, administrationUnitOfWork.CommittChanges)
         {
             _administrationUnitOfWork = administrationUnitOfWork;
+            _logger = new Logger<UserAdministration>(dbContext);
         }
 
         public async Task<UserRegistrationResult> CreateUserProfile(UserRegistrationRequestModel registrationRequestModel)
@@ -30,21 +33,25 @@ namespace Logic.Administration
                     return new UserRegistrationResult { Result = false };
                 }
 
-                var salt = Guid.NewGuid().ToString();
-                var userIdExternal = Guid.NewGuid();
+                var userIdExternal = Guid.NewGuid().ToString();
 
                 var entity = new UserEntity
                 {
                     UserIdExternal = userIdExternal,
                     FirstName = registrationRequestModel.FirstName,
                     LastName = registrationRequestModel.LastName,
-                    UserName = registrationRequestModel.UserName,
+                    EmailAddress = registrationRequestModel.Email,
+                    ProfileImage = [],
                     DateOfBirth = registrationRequestModel.DateOfBirth,
                     UserRole = UserRoleEnum.User,
                     UserCredentials = new UserCredentialsEntity
                     {
-                        Salt = salt,
-                        PasswordHash = GetHashedPassword(registrationRequestModel.Password, salt)
+                        PasswordHash = PasswordHasher.HashPassword(registrationRequestModel.Password),
+                    },
+                    UserSettings = new UserSettingsEntity
+                    {
+                        IsAutoDataSyncEnabled = false,
+                        UseLocalDataStore = false,
                     },
                 };
 
@@ -57,14 +64,7 @@ namespace Logic.Administration
             }
             catch (Exception exception)
             {
-                await LogMessageAsync(new LogMessageEntity
-                {
-                    Message = "Error occurred while creating user profile.",
-                    ExeptionMessage = exception.Message,
-                    Stacktrace = exception.StackTrace,
-                    Module = nameof(UserAdministration),
-                    LogLevel = LogLevelEnum.Error,
-                });
+                await _logger.LogMessageAsync("Create user profile failed.", LogMessageTypeEnum.Error, exception);
 
                 return new UserRegistrationResult { Result = false };
             }
@@ -98,15 +98,8 @@ namespace Logic.Administration
             }
             catch (Exception exception)
             {
-                await LogMessageAsync(new LogMessageEntity
-                {
-                    Message = $"Could not load user profile [{userId}]",
-                    ExeptionMessage = exception.Message,
-                    Stacktrace = exception.StackTrace,
-                    Module = nameof(UserAdministration),
-                    LogLevel = LogLevelEnum.Error
-                });
-
+                await _logger.LogMessageAsync($"Could not load user profile [{userId}]", LogMessageTypeEnum.Error, exception);
+               
                 return null;
             }
         }
@@ -124,7 +117,7 @@ namespace Logic.Administration
 
                 userEntity.FirstName = profile.FirstName;
                 userEntity.LastName = profile.LastName;
-                userEntity.UserName = profile.UserName;
+                userEntity.EmailAddress = profile.Email;
                 userEntity.DateOfBirth = profile.DateOfBirth;
                 userEntity.ProfileImage = profile.ProfileImage;
                 userEntity.UpdatedAt = DateTime.UtcNow;
@@ -147,15 +140,8 @@ namespace Logic.Administration
             }
             catch (Exception exception)
             {
-                await LogMessageAsync(new LogMessageEntity
-                {
-                    Message = $"Could not update user profile image [{profile.UserId}]",
-                    ExeptionMessage = exception.Message,
-                    Stacktrace = exception.StackTrace,
-                    Module = nameof(UserAdministration),
-                    LogLevel = LogLevelEnum.Error
-                });
-
+                await _logger.LogMessageAsync($"Could not update user profile image [{profile.UserId}]", LogMessageTypeEnum.Error, exception);
+                
                 return null;
             }
         }
@@ -171,7 +157,7 @@ namespace Logic.Administration
                     throw new Exception($"Cannot find user entity to change password [{model.UserId}].");
                 }
 
-                if(userEntity.UserCredentials.PasswordHash != GetHashedPassword(model.CurrentPassword, userEntity.UserCredentials.Salt))
+                if(userEntity.UserCredentials.PasswordHash != PasswordHasher.HashPassword(model.CurrentPassword))
                 {
                     return new ChangePasswordResult
                     {
@@ -180,9 +166,7 @@ namespace Logic.Administration
                     };
                 }
 
-                var newSalt = Guid.NewGuid().ToString();
-
-                if(GetHashedPassword(model.NewPassword, newSalt) != GetHashedPassword(model.PasswordReplication, newSalt))
+                if(PasswordHasher.HashPassword(model.NewPassword) != PasswordHasher.HashPassword(model.PasswordReplication))
                 {
                     return new ChangePasswordResult
                     {
@@ -191,8 +175,7 @@ namespace Logic.Administration
                     };
                 }
 
-                userEntity.UserCredentials.Salt = newSalt;
-                userEntity.UserCredentials.PasswordHash = GetHashedPassword(model.NewPassword, newSalt);
+                userEntity.UserCredentials.PasswordHash = PasswordHasher.HashPassword(model.NewPassword);
 
                 await _administrationUnitOfWork.CommittChanges(userEntity.UserName);
 
@@ -204,15 +187,8 @@ namespace Logic.Administration
             }
             catch (Exception exception)
             {
-                await LogMessageAsync(new LogMessageEntity
-                {
-                    Message = $"Cannot find user entity to change password [{model.UserId}].",
-                    ExeptionMessage = exception.Message,
-                    Stacktrace = exception.StackTrace,
-                    Module = nameof(UserAdministration),
-                    LogLevel = LogLevelEnum.Error
-                });
-
+                await _logger.LogMessageAsync($"Cannot find user entity to change password [{model.UserId}].", LogMessageTypeEnum.Error, exception); 
+               
                 return new ChangePasswordResult
                 {
                     Success = false,
@@ -223,7 +199,7 @@ namespace Logic.Administration
 
         private async Task<bool> IsValidRegistrationRequestModel(UserRegistrationRequestModel registrationRequestModel)
         {
-            var existingUser = await _administrationUnitOfWork.UserRepository.FirstOrDefaultAsync(x => x.UserName == registrationRequestModel.UserName);
+            var existingUser = await _administrationUnitOfWork.UserRepository.FirstOrDefaultAsync(x => x.EmailAddress == registrationRequestModel.Email);
 
             if (existingUser != null)
             {
@@ -232,7 +208,7 @@ namespace Logic.Administration
 
             return string.IsNullOrEmpty(registrationRequestModel.FirstName) ||
                    string.IsNullOrEmpty(registrationRequestModel.LastName) ||
-                   string.IsNullOrEmpty(registrationRequestModel.UserName) ||
+                   string.IsNullOrEmpty(registrationRequestModel.Email) ||
                    string.IsNullOrEmpty(registrationRequestModel.Password) &&
                    registrationRequestModel.Password.Length > 6 ? false : true;
         }

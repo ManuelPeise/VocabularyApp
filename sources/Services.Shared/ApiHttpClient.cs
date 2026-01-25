@@ -1,4 +1,7 @@
-﻿using Data.Database.Entities;
+﻿using Data.Database;
+using Data.Database.Entities;
+using Logic.Shared;
+using Logic.Shared.Interfaces;
 using Shared.Enums;
 using Shared.Interfaces;
 using Shared.Models;
@@ -11,14 +14,18 @@ namespace Services.Shared
 {
     public class ApiHttpClient<TModel> : AHttpClient, IHttpClient<TModel> where TModel : class
     {
-
+        private readonly Logger<ApiHttpClient<TModel>> _logger;
         private const string BaseUrl = "http://192.168.178.46:5000/api/";
         private readonly Lazy<Task<bool>> _isApiAvailable;
+        private readonly ISecureStorageHandler _secureStorageHandler;
         public Task<bool> IsApiAvailableAsync => _isApiAvailable.Value;
 
-        public ApiHttpClient(Func<LogMessageEntity, Task> logMessageCallback, string? jsonWebToken = null) : base(BaseUrl, logMessageCallback, jsonWebToken)
+        public ApiHttpClient(AppDbContext dbContext, ISecureStorageHandler secureStorageHandler) : base(BaseUrl)
         {
+            _logger = new Logger<ApiHttpClient<TModel>>(dbContext);
             _isApiAvailable = new Lazy<Task<bool>>(CheckApiAvailabilityAsync);
+            _secureStorageHandler = secureStorageHandler;
+
         }
 
         public async Task<ApiResponseBase<TModel>> GetAsync(
@@ -27,8 +34,15 @@ namespace Services.Shared
         {
             try
             {
-                var response = await SendAsync<object>(endpoint, HttpMethod.Get, parameters, null);
+                var token = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey) ?? null;
 
+                if (token != null)
+                {
+                    SetJwtToken(token);
+                }
+
+                var response = await SendAsync<object>(endpoint, HttpMethod.Get, parameters, null);
+                
                 response.EnsureSuccessStatusCode();
 
                 TModel? responseModel = null;
@@ -48,22 +62,15 @@ namespace Services.Shared
             }
             catch (Exception exception)
             {
-                var entity = new LogMessageEntity
-                {
-                    Message = $"Error while executing GET request [{endpoint}].",
-                    ExeptionMessage = exception.Message,
-                    Stacktrace = exception.StackTrace,
-                    Module = "ApiHttpClient",
-                    LogLevel = LogLevelEnum.Error,
-                };
+                var message = $"Error while executing GET request [{endpoint}].";
 
-                await LogMessageCallback(entity);
+                await _logger.LogMessageAsync(message, LogMessageTypeEnum.Error, exception);
 
                 return new ApiResponseBase<TModel>
                 {
                     Success = false,
                     ResponseData = null,
-                    Error = entity.Message
+                    Error = message
                 };
             }
         }
@@ -72,7 +79,14 @@ namespace Services.Shared
         {
             try
             {
-                var response = await SendAsync(endpoint, HttpMethod.Post, parameters, model);
+                var token = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey) ?? null;
+
+                if (token != null)
+                {
+                    SetJwtToken(token);
+                }
+
+                var response = await SendAsync(endpoint, HttpMethod.Post, model, parameters);
 
                 response.EnsureSuccessStatusCode();
 
@@ -92,22 +106,15 @@ namespace Services.Shared
             }
             catch (Exception exception)
             {
-                var entity = new LogMessageEntity
-                {
-                    Message = $"Error while executing POST request [{endpoint}].",
-                    ExeptionMessage = exception.Message,
-                    Stacktrace = exception.StackTrace,
-                    Module = "ApiHttpClient",
-                    LogLevel = LogLevelEnum.Error,
-                };
+                var message = $"Error while executing POST request [{endpoint}].";
 
-                await LogMessageCallback(entity);
+                await _logger.LogMessageAsync(message, LogMessageTypeEnum.Error, exception);
 
                 return new ApiResponseBase<TModel>
                 {
                     Success = false,
                     ResponseData = null,
-                    Error = entity.Message
+                    Error = message
                 };
             }
         }
@@ -126,7 +133,7 @@ namespace Services.Shared
             }
         }
 
-        private async Task<HttpResponseMessage> SendAsync<T>(string url, HttpMethod method, Dictionary<string, object>? parameters = null, T? model)
+        private async Task<HttpResponseMessage> SendAsync<T>(string url, HttpMethod method, T? model, Dictionary<string, object>? parameters = null)
         {
             if (parameters != null && parameters.Count > 0)
             {
