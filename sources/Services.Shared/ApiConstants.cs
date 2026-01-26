@@ -23,6 +23,6 @@
         /// <summary>
         /// Health check endpoint path.
         /// </summary>
-        public const string HealthCheckEndpoint = "health/checkhealth";
+        public const string HealthCheckEndpoint = "Health/CheckHealth";
     }
 }

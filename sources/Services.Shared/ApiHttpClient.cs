@@ -26,6 +26,26 @@ namespace Services.Shared
 
         }
 
+        public async Task<bool> CheckApiAvailabilityAsync()
+        {
+            try
+            {
+                var response = await SendAsync<object>(
+                    ApiConstants.HealthCheckEndpoint,
+                    HttpMethod.Get,
+                    null,
+                    null);
+
+                return response.StatusCode == HttpStatusCode.OK;
+            }
+            catch (Exception exception)
+            {
+                var message = exception.Message;
+                return false;
+            }
+        }
+
+
         public async Task<ApiResponseBase<TModel>> GetAsync(
             string endpoint,
             Dictionary<string, object>? parameters  = null)
@@ -117,25 +137,7 @@ namespace Services.Shared
             }
         }
 
-        private async Task<bool> CheckApiAvailabilityAsync()
-        {
-            try
-            {
-                var response = await SendAsync<object>(
-                    ApiConstants.HealthCheckEndpoint, 
-                    HttpMethod.Get, 
-                    null, 
-                    null);
-                
-                return response.StatusCode == HttpStatusCode.OK;
-            }
-            catch(Exception exception)
-            {
-                var message = exception.Message;
-                return false;
-            }
-        }
-
+       
         private async Task<HttpResponseMessage> SendAsync<T>(string url, HttpMethod method, T? model, Dictionary<string, object>? parameters = null)
         {
             try

@@ -11,8 +11,12 @@ namespace Services.Shared
       
         protected AHttpClient(string baseUrl)
         {
-            _httpClient = new HttpClient();
+            _httpClient = new HttpClient()
+            {
+                Timeout = TimeSpan.FromSeconds(60)
+            };
         }
+        
         protected void SetJwtToken(string? jwt)
         {
             _httpClient.DefaultRequestHeaders.Authorization =
@@ -39,3 +43,5 @@ namespace Services.Shared
         }
     }
 }
+
+

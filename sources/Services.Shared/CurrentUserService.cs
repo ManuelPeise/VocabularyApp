@@ -57,7 +57,6 @@ namespace Services.Shared
             UserData = await _secureStorageHandler.GetValue<UserData>(StorageKeys.UserDataKey) ?? null;
         }
 
-
         public async Task<bool> AuthenticateUser(AuthenticationRequestModel authData)
         {
             try
@@ -80,13 +79,12 @@ namespace Services.Shared
             }
         }
 
-      
-
         public async Task SignOutAsync()
         {
             try
             {
                 _secureStorageHandler.RemoveValue(StorageKeys.UserDataKey);
+                // TODO remove later, keep this values for token refresh implementation
                 _secureStorageHandler.RemoveValue(StorageKeys.AccessTokenKey);
                 _secureStorageHandler.RemoveValue(StorageKeys.RefreshTokenKey);
 
