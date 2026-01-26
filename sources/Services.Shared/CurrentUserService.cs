@@ -2,6 +2,7 @@
 using Data.Database.Entities.User;
 using Services.Shared.Interfaces;
 using Services.Shared.Models;
+using Services.Shared.Models.User;
 using Services.Shared.UiModels;
 using Shared.Enums;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ namespace Services.Shared
     public class CurrentUserService : ICurrentUserService, INotifyPropertyChanged
     {
         private readonly ISecureStorageHandler _secureStorageHandler;
-        private readonly IHttpClient<CurrentUser> _currentUserClient;
+        private readonly IHttpClient<UserModel> _userClient;
         private readonly IHttpClient<AuthenticationResult> _authenticationClient;
         private readonly IUnitOfWork _administrationUnitOfWork;
         private readonly Logger<CurrentUserService> _logger;
@@ -39,12 +40,12 @@ namespace Services.Shared
         public CurrentUserService(
             AppDbContext dbContext,
             ISecureStorageHandler secureStorageHandler,
-            IHttpClient<CurrentUser> currentUserClient,
+            IHttpClient<UserModel> userClient,
             IHttpClient<AuthenticationResult> authenticationClient,
             IUnitOfWork administrationUnitOfWork)
         {
             _secureStorageHandler = secureStorageHandler;
-            _currentUserClient = currentUserClient;
+            _userClient = userClient;
             _authenticationClient = authenticationClient;
             _administrationUnitOfWork = administrationUnitOfWork;
             _logger = new Logger<CurrentUserService>(dbContext);
@@ -52,7 +53,7 @@ namespace Services.Shared
             _ = Task.Run(async () => await Initialize());
         }
 
-        private async Task Initialize() 
+        private async Task Initialize()
         {
             UserData = await _secureStorageHandler.GetValue<UserData>(StorageKeys.UserDataKey) ?? null;
         }
@@ -63,12 +64,42 @@ namespace Services.Shared
             {
                 var localUser = await LoadUserFromDatabase(authData.Email);
 
-                if (localUser != null && await TryAuthenticateLocalUser(authData, localUser))
+                if (localUser != null)
                 {
+                    localUser = await TryAuthenticateLocalUser(authData, localUser);
+                }
+
+                if (localUser != null && localUser.UserCredentials?.RefreshToken != null)
+                {
+                    await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, localUser.UserCredentials.RefreshToken);
+                    await SetUserData(localUser);
+                    
                     return true;
                 }
 
-                return await AuthenticateRemoteUser(authData);
+                var remoteUser = await AuthenticateRemoteUser(authData);
+
+                if (remoteUser == null || remoteUser?.UserCredentials?.RefreshToken == null)
+                {
+                    return false;
+                }
+
+                await SaveUserDataLocal(remoteUser);
+
+                var savedLocalUser = await LoadUserFromDatabase(authData.Email);
+
+                if (savedLocalUser == null || savedLocalUser.UserCredentials?.RefreshToken == null)
+                {
+                    await _logger.LogMessageAsync(
+                        "Failed to reload user from database after saving",
+                        LogMessageTypeEnum.Error);
+                    return false;
+                }
+
+                await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, savedLocalUser.UserCredentials.RefreshToken);
+                await SetUserData(savedLocalUser);
+
+                return true;
             }
             catch (Exception exception)
             {
@@ -84,8 +115,6 @@ namespace Services.Shared
             try
             {
                 _secureStorageHandler.RemoveValue(StorageKeys.UserDataKey);
-                // TODO remove later, keep this values for token refresh implementation
-                _secureStorageHandler.RemoveValue(StorageKeys.AccessTokenKey);
                 _secureStorageHandler.RemoveValue(StorageKeys.RefreshTokenKey);
 
                 UserData = null;
@@ -97,52 +126,47 @@ namespace Services.Shared
             }
         }
 
-        private async Task<bool> TryAuthenticateLocalUser(AuthenticationRequestModel authData, CurrentUser? localUser)
+        private async Task<UserModel?> TryAuthenticateLocalUser(AuthenticationRequestModel authData, UserModel? localUser)
         {
             if (localUser?.UserCredentials == null ||
                 localUser.UserSettings == null ||
                 string.IsNullOrEmpty(localUser.UserCredentials.RefreshToken))
             {
-                return false;
+                return null;
             }
 
             if (!IsUserAuthenticated(authData, localUser.UserCredentials.PasswordHash))
             {
-                return false;
+                return null;
             }
 
-            await SetUserData(localUser);
-            await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, localUser.UserCredentials.RefreshToken);
-
-            if (await _currentUserClient.IsApiAvailableAsync && !localUser.UserSettings.IsAutoDataSyncEnabled)
+            if (await _userClient.IsApiAvailableAsync && !localUser.UserSettings.IsAutoDataSyncEnabled)
             {
                 return await SyncWithRemoteUser(localUser);
             }
 
-            return true;
+            return null;
         }
-        
-        private async Task<bool> SyncWithRemoteUser(CurrentUser localUser)
+
+        private async Task<UserModel?> SyncWithRemoteUser(UserModel localUser)
         {
-            var remoteUserResponse = await _currentUserClient.GetAsync("userservice/getcurrentuser", null);
+            var remoteUserResponse = await _userClient.GetAsync("userservice/getcurrentuser", null);
 
             if (remoteUserResponse.Success && remoteUserResponse.ResponseData != null)
             {
                 await UpdateRemoteUserData(localUser, remoteUserResponse.ResponseData);
 
-                return true;
+                return localUser;
             }
-            else
-            {
-                return false;
-            }
+
+            return null;
         }
 
-        private async Task<bool> AuthenticateRemoteUser(AuthenticationRequestModel authData)
+        private async Task<UserModel?> AuthenticateRemoteUser(AuthenticationRequestModel authData)
         {
-            if (!await _currentUserClient.IsApiAvailableAsync)
+            if (!await _userClient.IsApiAvailableAsync)
             {
-                return false;
+                return null;
             }
 
             var signInResult = await _authenticationClient.PostAsync("userauthentication/authenticateuser", authData, null);
@@ -152,24 +176,23 @@ namespace Services.Shared
                 string.IsNullOrEmpty(signInResult.ResponseData.AccessToken) ||
                 string.IsNullOrEmpty(signInResult.ResponseData.RefreshToken))
             {
-                return false;
+                return null;
             }
 
             await _secureStorageHandler.SetValue(StorageKeys.AccessTokenKey, signInResult.ResponseData.AccessToken);
             await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, signInResult.ResponseData.RefreshToken);
 
-            var remoteUserResponse = await _currentUserClient.GetAsync("userservice/getcurrentuser", null);
+            var response = await _userClient.GetAsync("userservice/getcurrentuser", null);
 
-            if (remoteUserResponse.Success && remoteUserResponse.ResponseData != null)
+            if (response.Success)
             {
-                await SetUserData(remoteUserResponse.ResponseData);
-                await SaveUserDataLocal(remoteUserResponse.ResponseData);
+                return response.ResponseData;
             }
 
-            return true;
+            return null;
         }
 
-        private async Task SetUserData(CurrentUser user)
+        private async Task SetUserData(UserModel user)
         {
             UserData = new UserData
             {
@@ -181,7 +204,7 @@ namespace Services.Shared
             await _secureStorageHandler.SetValue(StorageKeys.UserDataKey, UserData);
         }
 
-        private async Task<CurrentUser?> LoadUserFromDatabase(string email)
+        private async Task<UserModel?> LoadUserFromDatabase(string email)
         {
             var user = await _administrationUnitOfWork.UserRepository
                            .FirstOrDefaultAsync(x => x.EmailAddress == email, false);
@@ -194,7 +217,7 @@ namespace Services.Shared
             user.UserCredentials = await _administrationUnitOfWork.UserCredentialsRepository.FirstOrDefaultByIdAsync(user.UserCredentialsId);
             user.UserSettings = await _administrationUnitOfWork.UserSettingsRepository.FirstOrDefaultByIdAsync(user.UserSettingsId);
 
-            return new CurrentUser
+            return new UserModel
             {
                 Id = user.Id,
                 UserIdExternal = user.UserIdExternal,
@@ -205,9 +228,27 @@ namespace Services.Shared
                 ProfileImage = user.ProfileImage,
                 UserRole = user.UserRole,
                 UserCredentialsId = user.UserCredentialsId,
-                UserCredentials = user.UserCredentials,
+                UserCredentials = new UserCredentials
+                {
+                    Id = user.UserCredentials?.Id ?? 0,
+                    PasswordHash = user.UserCredentials?.PasswordHash ?? string.Empty,
+                    RefreshToken = user.UserCredentials?.RefreshToken ?? string.Empty,
+                    CreatedAt = user.UserCredentials?.CreatedAt ?? DateTime.UtcNow,
+                    CreatedBy = user.UserCredentials?.CreatedBy ?? "System",
+                    UpdatedAt = user.UserCredentials?.UpdatedAt ?? DateTime.UtcNow,
+                    UpdatedBy = user.UserCredentials?.UpdatedBy ?? "System"
+                },
                 UserSettingsId = user.UserSettingsId,
-                UserSettings = user.UserSettings,
+                UserSettings = new UserSettings
+                {
+                    Id = user.UserSettings?.Id ?? 0,
+                    IsAutoDataSyncEnabled = user.UserSettings?.IsAutoDataSyncEnabled ?? false,
+                    UseLocalDataStore = user.UserSettings?.UseLocalDataStore ?? false,
+                    CreatedAt = user.UserSettings?.CreatedAt ?? DateTime.UtcNow,
+                    CreatedBy = user.UserSettings?.CreatedBy ?? "System",
+                    UpdatedAt = user.UserSettings?.UpdatedAt ?? DateTime.UtcNow,
+                    UpdatedBy = user.UserSettings?.UpdatedBy ?? "System"
+                },
                 CreatedAt = user.CreatedAt,
                 CreatedBy = user.CreatedBy,
                 UpdatedAt = user.UpdatedAt,
@@ -215,29 +256,57 @@ namespace Services.Shared
             };
         }
 
-        private async Task SaveUserDataLocal(CurrentUser? userData)
+        private async Task SaveUserDataLocal(UserModel? userData)
         {
             if (userData == null)
             {
                 return;
             }
 
-            var entity = (UserEntity)userData;
-            entity.Id = 0;
-            entity.UserCredentialsId = 0;
-            entity.UserSettingsId = 0;
+            var entity = new UserEntity
+            {
+                UserIdExternal = userData.UserIdExternal,
+                FirstName = userData.FirstName,
+                LastName = userData.LastName,
+                DateOfBirth = userData.DateOfBirth,
+                EmailAddress = userData.EmailAddress,
+                ProfileImage = userData.ProfileImage,
+                UserRole = userData.UserRole,
+                UserCredentials = new UserCredentialsEntity
+                {
+                    PasswordHash = userData.UserCredentials?.PasswordHash ?? string.Empty,
+                    RefreshToken = userData.UserCredentials?.RefreshToken ?? string.Empty,
+                    CreatedAt = userData.UserCredentials?.CreatedAt ?? DateTime.UtcNow,
+                    CreatedBy = userData.UserCredentials?.CreatedBy ?? "System",
+                    UpdatedAt = userData.UserCredentials?.UpdatedAt ?? DateTime.UtcNow,
+                    UpdatedBy = userData.UserCredentials?.UpdatedBy ?? "System"
+                },
+                UserSettings = new UserSettingsEntity
+                {
+                    IsAutoDataSyncEnabled = userData.UserSettings?.IsAutoDataSyncEnabled ?? false,
+                    UseLocalDataStore = userData.UserSettings?.UseLocalDataStore ?? false,
+                    CreatedAt = userData.UserSettings?.CreatedAt ?? DateTime.UtcNow,
+                    CreatedBy = userData.UserSettings?.CreatedBy ?? "System",
+                    UpdatedAt = userData.UserSettings?.UpdatedAt ?? DateTime.UtcNow,
+                    UpdatedBy = userData.UserSettings?.UpdatedBy ?? "System"
+                },
+                CreatedAt = userData.CreatedAt,
+                CreatedBy = userData.CreatedBy,
+                UpdatedAt = userData.UpdatedAt,
+                UpdatedBy = userData.UpdatedBy
+            };
 
             await _administrationUnitOfWork.UserRepository.AddAsync(entity);
             await _administrationUnitOfWork.CommittChanges(entity.EmailAddress);
         }
 
-        private async Task UpdateRemoteUserData(CurrentUser localUser, CurrentUser? remoteUser)
+        private async Task UpdateRemoteUserData(UserModel localUser, UserModel? remoteUser)
         {
             if (localUser.UpdatedAt > remoteUser?.UpdatedAt ||
                 localUser?.UserCredentials?.UpdatedAt > remoteUser?.UserCredentials?.UpdatedAt ||
                 localUser?.UserSettings?.UpdatedAt > remoteUser?.UserSettings?.UpdatedAt)
             {
-                await _currentUserClient.PostAsync("userservice/updatecurrentuser", localUser);
+                await _userClient.PostAsync("userservice/updatecurrentuser", localUser);
             }
         }
 

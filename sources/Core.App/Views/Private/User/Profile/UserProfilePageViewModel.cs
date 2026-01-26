@@ -126,27 +126,12 @@ namespace Core.App.Views.Private.User.Profile
                 FirstName = userProfile.FirstName,
                 LastName = userProfile.LastName,
                 UserName = userProfile.UserName,
+                Email = userProfile.Email,
                 DateOfBirth = userProfile.DateOfBirth,
                 ProfileImage = userProfile.ProfileImage,
                 UserRole = userProfile.UserRole,
                 LastUpdateAt = userProfile.LastUpdateAt,
                 LastUpdateBy = userProfile.LastUpdateBy
-            };
-        }
-
-        private void UpdateUserProfileImage(UserProfileModel existing, byte[] image)
-        {
-            UserProfileModel = new UserProfileModel
-            {
-                UserId = existing.UserId,
-                FirstName = existing.FirstName,
-                LastName = existing.LastName,
-                UserName = existing.UserName,
-                DateOfBirth = existing.DateOfBirth,
-                ProfileImage = image,
-                UserRole = existing.UserRole,
-                LastUpdateAt = existing.LastUpdateAt,
-                LastUpdateBy = existing.LastUpdateBy
             };
         }
 

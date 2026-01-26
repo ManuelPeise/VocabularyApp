@@ -6,8 +6,9 @@ using System.Net;
 using System.Text.Json;
 using System.Web;
 using Services.Shared.Constants;
+using Microsoft.Maui.Devices;
 
-    
+
 namespace Services.Shared
 {
     public class ApiHttpClient<TModel> : AHttpClient, IHttpClient<TModel> where TModel : class
@@ -30,17 +31,31 @@ namespace Services.Shared
         {
             try
             {
-                var response = await SendAsync<object>(
+                var response = await SendAsync<string>(
                     ApiConstants.HealthCheckEndpoint,
                     HttpMethod.Get,
                     null,
                     null);
 
-                return response.StatusCode == HttpStatusCode.OK;
+                response.EnsureSuccessStatusCode();
+
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (string.IsNullOrEmpty(responseString))
+                {
+                    return false;
+                }
+
+                return bool.Parse(responseString);
             }
             catch (Exception exception)
             {
-                var message = exception.Message;
+                var message = $"API availability check failed.\nURL: {BaseUrl}{ApiConstants.HealthCheckEndpoint}\nError: {exception.Message}";
+                if (exception.InnerException != null)
+                {
+                    message += $"\nInner: {exception.InnerException.Message}";
+                }
+                await _logger.LogMessageAsync(message, LogMessageTypeEnum.Error, exception);
                 return false;
             }
         }
@@ -52,6 +67,8 @@ namespace Services.Shared
         {
             try
             {
+                string json = string.Empty;
+
                 var token = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey) ?? null;
 
                 if (token != null)
@@ -59,7 +76,7 @@ namespace Services.Shared
                     SetJwtToken(token);
                 }
 
-                var response = await SendAsync<object>(endpoint, HttpMethod.Get, parameters, null);
+                var response = await SendAsync<TModel>(endpoint, HttpMethod.Get, null, parameters);
                 
                 response.EnsureSuccessStatusCode();
 
@@ -67,9 +84,17 @@ namespace Services.Shared
 
                 if (response.Content != null)
                 {
-                    var jsonString = await response.Content.ReadAsStringAsync() ?? string.Empty;
+                    json= await response.Content.ReadAsStringAsync() ?? string.Empty;
 
-                    responseModel = JsonSerializer.Deserialize<TModel>(jsonString) ?? null;
+                }
+
+                if(!string.IsNullOrEmpty(json))
+                {
+                    responseModel = JsonSerializer.Deserialize<TModel>(json, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = false,
+                       
+                    }) ?? null;
                 }
 
                 return new ApiResponseBase<TModel>
@@ -97,6 +122,8 @@ namespace Services.Shared
         {
             try
             {
+                string json = string.Empty;
+
                 var token = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey) ?? null;
 
                 if (token != null)
@@ -112,8 +139,12 @@ namespace Services.Shared
 
                 if (response.Content != null)
                 {
-                    var jsonString = await response.Content.ReadAsStringAsync() ?? string.Empty;
-                    responseModel = JsonSerializer.Deserialize<TModel>(jsonString) ?? null;
+                    json= await response.Content.ReadAsStringAsync() ?? string.Empty;
+                }
+
+                if(!string.IsNullOrEmpty(json))
+                {
+                    responseModel = JsonSerializer.Deserialize<TModel>(json) ?? null;
                 }
 
                 return new ApiResponseBase<TModel>
@@ -178,13 +209,27 @@ namespace Services.Shared
         private static string GetBaseUrl()
         {
 #if ANDROID
-            // Use 10.0.2.2 for Android emulator (maps to host machine)
-            // Use actual IP for physical device
-            return DeviceInfo.DeviceType == DeviceType.Virtual 
-                ? ApiConstants.AndroidEmulatorUrl 
-                : ApiConstants.LocalNetworkUrl;
+            // Priority order for Android:
+            // 1. Physical device via USB with ADB forwarding (most reliable for debugging)
+            // 2. Emulator using 10.0.2.2
+            // 3. Physical device on same WiFi network
+            
+            if (DeviceInfo.DeviceType == DeviceType.Virtual)
+            {
+                // Android Emulator
+                return ApiConstants.AndroidEmulatorUrl;
+            }
+            else
+            {
+                // Physical Device - Try USB forwarding first
+                // To enable: Run in command prompt: adb forward tcp:5218 tcp:5218
+                return ApiConstants.AndroidUsbUrl;
+                
+                // Alternative: Use WiFi network (if both devices on same network)
+                // return ApiConstants.LocalNetworkUrl;
+            }
 #else
-            return ApiConstants.LocalNetworkUrl;
+            return ApiConstants.LocalhostUrl;
 #endif
         }
     }

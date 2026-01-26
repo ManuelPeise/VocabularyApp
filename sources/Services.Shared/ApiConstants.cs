@@ -8,21 +8,15 @@
         /// <summary>
         /// API URL for Windows development (Visual Studio debug).
         /// </summary>
-        public const string LocalhostUrl = "http://localhost:5218/api/";
+        public const string LocalhostUrl = "http://localhost:5000/api/";
 
         /// <summary>
-        /// API URL for Android emulator (10.0.2.2 maps to host machine).
+        /// API URL for Windows development (Visual Studio debug).
         /// </summary>
-        public const string AndroidEmulatorUrl = "http://10.0.2.2:5218/api/";
-
-        /// <summary>
-        /// API URL for Android physical devices on local network.
-        /// </summary>
-        public const string LocalNetworkUrl = "http://192.168.178.46:5218/api/";
-
+        public const string DockerhostUrl = "http://192.168.178.46:5000/api/";
         /// <summary>
         /// Health check endpoint path.
         /// </summary>
-        public const string HealthCheckEndpoint = "Health/CheckHealth";
+        public const string HealthCheckEndpoint = "health/checkhealth";
     }
 }

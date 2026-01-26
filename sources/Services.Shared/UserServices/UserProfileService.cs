@@ -2,6 +2,7 @@
 using Data.Database.Entities.User;
 using Services.Shared.Interfaces;
 using Services.Shared.Models;
+using Services.Shared.Models.User;
 using Services.Shared.UiModels;
 using Shared.Enums;
 
@@ -10,13 +11,13 @@ namespace Services.Shared.UserServices
     public class UserProfileService : IUserProfileService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHttpClient<CurrentUser> _profileHttpClient;
+        private readonly IHttpClient<UserModel> _profileHttpClient;
         private readonly Logger<UserProfileService> _logger;
 
         public UserProfileService(
             AppDbContext dbContext,
             IUnitOfWork unitOfWork,
-            IHttpClient<CurrentUser> profileHttpClient)
+            IHttpClient<UserModel> profileHttpClient)
         {
             _unitOfWork = unitOfWork;
             _profileHttpClient = profileHttpClient;
@@ -58,6 +59,11 @@ namespace Services.Shared.UserServices
         {
             try
             {
+                if (string.IsNullOrEmpty(profile.Email))
+                {
+                    throw new Exception("Email address cannot be empty.");
+                }
+
                 var userEntity = await _unitOfWork.UserRepository
                     .FirstOrDefaultByIdAsync(profile.UserId, false, x => x.UserSettings);
 
@@ -66,12 +72,11 @@ namespace Services.Shared.UserServices
                     throw new Exception($"User with ID [{profile.UserId}] not found.");
                 }
 
-
                 UpdateUserEntity(userEntity, profile);
 
                 await _unitOfWork.CommittChanges(profile.Email);
 
-                if (!await _profileHttpClient.CheckApiAvailabilityAsync())
+                if (!await _profileHttpClient.CheckApiAvailabilityAsync() || !userEntity.UserSettings.IsAutoDataSyncEnabled)
                 {
                     return new UserProfileModel
                     {
@@ -87,36 +92,27 @@ namespace Services.Shared.UserServices
                     };
                 }
 
-                if (userEntity.UserSettings.IsAutoDataSyncEnabled)
+                var requestModel = new UserProfileUpdateRequest
                 {
-                    var requestModel = new CurrentUser
-                    {
-                        Id = userEntity.Id,
-                        UserIdExternal = userEntity.UserIdExternal,
-                        FirstName = userEntity.FirstName,
-                        LastName = userEntity.LastName,
-                        DateOfBirth = userEntity.DateOfBirth,
-                        EmailAddress = userEntity.EmailAddress,
-                        ProfileImage = userEntity.ProfileImage,
-                        UserRole = userEntity.UserRole,
-                    };
+                    Id = userEntity.Id,
+                    UserIdExternal = userEntity.UserIdExternal,
+                    FirstName = userEntity.FirstName,
+                    LastName = userEntity.LastName,
+                    DateOfBirth = userEntity.DateOfBirth,
+                    EmailAddress = userEntity.EmailAddress,
+                    ProfileImage = userEntity.ProfileImage,
+                    UpdatedAt = userEntity.UpdatedAt,
+                    UpdatedBy = userEntity.UpdatedBy,
+                };
 
-                    var result = await _profileHttpClient.PostAsync("userprofile/updateprofile", requestModel);
+                var result = await _profileHttpClient.PostAsync("userprofile/updateprofile", requestModel);
 
-                    if (!result.Success)
-                    {
-                        await _logger.LogMessageAsync(
-                            $"Could not sync profile data of user [{userEntity.Id}]",
-                            LogMessageTypeEnum.Warning,
-                            null);
-                    }
-                }
-
-                userEntity = await _unitOfWork.UserRepository.FirstOrDefaultByIdAsync(profile.UserId, false);
-
-                if (userEntity == null)
+                if (result == null || !result.Success)
                 {
-                    throw new Exception($"User with ID [{profile.UserId}] not found after update.");
+                    await _logger.LogMessageAsync(
+                        $"Could not sync profile data of user [{userEntity.Id}]",
+                        LogMessageTypeEnum.Warning,
+                        null);
                 }
 
                 return new UserProfileModel
@@ -129,7 +125,6 @@ namespace Services.Shared.UserServices
                     ProfileImage = userEntity.ProfileImage,
                     DateOfBirth = userEntity.DateOfBirth,
                     UserRole = userEntity.UserRole,
-
                 };
 
             }
@@ -174,7 +169,7 @@ namespace Services.Shared.UserServices
 
                 await _unitOfWork.UserSettingsRepository.FirstOrDefaultByIdAsync(userEntity.UserSettingsId);
 
-                if(!await _profileHttpClient.CheckApiAvailabilityAsync())
+                if (!await _profileHttpClient.CheckApiAvailabilityAsync())
                 {
                     return new ChangePasswordResult
                     {
@@ -228,7 +223,7 @@ namespace Services.Shared.UserServices
             entity.LastName = profile.LastName;
             entity.EmailAddress = profile.Email;
             entity.DateOfBirth = profile.DateOfBirth;
-            
+
             if (profile.ProfileImage != null)
             {
                 entity.ProfileImage = profile.ProfileImage;
