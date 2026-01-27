@@ -199,4 +199,22 @@
   <data name="PlaceholderEnterEmailAddress" xml:space="preserve">
     <value>Emailaddresse eingeben...</value>
   </data>
+  <data name="CaptionSettings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="CaptionLanguageSettings" xml:space="preserve">
+    <value>Spracheinstellungen</value>
+  </data>
+  <data name="LabelLanguage" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="CaptionDataSettings" xml:space="preserve">
+    <value>Dateneinstellungen</value>
+  </data>
+  <data name="LabelUseLocalDataStore" xml:space="preserve">
+    <value>Daten lokal auf dem Gerät speichern</value>
+  </data>
+  <data name="LabelSyncDataOnSave" xml:space="preserve">
+    <value>Daten beim Speichern syncronisieren</value>
+  </data>
 </root>

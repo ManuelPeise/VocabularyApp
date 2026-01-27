@@ -199,4 +199,22 @@
   <data name="PlaceholderEnterEmailAddress" xml:space="preserve">
     <value>Enter email address...</value>
   </data>
+  <data name="CaptionSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="CaptionLanguageSettings" xml:space="preserve">
+    <value>Language settings</value>
+  </data>
+  <data name="LabelLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="CaptionDataSettings" xml:space="preserve">
+    <value>Data settings</value>
+  </data>
+  <data name="LabelUseLocalDataStore" xml:space="preserve">
+    <value>Save data local on device</value>
+  </data>
+  <data name="LabelSyncDataOnSave" xml:space="preserve">
+    <value>Sync data on save</value>
+  </data>
 </root>

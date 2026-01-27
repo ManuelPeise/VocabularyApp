@@ -5,6 +5,7 @@
        xmlns:public="clr-namespace:Core.App.Views.Public"
        xmlns:user="clr-namespace:Core.App.Views.Private.User"
        xmlns:shared="clr-namespace:Core.App.Views.Shared"
+       xmlns:settings="clr-namespace:Core.App.Views.Private.User.Settings"
        Padding="0">
 
     <Shell.FlyoutHeader>
@@ -16,6 +17,12 @@
                 Shell.FlyoutBehavior="Flyout"
                 Icon="home_icon.png">
         <ShellContent ContentTemplate="{DataTemplate user:HomePage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Settings"
+                Route="SettingsPage"
+                Shell.FlyoutBehavior="Flyout"
+                Icon="home_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate settings:SettingsPage}" />
     </FlyoutItem>
 
 

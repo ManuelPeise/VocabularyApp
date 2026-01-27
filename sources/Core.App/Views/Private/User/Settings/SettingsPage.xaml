@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Views.Private.User.Settings.SettingsPage"
+             xmlns:resx="clr-namespace:Resx;assembly=Shared.Resources"
+             xmlns:shared="clr-namespace:Core.App.Views.Shared"
+             xmlns:settings="clr-namespace:Core.App.Views.Private.User.Settings"
+             Padding="0"
+             Shell.NavBarIsVisible="False"
+             Title="SettingsPage">
+    <Grid RowDefinitions="Auto,*">
+        <shared:NavigationBar Grid.Row="0"
+                              Title="{x:Static resx:Core.CaptionSettings}"
+                              ShowProfileIcon="True"
+                              NavigateToProfileCommand="{Binding NavigateToUserProfileCommand}"
+                              LogoutCommand="{Binding HandleLogoutCommand}" />
+        <Grid Grid.Row="1">
+            <ScrollView>
+                <Grid RowDefinitions="Auto, Auto">
+                    <Grid Grid.Row="0" RowDefinitions="Auto, Auto"
+                          Padding="10"
+                          RowSpacing="5">
+                        <Label Grid.Row="0"
+                               Style="{StaticResource SettingsTitleStyle}"
+                               Text="{x:Static resx:Core.CaptionLanguageSettings}" />
+                        <settings:SettingsWrapper Grid.Row="1"
+                                                  Title="{x:Static resx:Core.LabelLanguage}">
+                            <settings:SettingsWrapper.SettingContent>
+                                <Label Text="{x:Static resx:Core.LabelLanguage}"
+                                       TextColor="blue"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center" />
+                            </settings:SettingsWrapper.SettingContent>
+                        </settings:SettingsWrapper>
+                    </Grid>
+                    <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto"
+                          Padding="10"
+                          RowSpacing="5">
+                        <Label Grid.Row="0"
+                               Style="{StaticResource SettingsTitleStyle}"
+                               Text="{x:Static resx:Core.CaptionDataSettings}" />
+                        <settings:SettingsWrapper Grid.Row="1"
+                                                  Title="{x:Static resx:Core.LabelUseLocalDataStore}">
+                            <settings:SettingsWrapper.SettingContent>
+                                <shared:Switch IsToggled="True" ThumbColor="DarkBlue" OnColor="LightGreen"/>
+                            </settings:SettingsWrapper.SettingContent>
+                        </settings:SettingsWrapper>
+                        <settings:SettingsWrapper Grid.Row="2"
+                                                  Title="{x:Static resx:Core.LabelSyncDataOnSave}">
+                            <settings:SettingsWrapper.SettingContent>
+                                <shared:Switch IsToggled="True" ThumbColor="DarkBlue" OnColor="LightGreen" />
+                            </settings:SettingsWrapper.SettingContent>
+                        </settings:SettingsWrapper>
+                    </Grid>
+                </Grid>
+            </ScrollView>
+        </Grid>
+        <shared:LoadingOverlay IsLoading="{Binding IsBusy}"
+                               Grid.Row="0"
+                               Grid.RowSpan="2"
+                               Grid.Column="0" />
+    </Grid>
+</ContentPage>

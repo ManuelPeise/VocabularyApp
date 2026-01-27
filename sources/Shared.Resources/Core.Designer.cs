@@ -70,6 +70,33 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Data settings ähnelt.
+        /// </summary>
+        public static string CaptionDataSettings {
+            get {
+                return ResourceManager.GetString("CaptionDataSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Language settings ähnelt.
+        /// </summary>
+        public static string CaptionLanguageSettings {
+            get {
+                return ResourceManager.GetString("CaptionLanguageSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Settings ähnelt.
+        /// </summary>
+        public static string CaptionSettings {
+            get {
+                return ResourceManager.GetString("CaptionSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Your Profile Data ähnelt.
         /// </summary>
         public static string CaptionYourProfileData {
@@ -187,6 +214,15 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Language ähnelt.
+        /// </summary>
+        public static string LabelLanguage {
+            get {
+                return ResourceManager.GetString("LabelLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Last name ähnelt.
         /// </summary>
         public static string LabelLastName {
@@ -291,6 +327,24 @@ namespace Resx {
         public static string LabelSecondaryAppDescription {
             get {
                 return ResourceManager.GetString("LabelSecondaryAppDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sync data on save ähnelt.
+        /// </summary>
+        public static string LabelSyncDataOnSave {
+            get {
+                return ResourceManager.GetString("LabelSyncDataOnSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Save data local on device ähnelt.
+        /// </summary>
+        public static string LabelUseLocalDataStore {
+            get {
+                return ResourceManager.GetString("LabelUseLocalDataStore", resourceCulture);
             }
         }
         

@@ -1,6 +1,7 @@
 ﻿using Core.App.ViewModels;
 using Core.App.Views.Private.User;
 using Core.App.Views.Private.User.Profile;
+using Core.App.Views.Private.User.Settings;
 using Core.App.Views.Public;
 using Data.Accessor.DI;
 using Services.Shared.DI;
@@ -24,6 +25,7 @@ namespace Core.App.Bundles
             services.AddTransient<HomePageViewModel>();
             services.AddTransient<UserProfilePageViewModel>();
             services.AddTransient<ChangePasswordViewModel>();
+            services.AddTransient<SettingsPageViewModel>();
         }
 
         internal static void RegisterViews(this IServiceCollection services)
@@ -35,6 +37,7 @@ namespace Core.App.Bundles
             services.AddTransient<HomePage>();
             services.AddTransient<UserProfilePage>();
             services.AddTransient<ChangePasswordPopup>();
+            services.AddTransient<SettingsPage>();
         }
     }
 }
