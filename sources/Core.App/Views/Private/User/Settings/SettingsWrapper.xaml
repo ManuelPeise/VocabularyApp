@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Views.Private.User.Settings.SettingsWrapper"
              x:Name="root">
-    <Grid ColumnDefinitions="*, Auto" Style="{StaticResource SettingeWrapper}">
+    <Grid ColumnDefinitions="*,Auto" Style="{StaticResource SettingeWrapper}">
         <Label Grid.Column="0"
                Text="{Binding Title, Source={x:Reference root}}"
-               Style="{StaticResource SettingsLabelStyle}" />
-        <ContentPresenter Grid.Column="1"
-                          Content="{Binding Source={x:Reference root}, Path=SettingContent}"
-                          HorizontalOptions="End"
-                          VerticalOptions="End" />
+               Style="{StaticResource SettingsLabelStyle}"
+               VerticalOptions="Center" />
+        <ContentView Grid.Column="1"
+                     Content="{Binding Source={x:Reference root}, Path=SettingContent}"
+                     VerticalOptions="Center"
+                     HorizontalOptions="End" />
     </Grid>
 </ContentView>

@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Views.Shared.Switch"
              x:Name="root"
-             WidthRequest="60"
-             HeightRequest="40">
+             WidthRequest="51"
+             HeightRequest="31">
     <Switch IsToggled="{Binding Source={x:Reference root}, Path=IsToggled, Mode=TwoWay}"
             OnColor="{Binding Source={x:Reference root}, Path=OnColor, FallbackValue={StaticResource AccentColor}}"
             ThumbColor="{Binding Source={x:Reference root}, Path=ThumbColor}"
-            VerticalOptions="Center"
-            HorizontalOptions="End" />
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
 </ContentView>

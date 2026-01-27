@@ -42,13 +42,13 @@
                         <settings:SettingsWrapper Grid.Row="1"
                                                   Title="{x:Static resx:Core.LabelUseLocalDataStore}">
                             <settings:SettingsWrapper.SettingContent>
-                                <shared:Switch IsToggled="True" ThumbColor="DarkBlue" OnColor="LightGreen"/>
+                                <shared:Switch />
                             </settings:SettingsWrapper.SettingContent>
                         </settings:SettingsWrapper>
                         <settings:SettingsWrapper Grid.Row="2"
                                                   Title="{x:Static resx:Core.LabelSyncDataOnSave}">
                             <settings:SettingsWrapper.SettingContent>
-                                <shared:Switch IsToggled="True" ThumbColor="DarkBlue" OnColor="LightGreen" />
+                                <shared:Switch />
                             </settings:SettingsWrapper.SettingContent>
                         </settings:SettingsWrapper>
                     </Grid>

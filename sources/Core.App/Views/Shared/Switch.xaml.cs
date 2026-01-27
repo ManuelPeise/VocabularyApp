@@ -7,10 +7,10 @@ public partial class Switch : ContentView
             BindingMode.TwoWay);
 
     public static readonly BindableProperty OnColorProperty =
-        BindableProperty.Create(nameof(OnColor), typeof(Color), typeof(Switch), null);
+        BindableProperty.Create(nameof(OnColor), typeof(Color), typeof(Switch), Colors.Green);
 
     public static readonly BindableProperty ThumbColorProperty =
-        BindableProperty.Create(nameof(ThumbColor), typeof(Color), typeof(Switch), Colors.White);
+        BindableProperty.Create(nameof(ThumbColor), typeof(Color), typeof(Switch), Colors.Gray);
 
     public bool IsToggled
     {
