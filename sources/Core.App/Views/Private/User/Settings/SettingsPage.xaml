@@ -2,53 +2,60 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Views.Private.User.Settings.SettingsPage"
-             xmlns:resx="clr-namespace:Resx;assembly=Shared.Resources"
              xmlns:shared="clr-namespace:Core.App.Views.Shared"
              xmlns:settings="clr-namespace:Core.App.Views.Private.User.Settings"
+             xmlns:converters="clr-namespace:Core.App.Converters"
              Padding="0"
              Shell.NavBarIsVisible="False"
              Title="SettingsPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InvertBookConverter x:Key="invertBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <Grid RowDefinitions="Auto,*">
         <shared:NavigationBar Grid.Row="0"
-                              Title="{x:Static resx:Core.CaptionSettings}"
+                              Title="{Binding Localizer[CaptionSettings]}"
                               ShowProfileIcon="True"
                               NavigateToProfileCommand="{Binding NavigateToUserProfileCommand}"
                               LogoutCommand="{Binding HandleLogoutCommand}" />
         <Grid Grid.Row="1">
             <ScrollView>
                 <Grid RowDefinitions="Auto, Auto">
-                    <Grid Grid.Row="0" RowDefinitions="Auto, Auto"
+                    <Grid Grid.Row="0"
+                          RowDefinitions="Auto, Auto"
                           Padding="10"
                           RowSpacing="5">
                         <Label Grid.Row="0"
                                Style="{StaticResource SettingsTitleStyle}"
-                               Text="{x:Static resx:Core.CaptionLanguageSettings}" />
+                               Text="{Binding Localizer[CaptionLanguageSettings]}" />
                         <settings:SettingsWrapper Grid.Row="1"
-                                                  Title="{x:Static resx:Core.LabelLanguage}">
+                                                  Title="{Binding Localizer[LabelLanguage]}">
                             <settings:SettingsWrapper.SettingContent>
-                                <Label Text="{x:Static resx:Core.LabelLanguage}"
-                                       TextColor="blue"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Center" />
+                                <shared:Dropdown Items="{Binding LanguageDropdownItems}"
+                                                 SelectedItem="{Binding SelectedLanguageItem}"
+                                                 IsEnabled="{Binding IsBusy, Converter={x:StaticResource invertBoolConverter }}"
+                                                 TextColor="{StaticResource DisabledTextColor}" />
                             </settings:SettingsWrapper.SettingContent>
                         </settings:SettingsWrapper>
                     </Grid>
-                    <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto"
+                    <Grid Grid.Row="1"
+                          RowDefinitions="Auto, Auto, Auto"
                           Padding="10"
                           RowSpacing="5">
                         <Label Grid.Row="0"
                                Style="{StaticResource SettingsTitleStyle}"
-                               Text="{x:Static resx:Core.CaptionDataSettings}" />
+                               Text="{Binding Localizer[CaptionDataSettings]}" />
                         <settings:SettingsWrapper Grid.Row="1"
-                                                  Title="{x:Static resx:Core.LabelUseLocalDataStore}">
+                                                  Title="{Binding Localizer[LabelUseLocalDataStore]}">
                             <settings:SettingsWrapper.SettingContent>
-                                <shared:Switch />
+                                <shared:Switch IsEnabled="{Binding IsBusy, Converter={x:StaticResource invertBoolConverter }}" />
                             </settings:SettingsWrapper.SettingContent>
                         </settings:SettingsWrapper>
                         <settings:SettingsWrapper Grid.Row="2"
-                                                  Title="{x:Static resx:Core.LabelSyncDataOnSave}">
+                                                  Title="{Binding Localizer[LabelSyncDataOnSave]}">
                             <settings:SettingsWrapper.SettingContent>
-                                <shared:Switch />
+                                <shared:Switch IsEnabled="{Binding IsBusy, Converter={x:StaticResource invertBoolConverter }}" />
                             </settings:SettingsWrapper.SettingContent>
                         </settings:SettingsWrapper>
                     </Grid>

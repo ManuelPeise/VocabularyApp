@@ -27,7 +27,8 @@ namespace Core.App.Views.Private.User.Profile
             ChangePasswordPopup popup,
             ICurrentUserService currentUserService,
             ISecureStorageHandler secureStorageHandler,
-            IUserProfileService profileService) : base(currentUserService, secureStorageHandler)
+            IUserProfileService profileService,
+            ILocalizationResourceManager localizationResourceManager) : base(currentUserService, secureStorageHandler, localizationResourceManager)
         {
             _profileService = profileService;
             _popup = popup;

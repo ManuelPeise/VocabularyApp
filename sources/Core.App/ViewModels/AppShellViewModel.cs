@@ -7,8 +7,11 @@ namespace Core.App.ViewModels
 {
     public partial class AppShellViewModel : PrivateViewModelBase
     {
-        public AppShellViewModel(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler) :
-            base(currentUserService, secureStorageHandler)
+        public AppShellViewModel(
+            ICurrentUserService currentUserService, 
+            ISecureStorageHandler secureStorageHandler,
+            ILocalizationResourceManager localizationResourceManager) :
+            base(currentUserService, secureStorageHandler, localizationResourceManager)
         {
         }
 

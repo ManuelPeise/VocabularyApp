@@ -117,6 +117,9 @@
 	  <MauiXaml Update="Views\Public\StartPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Shared\Dropdown.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Shared\FlyoutMenuHeader.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

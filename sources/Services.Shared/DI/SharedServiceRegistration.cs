@@ -15,6 +15,7 @@ namespace Services.Shared.DI
             services.AddScoped<IUserAdministrationService, UserAdministrationService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserProfileService, UserProfileService>();
+            services.AddSingleton<ILocalizationResourceManager, LocalizationResourceManager>();
         }
     }
 }

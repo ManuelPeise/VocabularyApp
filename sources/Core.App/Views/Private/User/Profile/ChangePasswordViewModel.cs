@@ -24,8 +24,8 @@ namespace Core.App.Views.Private.User.Profile
         public ChangePasswordViewModel(
             ICurrentUserService currentUserService,
             ISecureStorageHandler secureStorageHandler, 
-            IUserProfileService profileService) :
-            base(currentUserService, secureStorageHandler)
+            IUserProfileService profileService,
+            ILocalizationResourceManager localizationResourceManager) : base(currentUserService, secureStorageHandler, localizationResourceManager)
         {
             _profileService = profileService;
             Model = InitializeModel();

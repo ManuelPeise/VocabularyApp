@@ -5,11 +5,13 @@ namespace Core.App.ViewModels
 {
     public partial class HomePageViewModel : PrivateViewModelBase
     {
-     
-        public HomePageViewModel(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler) :
-            base(currentUserService, secureStorageHandler)
+
+        public HomePageViewModel(
+            ICurrentUserService currentUserService,
+            ISecureStorageHandler secureStorageHandler,
+            ILocalizationResourceManager localizationResourceManager) : base(currentUserService, secureStorageHandler, localizationResourceManager)
         {
-           
+
         }
 
         [RelayCommand]

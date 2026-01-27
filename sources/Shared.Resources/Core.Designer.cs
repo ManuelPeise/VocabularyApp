@@ -196,11 +196,29 @@ namespace Resx {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die English ähnelt.
+        /// </summary>
+        public static string LabelEnglish {
+            get {
+                return ResourceManager.GetString("LabelEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die First name ähnelt.
         /// </summary>
         public static string LabelFirstName {
             get {
                 return ResourceManager.GetString("LabelFirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die German ähnelt.
+        /// </summary>
+        public static string LabelGerman {
+            get {
+                return ResourceManager.GetString("LabelGerman", resourceCulture);
             }
         }
         

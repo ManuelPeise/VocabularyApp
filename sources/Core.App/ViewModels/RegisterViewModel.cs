@@ -21,7 +21,11 @@ namespace Core.App.ViewModels
         private string? _errorMessage;
 
         
-        public RegisterViewModel(IUserAdministrationService userAdministration, IHttpClient<UserRegistrationResult> registrationClient)
+        public RegisterViewModel(
+            IUserAdministrationService userAdministration, 
+            IHttpClient<UserRegistrationResult> registrationClient, 
+            ISecureStorageHandler secureStorageHandler,
+            ILocalizationResourceManager localizationResourceManager) :base(secureStorageHandler, localizationResourceManager)
         {
             _userAdministration = userAdministration;
             _registrationClient = registrationClient;

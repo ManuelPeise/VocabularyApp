@@ -217,4 +217,10 @@
   <data name="LabelSyncDataOnSave" xml:space="preserve">
     <value>Daten beim Speichern syncronisieren</value>
   </data>
+  <data name="LabelGerman" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="LabelEnglish" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
 </root>

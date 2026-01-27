@@ -39,17 +39,27 @@ namespace Core.App.ViewModels
         private ICurrentUserService _currentUserService;
         [ObservableProperty]
         private ISecureStorageHandler _secureStorageHandler;
+        [ObservableProperty]
+        private ILocalizationResourceManager _localizer;
 
-        public PrivateViewModelBase(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler)
+        public PrivateViewModelBase(
+            ICurrentUserService currentUserService, 
+            ISecureStorageHandler secureStorageHandler, 
+            ILocalizationResourceManager localizationResourceManager) : base(secureStorageHandler, localizationResourceManager)
         {
             CurrentUserService = currentUserService;
             UserData = CurrentUserService.UserData ?? new UserData();
             SecureStorageHandler = secureStorageHandler;
-
+            Localizer = localizationResourceManager;
             if (CurrentUserService is INotifyPropertyChanged notify)
             {
                 notify.PropertyChanged += CurrentUserService_PropertyChanged;
             }
+        }
+
+        protected async Task ToggleLanguage(DropdownItem selectedLanguage)
+        {
+            await ChangeLanguage(selectedLanguage);
         }
 
         [RelayCommand]

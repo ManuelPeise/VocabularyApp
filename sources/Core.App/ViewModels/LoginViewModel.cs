@@ -20,7 +20,8 @@ namespace Core.App.ViewModels
 
         public LoginViewModel(
             ICurrentUserService currentUserService,
-            ISecureStorageHandler secureStorageHandler)
+            ISecureStorageHandler secureStorageHandler,
+            ILocalizationResourceManager localizationResourceManager) : base(secureStorageHandler, localizationResourceManager)
         {
             _currentUserService = currentUserService;
             _secureStorageHandler = secureStorageHandler;

@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Services.Shared.Interfaces;
 
 namespace Core.App.ViewModels
 {
     public partial class StartPageViewModel : ViewModelBase
     {
        
-        public StartPageViewModel()
+        public StartPageViewModel(
+            ISecureStorageHandler secureStorageHandler,
+            ILocalizationResourceManager localizationResourceManager) : base(secureStorageHandler, localizationResourceManager)
         {
 
         }
