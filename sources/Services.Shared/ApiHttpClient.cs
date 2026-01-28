@@ -6,8 +6,6 @@ using System.Net;
 using System.Text.Json;
 using System.Web;
 using Services.Shared.Constants;
-using Microsoft.Maui.Devices;
-
 
 namespace Services.Shared
 {
@@ -60,16 +58,13 @@ namespace Services.Shared
             }
         }
 
-
         public async Task<ApiResponseBase<TModel>> GetAsync(
             string endpoint,
-            Dictionary<string, object>? parameters  = null)
+            Dictionary<string, object>? parameters = null)
         {
             try
             {
-                string json = string.Empty;
-
-                var token = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey) ?? null;
+                var token = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey);
 
                 if (token != null)
                 {
@@ -77,24 +72,44 @@ namespace Services.Shared
                 }
 
                 var response = await SendAsync<TModel>(endpoint, HttpMethod.Get, null, parameters);
-                
+
+                // Handle token refresh if unauthorized
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    var refreshResult = await SendRefreshRequest();
+
+                    if (refreshResult?.Result == true && 
+                        !string.IsNullOrEmpty(refreshResult.AccessToken) && 
+                        !string.IsNullOrEmpty(refreshResult.RefreshToken))
+                    {
+                        await _secureStorageHandler.SetValue(StorageKeys.AccessTokenKey, refreshResult.AccessToken);
+                        await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, refreshResult.RefreshToken);
+
+                        SetJwtToken(refreshResult.AccessToken);
+
+                        response = await SendAsync<TModel>(endpoint, HttpMethod.Get, null, parameters);
+                    }
+                    else
+                    {
+                        throw new UnauthorizedAccessException("Token refresh failed.");
+                    }
+                }
+
                 response.EnsureSuccessStatusCode();
 
                 TModel? responseModel = null;
 
                 if (response.Content != null)
                 {
-                    json= await response.Content.ReadAsStringAsync() ?? string.Empty;
+                    var json = await response.Content.ReadAsStringAsync();
 
-                }
-
-                if(!string.IsNullOrEmpty(json))
-                {
-                    responseModel = JsonSerializer.Deserialize<TModel>(json, new JsonSerializerOptions
+                    if (!string.IsNullOrEmpty(json))
                     {
-                        PropertyNameCaseInsensitive = false,
-                       
-                    }) ?? null;
+                        responseModel = JsonSerializer.Deserialize<TModel>(json, new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = false
+                        });
+                    }
                 }
 
                 return new ApiResponseBase<TModel>
@@ -122,9 +137,7 @@ namespace Services.Shared
         {
             try
             {
-                string json = string.Empty;
-
-                var token = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey) ?? null;
+                var token = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey);
 
                 if (token != null)
                 {
@@ -133,18 +146,43 @@ namespace Services.Shared
 
                 var response = await SendAsync(endpoint, HttpMethod.Post, model, parameters);
 
+                // Handle token refresh if unauthorized
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    var refreshResult = await SendRefreshRequest();
+
+                    if (refreshResult?.Result == true &&
+                        !string.IsNullOrEmpty(refreshResult.AccessToken) &&
+                        !string.IsNullOrEmpty(refreshResult.RefreshToken))
+                    {
+                        await _secureStorageHandler.SetValue(StorageKeys.AccessTokenKey, refreshResult.AccessToken);
+                        await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, refreshResult.RefreshToken);
+
+                        SetJwtToken(refreshResult.AccessToken);
+
+                        response = await SendAsync(endpoint, HttpMethod.Post, model, parameters);
+                    }
+                    else
+                    {
+                        throw new UnauthorizedAccessException("Token refresh failed.");
+                    }
+                }
+
                 response.EnsureSuccessStatusCode();
 
                 TModel? responseModel = null;
 
                 if (response.Content != null)
                 {
-                    json= await response.Content.ReadAsStringAsync() ?? string.Empty;
-                }
+                    var json = await response.Content.ReadAsStringAsync();
 
-                if(!string.IsNullOrEmpty(json))
-                {
-                    responseModel = JsonSerializer.Deserialize<TModel>(json) ?? null;
+                    if (!string.IsNullOrEmpty(json))
+                    {
+                        responseModel = JsonSerializer.Deserialize<TModel>(json, new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = false
+                        });
+                    }
                 }
 
                 return new ApiResponseBase<TModel>
@@ -168,7 +206,35 @@ namespace Services.Shared
             }
         }
 
-       
+        private async Task<AuthenticationResult?> SendRefreshRequest()
+        {
+            AuthenticationResult? result = null;
+
+            var accessToken = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey) ?? null;
+            var refreshToken = await _secureStorageHandler.GetStringValue(StorageKeys.AccessTokenKey) ?? null;
+
+            if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken))
+            {
+                throw new UnauthorizedAccessException();
+            }
+
+            var response = await SendAsync<AuthenticationResult>("userauthentication/refreshtoken", HttpMethod.Post, null);
+
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync() ?? string.Empty;
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                result = JsonSerializer.Deserialize<AuthenticationResult>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = false,
+
+                }) ?? null;
+            }
+            return result;
+        }
+
         private async Task<HttpResponseMessage> SendAsync<T>(string url, HttpMethod method, T? model, Dictionary<string, object>? parameters = null)
         {
             try
@@ -234,4 +300,3 @@ namespace Services.Shared
         }
     }
 }
-    
