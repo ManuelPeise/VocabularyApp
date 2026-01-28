@@ -12,6 +12,7 @@ namespace Core.App.Views.Private.User.Settings
 {
     public partial class SettingsPageViewModel : PrivateViewModelBase
     {
+        private bool _isInitialized = false;
         [ObservableProperty]
         private DropdownItem _selectedLanguageItem = new DropdownItem();
 
@@ -73,7 +74,7 @@ namespace Core.App.Views.Private.User.Settings
         {
             try
             {
-                if (e.PropertyName == nameof(UserSettings.IsAutoDataSyncEnabled))
+                if (_isInitialized && e.PropertyName == nameof(UserSettings.IsAutoDataSyncEnabled))
                 {
                     IsBusy = true;
 
@@ -81,7 +82,7 @@ namespace Core.App.Views.Private.User.Settings
 
                     IsBusy = false;
                 }
-                else if (e.PropertyName == nameof(UserSettings.UseLocalDataStore))
+                else if (_isInitialized && e.PropertyName == nameof(UserSettings.UseLocalDataStore))
                 {
                     IsBusy = true;
 
@@ -89,10 +90,10 @@ namespace Core.App.Views.Private.User.Settings
 
                     IsBusy = false;
                 }
-                else if (e.PropertyName == nameof(UserSettings.Culture))
+                else if (_isInitialized && e.PropertyName == nameof(UserSettings.Culture))
                 {
                     var selectedLanguage = LanguageDropdownItems.FirstOrDefault(x => x.Id == (int)UserSettings.Culture);
-                    
+
                     if (selectedLanguage != null)
                     {
                         IsBusy = true;
@@ -134,6 +135,10 @@ namespace Core.App.Views.Private.User.Settings
             catch
             {
                 SelectedLanguageItem = LanguageDropdownItems.First();
+            }
+            finally
+            {
+                _isInitialized = true;
             }
         }
 

@@ -186,7 +186,16 @@ namespace Services.Shared
 
                 if (await _settingsClient.IsApiAvailableAsync)
                 {
-                    await _settingsClient.PostAsync("", model);
+                    var requestModel = new UserSettingsUpdateRequest
+                    {
+                        Culture = model.Culture,
+                        IsAutoDataSyncEnabled = model.IsAutoDataSyncEnabled,
+                        UseLocalDataStore = model.UseLocalDataStore,
+                        UpdatedAt = settings.UpdatedAt,
+                        UpdatedBy = settings.UpdatedBy
+                    };
+
+                    await _settingsClient.PostAsync("userprofile/updatesettings", requestModel);
                 }
             }
             catch (Exception exception)

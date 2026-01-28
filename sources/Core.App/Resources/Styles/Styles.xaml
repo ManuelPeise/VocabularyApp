@@ -92,7 +92,7 @@
         <Setter Property="LineBreakMode"
                 Value="WordWrap" />
         <Setter Property="FontFamily"
-                Value="fa-solid-900"/>
+                Value="OpenSans-Regular" />
     </Style>
     <Style x:Key="SettingsTitleStyle"
            TargetType="Label">
