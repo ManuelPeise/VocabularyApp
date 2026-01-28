@@ -30,6 +30,20 @@
                 Value="Center" />
         <Setter Property="CharacterSpacing"
                 Value="2" />
+        <Setter Property="FontFamily">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:String">
+                    <On Platform="Android"
+                        Value="FASolid" />
+                    <On Platform="iOS"
+                        Value="FASolid" />
+                    <On Platform="WinUI"
+                        Value="fa-solid-900" />
+                    <On Platform="MacCatalyst"
+                        Value="FASolid" />
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style x:Key="SubTitleLabelStyle"
            TargetType="Label">
@@ -51,6 +65,20 @@
                 Value="1" />
         <Setter Property="LineBreakMode"
                 Value="WordWrap" />
+        <Setter Property="FontFamily">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:String">
+                    <On Platform="Android"
+                        Value="FASolid" />
+                    <On Platform="iOS"
+                        Value="FASolid" />
+                    <On Platform="WinUI"
+                        Value="fa-solid-900" />
+                    <On Platform="MacCatalyst"
+                        Value="FASolid" />
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="PageCaptionLabelStyle"
@@ -63,8 +91,6 @@
                 Value="{OnIdiom Phone=20, Tablet=16, Desktop=20}" />
         <Setter Property="FontAttributes"
                 Value="None" />
-        <Setter Property="FontFamily"
-                Value="FASolid" />
         <Setter Property="Margin"
                 Value="0,15" />
         <Setter Property="HorizontalOptions"
@@ -75,6 +101,20 @@
                 Value="2" />
         <Setter Property="LineBreakMode"
                 Value="WordWrap" />
+        <Setter Property="FontFamily">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:String">
+                    <On Platform="Android"
+                        Value="FASolid" />
+                    <On Platform="iOS"
+                        Value="FASolid" />
+                    <On Platform="WinUI"
+                        Value="fa-solid-900" />
+                    <On Platform="MacCatalyst"
+                        Value="FASolid" />
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="CheckboxLabel"
@@ -85,6 +125,20 @@
                 Value="1" />
         <Setter Property="LineBreakMode"
                 Value="WordWrap" />
+        <Setter Property="FontFamily">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:String">
+                    <On Platform="Android"
+                        Value="FASolid" />
+                    <On Platform="iOS"
+                        Value="FASolid" />
+                    <On Platform="WinUI"
+                        Value="fa-solid-900" />
+                    <On Platform="MacCatalyst"
+                        Value="FASolid" />
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style x:Key="SettingsTitleStyle"
            TargetType="Label">
@@ -104,6 +158,20 @@
                 Value="Center" />
         <Setter Property="CharacterSpacing"
                 Value="2" />
+        <Setter Property="FontFamily">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:String">
+                    <On Platform="Android"
+                        Value="FASolid" />
+                    <On Platform="iOS"
+                        Value="FASolid" />
+                    <On Platform="WinUI"
+                        Value="fa-solid-900" />
+                    <On Platform="MacCatalyst"
+                        Value="FASolid" />
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
     </Style>
     <Style x:Key="SettingsLabelStyle"
            TargetType="Label">
@@ -121,6 +189,20 @@
                 Value="Center" />
         <Setter Property="CharacterSpacing"
                 Value="2" />
+        <Setter Property="FontFamily">
+            <Setter.Value>
+                <OnPlatform x:TypeArguments="x:String">
+                    <On Platform="Android"
+                        Value="FASolid" />
+                    <On Platform="iOS"
+                        Value="FASolid" />
+                    <On Platform="WinUI"
+                        Value="fa-solid-900" />
+                    <On Platform="MacCatalyst"
+                        Value="FASolid" />
+                </OnPlatform>
+            </Setter.Value>
+        </Setter>
     </Style>
     <!-- BORDERS -->
     <Style x:Key="CardBorder"
@@ -172,15 +254,19 @@
         <Setter Property="BackgroundColor"
                 Value="Transparent" />
         <Setter Property="FontSize"
-                Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
+                Value="{OnIdiom Phone=18, Tablet=20, Desktop=20}" />
         <Setter Property="TextColor"
                 Value="{StaticResource ButtonTextColor}" />
         <Setter Property="BorderColor" 
                 Value="{StaticResource ButtonTextColor}" />
         <Setter Property="CornerRadius"
-                Value="{OnIdiom Phone=5, Tablet=5, Desktop=24}" />
+                Value="{OnIdiom Phone=5, Tablet=5, Desktop=5}" />
         <Setter Property="HeightRequest"
-                Value="{OnIdiom Phone=50, Tablet=50, Desktop=100}" />
+                Value="{OnIdiom Phone=40, Tablet=40, Desktop=40}" />
+        <Setter Property="TextTransform"
+                Value="Uppercase" />
+        <Setter Property="Padding"
+                Value="10,5" />
         <Style.Triggers>
             <Trigger TargetType="Button"
                      Property="IsEnabled"
@@ -200,15 +286,19 @@
         <Setter Property="BackgroundColor"
                 Value="Transparent" />
         <Setter Property="FontSize"
-                Value="{OnIdiom Phone=18, Tablet=20, Desktop=22}" />
+                Value="{OnIdiom Phone=18, Tablet=20, Desktop=20}" />
         <Setter Property="TextColor"
                 Value="{StaticResource AccentColor}" />
         <Setter Property="BorderColor"
                 Value="{StaticResource AccentColor}" />
         <Setter Property="CornerRadius"
-                Value="{OnIdiom Phone=5, Tablet=5, Desktop=24}" />
+                Value="{OnIdiom Phone=5, Tablet=5, Desktop=5}" />
         <Setter Property="HeightRequest"
-                Value="{OnIdiom Phone=40, Tablet=40, Desktop=100}" />
+                Value="{OnIdiom Phone=40, Tablet=40, Desktop=40}" />
+        <Setter Property="TextTransform"
+                Value="Uppercase" />
+        <Setter Property="Padding"
+                Value="10,5" />
         <Style.Triggers>
             <Trigger TargetType="Button"
                      Property="IsEnabled"

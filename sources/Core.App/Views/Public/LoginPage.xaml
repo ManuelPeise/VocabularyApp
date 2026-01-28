@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Views.Public.LoginPage"
-             xmlns:resx="clr-namespace:Resx;assembly=Shared.Resources"
              xmlns:shared="clr-namespace:Core.App.Views.Shared"
              xmlns:converters="clr-namespace:Core.App.Converters"
              Shell.FlyoutBehavior="Disabled"
@@ -29,11 +28,11 @@
                        Margin="0,10,0,30"
                        Style="{StaticResource TitleLabelStyle}"
                        TextColor="{StaticResource SecondaryTextColor}"
-                       Text="{x:Static resx:Core.LabelLogin}" />
+                       Text="{Binding Localizer[LabelLogin]}" />
                 <Entry x:Name="usernameEntry"
                        Grid.Row="1"
                        Style="{StaticResource Entry}"
-                       Placeholder="{x:Static resx:Core.PlaceholderEnterUserName}"
+                       Placeholder="{Binding Localizer[PlaceholderEnterUserName]}"
                        Text="{Binding AuthData.Email}"
                        Margin="15"
                        VerticalOptions="End"
@@ -41,7 +40,7 @@
                 <Entry x:Name="passwordEntry"
                        Grid.Row="2"
                        Style="{StaticResource Entry}"
-                       Placeholder="{x:Static resx:Core.PlaceholderEnterPassword}"
+                       Placeholder="{Binding Localizer[PlaceholderEnterPassword]}"
                        Text="{Binding AuthData.Password}"
                        IsPassword="True"
                        Margin="15"
@@ -58,7 +57,7 @@
                     <CheckBox IsChecked="{Binding AuthData.RememberMe}"
                               IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}" />
                     <Label Style="{StaticResource CheckboxLabel}"
-                           Text="{x:Static resx:Core.LabelRememberMe}"
+                           Text="{Binding Localizer[LabelRememberMe]}"
                            VerticalOptions="Center" />
                 </HorizontalStackLayout>
                 <Grid x:Name="loginButtonGroup"
@@ -67,12 +66,12 @@
                       ColumnSpacing="10"
                       Margin="0,30">
                     <Button Grid.Column="0"
-                            Text="{x:Static resx:Core.LabelCancel}"
+                            Text="{Binding Localizer[LabelCancel]}"
                             Style="{StaticResource OutlinedAccentButton}"
                             Command="{Binding NavigateToStartCommand}"
                             IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}"/>
                     <Button Grid.Column="1"
-                            Text="{x:Static resx:Core.LabelLogin}"
+                            Text="{Binding Localizer[LabelLogin]}"
                             Style="{StaticResource OutlinedAccentButton}"
                             Command="{Binding LoginCommand}"
                             IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBookConverter}}"/>

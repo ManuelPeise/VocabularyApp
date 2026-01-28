@@ -39,9 +39,7 @@ namespace Core.App.ViewModels
         private ICurrentUserService _currentUserService;
         [ObservableProperty]
         private ISecureStorageHandler _secureStorageHandler;
-        [ObservableProperty]
-        private ILocalizationResourceManager _localizer;
-
+      
         public PrivateViewModelBase(
             ICurrentUserService currentUserService, 
             ISecureStorageHandler secureStorageHandler, 
@@ -50,7 +48,7 @@ namespace Core.App.ViewModels
             CurrentUserService = currentUserService;
             UserData = CurrentUserService.UserData ?? new UserData();
             SecureStorageHandler = secureStorageHandler;
-            Localizer = localizationResourceManager;
+            
             if (CurrentUserService is INotifyPropertyChanged notify)
             {
                 notify.PropertyChanged += CurrentUserService_PropertyChanged;

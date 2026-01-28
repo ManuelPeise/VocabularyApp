@@ -11,14 +11,16 @@ namespace Core.App.ViewModels
     public partial class ViewModelBase : ObservableObject
     {
         private readonly ISecureStorageHandler _secureStorageHandler;
-        private readonly ILocalizationResourceManager _localizationResourceManager;
+        
         [ObservableProperty]
         private bool _isBusy;
-
+        [ObservableProperty]
+        private ILocalizationResourceManager _localizer;
+        
         public ViewModelBase(ISecureStorageHandler secureStorageHandler, ILocalizationResourceManager localizationResourceManager)
         {
             _secureStorageHandler = secureStorageHandler;
-            _localizationResourceManager = localizationResourceManager;
+            _localizer = localizationResourceManager;
         }
 
         protected async Task ChangeLanguage(DropdownItem selectedLanguage)
@@ -48,7 +50,7 @@ namespace Core.App.ViewModels
                 await _secureStorageHandler.SetValue(StorageKeys.LanguagePreferenceKey, selectedLanguage.Id);
 
                 // Update resource manager culture
-                _localizationResourceManager.SetCulture(culture);
+                Localizer.SetCulture(culture);
             }
             catch (Exception ex)
             {
