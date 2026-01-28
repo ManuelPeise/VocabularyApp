@@ -5,8 +5,8 @@
              x:Class="Core.App.Views.Private.User.Profile.ProfileHeaderView"
              BackgroundColor="{StaticResource ButtonAccentColor}"
              x:Name="root">
-    <Grid RowDefinitions="*,Auto,*"
-          ColumnDefinitions="*,Auto,*"
+    <Grid RowDefinitions="*,*,*"
+          ColumnDefinitions="*,*,*"
           RowSpacing="10"
           Padding="20">
         <Border Grid.Row="1"

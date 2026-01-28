@@ -5,7 +5,7 @@
              x:Name="root">
     <Grid BackgroundColor="#000000"
           HeightRequest="56"
-          ColumnDefinitions="60,Auto, *, 30, 30, 30"
+          ColumnDefinitions="60, Auto, *, 40, 40"
           ColumnSpacing="10"
           Padding="15,0">
         <Button Grid.Column="0"

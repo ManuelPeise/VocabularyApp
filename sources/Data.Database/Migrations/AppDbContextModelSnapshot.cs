@@ -168,6 +168,9 @@ namespace Data.Database.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Culture")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("IsAutoDataSyncEnabled")
                         .HasColumnType("INTEGER");
 

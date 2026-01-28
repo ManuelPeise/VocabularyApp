@@ -57,6 +57,7 @@ namespace Data.Database.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Culture = table.Column<int>(type: "INTEGER", nullable: false),
                     UseLocalDataStore = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsAutoDataSyncEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedBy = table.Column<string>(type: "TEXT", nullable: false),

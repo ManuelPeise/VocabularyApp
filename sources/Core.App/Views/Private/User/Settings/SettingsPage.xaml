@@ -49,13 +49,21 @@
                         <settings:SettingsWrapper Grid.Row="1"
                                                   Title="{Binding Localizer[LabelUseLocalDataStore]}">
                             <settings:SettingsWrapper.SettingContent>
-                                <shared:Switch IsEnabled="{Binding IsBusy, Converter={x:StaticResource invertBoolConverter }}" />
+                                <shared:Switch IsEnabled="{Binding IsBusy, Converter={x:StaticResource invertBoolConverter }}"
+                                               IsToggled="{Binding UserSettings.UseLocalDataStore}"
+                                               ThumbColor="{StaticResource ThumbColor}"
+                                               OnColor="{StaticResource OnColor}"
+                                               OffColor="{StaticResource OffColor}" />
                             </settings:SettingsWrapper.SettingContent>
                         </settings:SettingsWrapper>
                         <settings:SettingsWrapper Grid.Row="2"
                                                   Title="{Binding Localizer[LabelSyncDataOnSave]}">
                             <settings:SettingsWrapper.SettingContent>
-                                <shared:Switch IsEnabled="{Binding IsBusy, Converter={x:StaticResource invertBoolConverter }}" />
+                                <shared:Switch IsEnabled="{Binding IsBusy, Converter={x:StaticResource invertBoolConverter }}"
+                                               IsToggled="{Binding UserSettings.IsAutoDataSyncEnabled}"
+                                               ThumbColor="{StaticResource ThumbColor}"
+                                               OnColor="{StaticResource OnColor}"
+                                               OffColor="{StaticResource OffColor}" />
                             </settings:SettingsWrapper.SettingContent>
                         </settings:SettingsWrapper>
                     </Grid>

@@ -7,7 +7,7 @@
              xmlns:converters="clr-namespace:Core.App.Converters"
              xmlns:local="clr-namespace:Core.App"
              Padding="0"
-             Shell.NavBarIsVisible="True"
+             Shell.NavBarIsVisible="False"
              NavigationPage.HasBackButton="True">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -15,98 +15,82 @@
             <converters:StringToIconConverter x:Key="stringToIconConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid RowDefinitions="Auto,*">
-        <views:ProfileHeaderView Grid.Row="0"
-                                 UserName="{Binding UserName}"
-                                 ProfileImage="{Binding UserProfileModel.ProfileImage, Converter={StaticResource byteArrayToImageSourceConverter}}"
-                                 ChangeImageCommand="{Binding HandleUpdateProfileImageCommand}" />
-        <Grid Grid.Row="1">
-            <ScrollView>
-                <VerticalStackLayout Padding="0,10">
-                    <Label Style="{StaticResource PageCaptionLabelStyle}"
-                           Text="{Binding Localizer[CaptionYourProfileData]}" />
-                    <BoxView HeightRequest="1"
-                             Margin="15,10"
-                             BackgroundColor="{StaticResource DividerSecondaryColor}" />
-                    <shared:LabeledEntry IsEnabled="True"
-                                         Margin="10,5"
-                                         Text="{Binding UserProfileModel.FirstName}"
-                                         Icon="{x:Static local:Icons.UserIcon}"
-                                         Label="{Binding Localizer[LabelFirstName]}"
-                                         Placeholder="{Binding Localizer[PlaceholderEnterFirstName]}" />
-                    <shared:LabeledEntry IsEnabled="True"
-                                         Margin="10, 5"
-                                         Text="{Binding UserProfileModel.LastName}"
-                                         Icon="{x:Static local:Icons.UserIcon}"
-                                         Label="{Binding Localizer[LabelLastName]}"
-                                         Placeholder="{Binding Localizer[PlaceholderEnterLastName]}" />
-                    <shared:LabeledEntry IsEnabled="True"
-                                         Margin="10,5"
-                                         Text="{Binding UserProfileModel.UserName}"
-                                         Icon="{x:Static local:Icons.UserIcon}"
-                                         Label="{Binding Localizer[LabelUsername]}"
-                                         Placeholder="{Binding Localizer[PlaceholderEnterUserName]}" />
-                    <shared:LabeledEntry IsEnabled="False"
-                                         Margin="10,5"
-                                         Text="{Binding UserProfileModel.Email}"
-                                         Icon="{x:Static local:Icons.EmailIcon}"
-                                         Label="{Binding Localizer[LabelEmailAddress]}"
-                                         Placeholder="{Binding Localizer[PlaceholderEnterEmailAddress]}" />
-                    <shared:LabeledDatePicker IsEnabled="True"
-                                              Margin="10,5"
-                                              Label="{Binding Localizer[LabelDateOfBirth]}"
-                                              Icon="{Binding CalendarIcon}"
-                                              Date="{Binding UserProfileModel.DateOfBirth}" />
-                    <Grid ColumnDefinitions="30, *"
-                          Margin="10,10">
-                        <Label Grid.Column="0"
-                               Text="{x:Static local:Icons.RefreshIcon}"
-                               FontFamily="FASolid"
-                               FontSize="20"
-                               FontAttributes="Bold"
-                               Margin="5,0,5,12"
-                               HorizontalOptions="End"
-                               VerticalOptions="End"
-                               IsVisible="True" />
-                        <Button Grid.Column="1"
-                                Style="{StaticResource OutlinedAccentButton}"
-                                HorizontalOptions="End"
-                                Text="{Binding Localizer[LabelChangePassword]}"
-                                TextTransform="Uppercase"
-                                Margin="5,0"
-                                FontSize="16"
-                                Command="{Binding ShowChangePasswordPopupCommand}" />
+    <ScrollView>
+        <VerticalStackLayout>
+            <views:ProfileHeaderView UserName="{Binding UserName}"
+                                     ProfileImage="{Binding UserProfileModel.ProfileImage, Converter={StaticResource byteArrayToImageSourceConverter}}"
+                                     ChangeImageCommand="{Binding HandleUpdateProfileImageCommand}" />
+            
+            <VerticalStackLayout Padding="25,10">
+                <Label Style="{StaticResource PageCaptionLabelStyle}"
+                       Text="{Binding Localizer[CaptionYourProfileData]}" />
+                <BoxView HeightRequest="1"
+                         Margin="15,10"
+                         BackgroundColor="{StaticResource DividerSecondaryColor}" />
+                <shared:LabeledEntry IsEnabled="True"
+                                     Margin="10,5"
+                                     Text="{Binding UserProfileModel.FirstName}"
+                                     Icon="{x:Static local:Icons.UserIcon}"
+                                     Label="{Binding Localizer[LabelFirstName]}"
+                                     Placeholder="{Binding Localizer[PlaceholderEnterFirstName]}" />
+                <shared:LabeledEntry IsEnabled="True"
+                                     Margin="10, 5"
+                                     Text="{Binding UserProfileModel.LastName}"
+                                     Icon="{x:Static local:Icons.UserIcon}"
+                                     Label="{Binding Localizer[LabelLastName]}"
+                                     Placeholder="{Binding Localizer[PlaceholderEnterLastName]}" />
+                <shared:LabeledEntry IsEnabled="True"
+                                     Margin="10,5"
+                                     Text="{Binding UserProfileModel.UserName}"
+                                     Icon="{x:Static local:Icons.UserIcon}"
+                                     Label="{Binding Localizer[LabelUsername]}"
+                                     Placeholder="{Binding Localizer[PlaceholderEnterUserName]}" />
+                <shared:LabeledEntry IsEnabled="False"
+                                     Margin="10,5"
+                                     Text="{Binding UserProfileModel.Email}"
+                                     Icon="{x:Static local:Icons.EmailIcon}"
+                                     Label="{Binding Localizer[LabelEmailAddress]}"
+                                     Placeholder="{Binding Localizer[PlaceholderEnterEmailAddress]}" />
+                <shared:LabeledDatePicker IsEnabled="True"
+                                          Margin="10,5"
+                                          Label="{Binding Localizer[LabelDateOfBirth]}"
+                                          Icon="{Binding CalendarIcon}"
+                                          Date="{Binding UserProfileModel.DateOfBirth}" />
+                <Grid ColumnDefinitions="30, *"
+                      Margin="10,10">
+                    <Button Grid.Column="1"
+                            Style="{StaticResource OutlinedAccentButton}"
+                            HorizontalOptions="End"
+                            Text="{Binding Localizer[LabelChangePassword]}"
+                            TextTransform="Uppercase"
+                            Margin="5,0"
+                            FontSize="16"
+                            Command="{Binding ShowChangePasswordPopupCommand}" />
+                </Grid>
 
-                    </Grid>
-
-                    <Grid ColumnDefinitions="*,*"
-                          ColumnSpacing="5"
-                          Margin="10,15"
-                          IsVisible="{Binding IsModified}">
-                        <Button Grid.Column="0"
-                                Style="{StaticResource OutlinedAccentButton}"
-                                BackgroundColor="{StaticResource AccentColor}"
-                                TextColor="#ffffff"
-                                IsEnabled="{Binding IsModified}"
-                                IsVisible="{Binding IsModified}"
-                                Text="{Binding Localizer[LabelCancel]}"
-                                Command="{Binding RevertChangesCommand}" />
-                        <Button Grid.Column="1"
-                                Style="{StaticResource OutlinedAccentButton}"
-                                BackgroundColor="{StaticResource AccentColor}"
-                                TextColor="#ffffff"
-                                IsEnabled="{Binding IsModified}"
-                                IsVisible="{Binding IsModified}"
-                                Text="{Binding Localizer[LabelSave]}"
-                                Command="{Binding SaveChangesCommand}" />
-                    </Grid>
-
-                </VerticalStackLayout>
-            </ScrollView>
-        </Grid>
-        <shared:LoadingOverlay IsLoading="{Binding IsBusy}"
-                               Grid.Row="0"
-                               Grid.RowSpan="2"
-                               Grid.Column="0" />
-    </Grid>
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="5"
+                      Margin="10,15"
+                      IsVisible="{Binding IsModified}">
+                    <Button Grid.Column="0"
+                            Style="{StaticResource OutlinedAccentButton}"
+                            BackgroundColor="{StaticResource AccentColor}"
+                            TextColor="#ffffff"
+                            IsEnabled="{Binding IsModified}"
+                            IsVisible="{Binding IsModified}"
+                            Text="{Binding Localizer[LabelCancel]}"
+                            Command="{Binding RevertChangesCommand}" />
+                    <Button Grid.Column="1"
+                            Style="{StaticResource OutlinedAccentButton}"
+                            BackgroundColor="{StaticResource AccentColor}"
+                            TextColor="#ffffff"
+                            IsEnabled="{Binding IsModified}"
+                            IsVisible="{Binding IsModified}"
+                            Text="{Binding Localizer[LabelSave]}"
+                            Command="{Binding SaveChangesCommand}" />
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+    <!--<shared:LoadingOverlay IsLoading="{Binding IsBusy}" />-->
 </ContentPage>

@@ -14,6 +14,7 @@ namespace Services.Shared
         private readonly ISecureStorageHandler _secureStorageHandler;
         private readonly IHttpClient<UserModel> _userClient;
         private readonly IHttpClient<AuthenticationResult> _authenticationClient;
+        private readonly IHttpClient<UserSettingsModel> _settingsClient;
         private readonly IUnitOfWork _administrationUnitOfWork;
         private readonly Logger<CurrentUserService> _logger;
 
@@ -42,11 +43,13 @@ namespace Services.Shared
             ISecureStorageHandler secureStorageHandler,
             IHttpClient<UserModel> userClient,
             IHttpClient<AuthenticationResult> authenticationClient,
+            IHttpClient<UserSettingsModel> settingsClient,
             IUnitOfWork administrationUnitOfWork)
         {
             _secureStorageHandler = secureStorageHandler;
             _userClient = userClient;
             _authenticationClient = authenticationClient;
+            _settingsClient = settingsClient;
             _administrationUnitOfWork = administrationUnitOfWork;
             _logger = new Logger<CurrentUserService>(dbContext);
 
@@ -73,7 +76,7 @@ namespace Services.Shared
                 {
                     await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, localUser.UserCredentials.RefreshToken);
                     await SetUserData(localUser);
-                    
+
                     return true;
                 }
 
@@ -123,6 +126,72 @@ namespace Services.Shared
             {
                 await _logger.LogMessageAsync(
                     "Error during logout", LogMessageTypeEnum.Error, exception);
+            }
+        }
+
+        public async Task<UserSettingsModel> GetCurrentUserSettings(int userId)
+        {
+            try
+            {
+                var userEntity = await _administrationUnitOfWork.UserRepository
+                    .FirstOrDefaultAsync(x => x.Id == userId, false, x => x.UserSettings);
+
+                if (userEntity?.UserSettings == null)
+                {
+                    throw new Exception("User settings not found.");
+                }
+
+                return new UserSettingsModel
+                {
+                    UserId = userId,
+                    Culture = userEntity.UserSettings.Culture,
+                    IsAutoDataSyncEnabled = userEntity.UserSettings.IsAutoDataSyncEnabled,
+                    UseLocalDataStore = userEntity.UserSettings.UseLocalDataStore
+                };
+
+            }
+            catch (Exception exception)
+            {
+                await _logger.LogMessageAsync(
+                    "Error retrieving current user settings", LogMessageTypeEnum.Error, exception);
+
+                return new UserSettingsModel
+                {
+                    Culture = CultureEnum.English,
+                    IsAutoDataSyncEnabled = false,
+                    UseLocalDataStore = false
+                };
+            }
+        }
+
+        public async Task UpdateUserSettings(UserSettingsModel model)
+        {
+            try
+            {
+                var userEntity = await _administrationUnitOfWork.UserRepository
+                   .FirstOrDefaultAsync(x => x.Id == model.UserId, false, x => x.UserSettings);
+
+                if (userEntity?.UserSettings == null)
+                {
+                    throw new Exception($"Could not find settings of user [{model.UserId}]");
+                }
+
+                var settings = userEntity.UserSettings;
+
+                settings.Culture = model.Culture;
+                settings.IsAutoDataSyncEnabled = model.IsAutoDataSyncEnabled;
+                settings.UseLocalDataStore = model.UseLocalDataStore;
+
+                await _administrationUnitOfWork.CommittChanges(userEntity.EmailAddress);
+
+                if (await _settingsClient.IsApiAvailableAsync)
+                {
+                    await _settingsClient.PostAsync("", model);
+                }
+            }
+            catch (Exception exception)
+            {
+                await _logger.LogMessageAsync($"Could not update settings of user [{model.UserId}]", LogMessageTypeEnum.Error, exception);
             }
         }
 

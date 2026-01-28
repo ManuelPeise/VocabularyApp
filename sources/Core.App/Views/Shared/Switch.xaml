@@ -6,7 +6,8 @@
              WidthRequest="51"
              HeightRequest="31">
     <Switch IsToggled="{Binding Source={x:Reference root}, Path=IsToggled, Mode=TwoWay}"
-            OnColor="{Binding Source={x:Reference root}, Path=OnColor, FallbackValue={StaticResource AccentColor}}"
+            OnColor="{Binding Source={x:Reference root}, Path=OnColor}"
+            OffColor="{Binding Source={x:Reference root}, Path=OffColor}"
             ThumbColor="{Binding Source={x:Reference root}, Path=ThumbColor}"
             HorizontalOptions="Center"
             VerticalOptions="Center" />

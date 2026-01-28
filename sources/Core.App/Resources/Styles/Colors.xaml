@@ -30,4 +30,8 @@
     <Color x:Key="DividerSecondaryColor">#e6e6e6</Color>
     <Color x:Key="BorderColor">#444444</Color>
 
+    <!-- SWITCH -->
+    <Color x:Key="ThumbColor">#bfbfbf</Color>
+    <Color x:Key="OnColor">#b3ffb3</Color>
+    <Color x:Key="OffColor">#d9d9d9</Color>
 </ResourceDictionary>

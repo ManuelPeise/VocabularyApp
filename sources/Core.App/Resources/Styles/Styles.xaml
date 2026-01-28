@@ -30,20 +30,8 @@
                 Value="Center" />
         <Setter Property="CharacterSpacing"
                 Value="2" />
-        <Setter Property="FontFamily">
-            <Setter.Value>
-                <OnPlatform x:TypeArguments="x:String">
-                    <On Platform="Android"
-                        Value="FASolid" />
-                    <On Platform="iOS"
-                        Value="FASolid" />
-                    <On Platform="WinUI"
-                        Value="fa-solid-900" />
-                    <On Platform="MacCatalyst"
-                        Value="FASolid" />
-                </OnPlatform>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="FontFamily"
+                Value="OpenSans-Regular" />
     </Style>
     <Style x:Key="SubTitleLabelStyle"
            TargetType="Label">
@@ -65,20 +53,8 @@
                 Value="1" />
         <Setter Property="LineBreakMode"
                 Value="WordWrap" />
-        <Setter Property="FontFamily">
-            <Setter.Value>
-                <OnPlatform x:TypeArguments="x:String">
-                    <On Platform="Android"
-                        Value="FASolid" />
-                    <On Platform="iOS"
-                        Value="FASolid" />
-                    <On Platform="WinUI"
-                        Value="fa-solid-900" />
-                    <On Platform="MacCatalyst"
-                        Value="FASolid" />
-                </OnPlatform>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="FontFamily"
+                Value="OpenSans-Regular" />
     </Style>
 
     <Style x:Key="PageCaptionLabelStyle"
@@ -101,20 +77,10 @@
                 Value="2" />
         <Setter Property="LineBreakMode"
                 Value="WordWrap" />
-        <Setter Property="FontFamily">
-            <Setter.Value>
-                <OnPlatform x:TypeArguments="x:String">
-                    <On Platform="Android"
-                        Value="FASolid" />
-                    <On Platform="iOS"
-                        Value="FASolid" />
-                    <On Platform="WinUI"
-                        Value="fa-solid-900" />
-                    <On Platform="MacCatalyst"
-                        Value="FASolid" />
-                </OnPlatform>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="FontFamily"
+                Value="fa-solid-900" />
+        <Setter Property="FontFamily"
+                Value="OpenSans-Regular"/>
     </Style>
 
     <Style x:Key="CheckboxLabel"
@@ -125,20 +91,8 @@
                 Value="1" />
         <Setter Property="LineBreakMode"
                 Value="WordWrap" />
-        <Setter Property="FontFamily">
-            <Setter.Value>
-                <OnPlatform x:TypeArguments="x:String">
-                    <On Platform="Android"
-                        Value="FASolid" />
-                    <On Platform="iOS"
-                        Value="FASolid" />
-                    <On Platform="WinUI"
-                        Value="fa-solid-900" />
-                    <On Platform="MacCatalyst"
-                        Value="FASolid" />
-                </OnPlatform>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="FontFamily"
+                Value="fa-solid-900"/>
     </Style>
     <Style x:Key="SettingsTitleStyle"
            TargetType="Label">
@@ -158,20 +112,8 @@
                 Value="Center" />
         <Setter Property="CharacterSpacing"
                 Value="2" />
-        <Setter Property="FontFamily">
-            <Setter.Value>
-                <OnPlatform x:TypeArguments="x:String">
-                    <On Platform="Android"
-                        Value="FASolid" />
-                    <On Platform="iOS"
-                        Value="FASolid" />
-                    <On Platform="WinUI"
-                        Value="fa-solid-900" />
-                    <On Platform="MacCatalyst"
-                        Value="FASolid" />
-                </OnPlatform>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="FontFamily"
+                Value="OpenSans-Regular" />
     </Style>
     <Style x:Key="SettingsLabelStyle"
            TargetType="Label">
@@ -189,20 +131,8 @@
                 Value="Center" />
         <Setter Property="CharacterSpacing"
                 Value="2" />
-        <Setter Property="FontFamily">
-            <Setter.Value>
-                <OnPlatform x:TypeArguments="x:String">
-                    <On Platform="Android"
-                        Value="FASolid" />
-                    <On Platform="iOS"
-                        Value="FASolid" />
-                    <On Platform="WinUI"
-                        Value="fa-solid-900" />
-                    <On Platform="MacCatalyst"
-                        Value="FASolid" />
-                </OnPlatform>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="FontFamily"
+                Value="OpenSans-Regular" />
     </Style>
     <!-- BORDERS -->
     <Style x:Key="CardBorder"

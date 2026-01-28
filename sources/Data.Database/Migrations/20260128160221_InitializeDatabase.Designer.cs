@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260125132141_InitializeDatabase")]
+    [Migration("20260128160221_InitializeDatabase")]
     partial class InitializeDatabase
     {
         /// <inheritdoc />
@@ -170,6 +170,9 @@ namespace Data.Database.Migrations
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Culture")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsAutoDataSyncEnabled")
                         .HasColumnType("INTEGER");
