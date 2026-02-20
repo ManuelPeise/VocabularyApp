@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Core.App.Bundles;
+using Logic.Administration.DI;
+using Logic.Shared.DI;
 using Microsoft.Extensions.Logging;
 
 namespace Core.App
@@ -23,8 +25,6 @@ namespace Core.App
            
             builder.RegisterAppServices();
 
-            builder.Services.RegisterViewModels();
-            builder.Services.RegisterViews();
 
 #if DEBUG
             builder.Logging.AddDebug();

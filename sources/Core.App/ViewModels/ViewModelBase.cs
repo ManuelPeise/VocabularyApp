@@ -1,6 +1,6 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
-using Services.Shared;
+using Logic.Shared.Interfaces;
 using Services.Shared.Interfaces;
 using Services.Shared.UiModels;
 using Shared.Enums;

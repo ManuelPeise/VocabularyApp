@@ -3,6 +3,7 @@ using Services.Shared;
 using Services.Shared.Interfaces;
 using Services.Shared.UiModels;
 using Shared.Enums;
+using Shared.Models.User;
 using System.Globalization;
 
 namespace Core.App
@@ -30,7 +31,7 @@ namespace Core.App
 
         protected override async void OnStart()
         {
-            var userData = await _secureStorageHandler.GetValue<UserData>(StorageKeys.UserDataKey);
+            var userData = await _secureStorageHandler.GetValue<CurrentUser>(StorageKeys.UserDataKey);
 
             if (userData != null)
             {

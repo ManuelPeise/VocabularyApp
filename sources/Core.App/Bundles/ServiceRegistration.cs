@@ -4,7 +4,8 @@ using Core.App.Views.Private.User.Profile;
 using Core.App.Views.Private.User.Settings;
 using Core.App.Views.Public;
 using Data.Accessor.DI;
-using Services.Shared.DI;
+using Logic.Administration.DI;
+using Logic.Shared.DI;
 
 namespace Core.App.Bundles
 {
@@ -13,7 +14,11 @@ namespace Core.App.Bundles
         internal static void RegisterAppServices(this MauiAppBuilder builder)
         {
             builder.Services.RegisterDataAccessorServices();
+            builder.Services.RegisterViewModels();
+            builder.Services.RegisterViews();
+            builder.Services.RegisterAdministrationServices();
             builder.Services.RegisterSharedServices();
+
         }
 
         internal static void RegisterViewModels(this IServiceCollection services)

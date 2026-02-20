@@ -15,7 +15,7 @@ namespace Data.Accessor.Interfaces
         /// <returns>A task that represents the asynchronous operation. The task result contains a HashSet of TEntity objects
         /// representing all entities in the data source.</returns>
         Task<HashSet<TEntity>> GetAllAsync(
-            bool asNoTracking = false, 
+            bool asNoTracking = false,
             Expression<Func<TEntity, object>>? includeExpression = null);
         /// <summary>
         /// Asynchronously retrieves all entities that satisfy the specified filter expression.
@@ -32,8 +32,8 @@ namespace Data.Accessor.Interfaces
         /// <returns>A task that represents the asynchronous operation. The task result contains a set of entities matching the
         /// filter criteria. If no entities match, the set will be empty.</returns>
         Task<HashSet<TEntity>> GetAllByAsync(
-            Expression<Func<TEntity, bool>> whereExpression, 
-            Expression<Func<TEntity, object>>? includeExpression = null, 
+            Expression<Func<TEntity, bool>> whereExpression,
+            Expression<Func<TEntity, object>>? includeExpression = null,
             bool asNoTracking = false);
         /// <summary>
         /// Asynchronously retrieves the first entity with the specified identifier, or returns null if no matching
@@ -47,8 +47,25 @@ namespace Data.Accessor.Interfaces
         /// <returns>A task that represents the asynchronous operation. The task result contains the entity with the specified
         /// identifier, or null if no such entity exists.</returns>
         Task<TEntity?> FirstOrDefaultByIdAsync(
-            int id, 
-            bool asNoTracking = false, 
+            int id,
+            bool asNoTracking = false,
+            Expression<Func<TEntity, object>>? includeExpression = null);
+        /// <summary>
+        /// Asynchronously retrieves the first entity that matches the specified external identifier, or returns null if
+        /// no such entity exists.
+        /// </summary>
+        /// <remarks>Use this method to efficiently retrieve an entity by its external identifier,
+        /// especially in scenarios where change tracking is not required. Including related entities can be useful for
+        /// loading associated data in a single query.</remarks>
+        /// <param name="idExternal">The external identifier of the entity to retrieve. Must be a valid <see cref="System.Guid"/>.</param>
+        /// <param name="asNoTracking">Specifies whether the entity should be returned without being tracked by the context. Set to <see
+        /// langword="true"/> to improve performance for read-only operations.</param>
+        /// <param name="includeExpression">An optional expression that specifies related entities to include in the query results for eager loading.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the entity that matches the
+        /// specified external identifier, or null if no entity is found.</returns>
+        Task<TEntity?> FirstOrDefaultByIdExternalAsync(
+            Guid idExternal,
+            bool asNoTracking = false,
             Expression<Func<TEntity, object>>? includeExpression = null);
         /// <summary>
         /// Asynchronously returns the first entity that matches the specified criteria, or a default value if no such
@@ -65,8 +82,8 @@ namespace Data.Accessor.Interfaces
         /// <returns>A task that represents the asynchronous operation. The task result contains the first entity that matches
         /// the criteria, or <see langword="null"/> if no entity is found.</returns>
         Task<TEntity?> FirstOrDefaultAsync(
-            Expression<Func<TEntity, bool>> whereExpression, 
-            bool asNoTracking = false, 
+            Expression<Func<TEntity, bool>> whereExpression,
+            bool asNoTracking = false,
             Expression<Func<TEntity, object>>? includeExpression = null);
         /// <summary>
         /// Asynchronously adds the specified entity to the data store if no existing entity matches the given
@@ -78,13 +95,21 @@ namespace Data.Accessor.Interfaces
         /// <returns>A task that represents the asynchronous operation. The task result contains the number of entities added: 1
         /// if the entity was added; otherwise, 0.</returns>
         Task<int> AddAsync(
-            TEntity entity, 
+            TEntity entity,
             Expression<Func<TEntity, bool>>? whereExpression = null);
+        /// <summary>
+        /// Asynchronously adds a collection of entities to the underlying data store.
+        /// </summary>
+        /// <param name="entities">The collection of entities to add. Cannot be null. Each entity will be added to the data store.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the number of entities
+        /// successfully added.</returns>
+        Task AddRangeAsync(IEnumerable<TEntity> entities);
         /// <summary>
         /// Asynchronously updates the specified entity in the data store.
         /// </summary>
         /// <param name="entity">The entity to update. Cannot be null. The entity must already exist in the data store.</param>
         /// <returns>A task that represents the asynchronous update operation.</returns>
+
         Task UpdateAsync(TEntity entity);
         /// <summary>
         /// Asynchronously updates a collection of entities in bulk.

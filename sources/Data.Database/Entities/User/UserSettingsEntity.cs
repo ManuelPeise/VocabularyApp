@@ -2,7 +2,7 @@
 
 namespace Data.Database.Entities.User
 {
-    public class UserSettingsEntity:AEntityBase
+    public class UserSettingsEntity : AEntityBase
     {
         public CultureEnum Culture { get; set; }
         public bool UseLocalDataStore { get; set; }

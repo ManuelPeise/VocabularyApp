@@ -1,15 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Services.Shared.Interfaces;
-using Services.Shared.Models;
-using Services.Shared.UiModels;
+using Logic.Shared.Interfaces;
+using Shared.Models.Authentication;
 
 namespace Core.App.ViewModels
 {
     public partial class RegisterViewModel : ViewModelBase
     {
         private readonly IUserAdministrationService _userAdministration;
-        private readonly IHttpClient<UserRegistrationResult> _registrationClient;
+        private readonly IHttpClient _httpClient;
         [ObservableProperty]
         private UserRegistrationRequestModel _registrationRequestModel;
 
@@ -20,15 +19,15 @@ namespace Core.App.ViewModels
         [ObservableProperty]
         private string? _errorMessage;
 
-        
+
         public RegisterViewModel(
-            IUserAdministrationService userAdministration, 
-            IHttpClient<UserRegistrationResult> registrationClient, 
+            IHttpClient httpClient,
+            IUserAdministrationService userAdministration,
             ISecureStorageHandler secureStorageHandler,
-            ILocalizationResourceManager localizationResourceManager) :base(secureStorageHandler, localizationResourceManager)
+            ILocalizationResourceManager localizationResourceManager) : base(secureStorageHandler, localizationResourceManager)
         {
             _userAdministration = userAdministration;
-            _registrationClient = registrationClient;
+            _httpClient = httpClient;
             IsBusy = false;
         }
 
@@ -52,7 +51,7 @@ namespace Core.App.ViewModels
 
                 IsBusy = true;
 
-                if(await _registrationClient.IsApiAvailableAsync)
+                if (await _httpClient.IsApiAvailableAsync)
                 {
 
                 }

@@ -1,5 +1,4 @@
 ﻿using Shared.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Services.Shared.Models.User

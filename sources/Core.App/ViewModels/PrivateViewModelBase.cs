@@ -2,16 +2,17 @@
 using CommunityToolkit.Mvvm.Input;
 using Services.Shared.Interfaces;
 using Services.Shared.UiModels;
+using Shared.Models.User;
 using System.ComponentModel;
 
 namespace Core.App.ViewModels
 {
     public partial class PrivateViewModelBase : ViewModelBase
     {
-        private UserData? _userData;
+        private CurrentUser? _userData;
         private PropertyChangedEventHandler? _authenticationResultHandler;
 
-        public UserData? UserData
+        public CurrentUser? UserData
         {
             get => _userData;
             set
@@ -46,7 +47,7 @@ namespace Core.App.ViewModels
             ILocalizationResourceManager localizationResourceManager) : base(secureStorageHandler, localizationResourceManager)
         {
             CurrentUserService = currentUserService;
-            UserData = CurrentUserService.UserData ?? new UserData();
+            UserData = CurrentUserService.UserData ?? new CurrentUser();
             SecureStorageHandler = secureStorageHandler;
             
             if (CurrentUserService is INotifyPropertyChanged notify)

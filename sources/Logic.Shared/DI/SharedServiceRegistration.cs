@@ -1,0 +1,16 @@
+﻿using Logic.Shared.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Logic.Shared.DI
+{
+    public static class SharedServiceRegistration
+    {
+        public static void RegisterSharedServices(this IServiceCollection services)
+        {
+            services.AddScoped<IHttpClient, ApiHttpClient>();
+            services.AddScoped<ISecureStorageHandler, SecureStorageHandler>();
+            services.AddScoped(typeof(ILogger<>), typeof(Logger<>));
+            services.AddSingleton<ILocalizationResourceManager, LocalizationResourceManager>();
+        }
+    }
+}
