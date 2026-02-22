@@ -1,4 +1,4 @@
-using Services.Shared.UiModels;
+using Shared.Models.UiModels;
 using System.Collections.ObjectModel;
 
 namespace Core.App.Views.Shared;

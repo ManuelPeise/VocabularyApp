@@ -1,9 +1,8 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Logic.Shared;
 using Logic.Shared.Interfaces;
-using Services.Shared.Interfaces;
-using Services.Shared.UiModels;
 using Shared.Enums;
+using Shared.Models.UiModels;
 using System.Globalization;
 
 namespace Core.App.ViewModels

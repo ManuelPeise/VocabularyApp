@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.App.ViewModels;
-using Services.Shared.Interfaces;
-using Services.Shared.UiModels;
+using Logic.Shared.Interfaces;
+using Shared.Models.Authentication;
 using System.ComponentModel;
 
 namespace Core.App.Views.Private.User.Profile

@@ -1,15 +1,17 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Services.Shared.Models.User
+namespace Shared.Models.User
 {
-    public class UserSettings
+    public class UserCredentials
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        [JsonPropertyName("useLocalDataStore")]
-        public bool UseLocalDataStore { get; set; }
-        [JsonPropertyName("isAutoDataSyncEnabled")]
-        public bool IsAutoDataSyncEnabled { get; set; }
+        [JsonPropertyName("passwordHash")]
+        public string PasswordHash { get; set; } = string.Empty;
+        [JsonPropertyName("refreshToken")]
+        public string? RefreshToken { get; set; }
+        [JsonPropertyName("expireDate")]
+        public DateTime ExpireDate { get; set; }
         [JsonPropertyName("createdBy")]
         public string CreatedBy { get; set; } = string.Empty;
         [JsonPropertyName("createdAt")]

@@ -1,5 +1,4 @@
-﻿
-namespace Services.Shared.UiModels
+﻿namespace Shared.Models.UiModels
 {
     public class DropdownItem
     {

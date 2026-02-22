@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Services.Shared;
-using Services.Shared.Interfaces;
-using Services.Shared.UiModels;
+using Logic.Shared;
+using Logic.Shared.Interfaces;
+using Shared.Models.Authentication;
 using System.Diagnostics;
 
 namespace Core.App.ViewModels

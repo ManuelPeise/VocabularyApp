@@ -11,9 +11,7 @@
       <Deploy Solution="Debug|*" />
     </Project>
   </Folder>
-  <Folder Name="/02 Services/">
-    <Project Path="Services.Shared/Services.Shared.csproj" Id="11691bc6-b227-4ea5-a9a2-ef28e58266f5" />
-  </Folder>
+  <Folder Name="/02 Services/" />
   <Folder Name="/03 Logic/">
     <Project Path="Logic.Administration/Logic.Administration.csproj" Id="a1d4d2dd-cbd9-4370-a278-357b074237cc" />
     <Project Path="Logic.Shared/Logic.Shared.csproj" Id="4aa34ed6-5af3-486a-9213-08c3cf56ad36" />

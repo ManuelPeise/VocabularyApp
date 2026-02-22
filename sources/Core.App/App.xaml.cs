@@ -1,7 +1,6 @@
 ﻿using Core.App.ViewModels;
-using Services.Shared;
-using Services.Shared.Interfaces;
-using Services.Shared.UiModels;
+using Logic.Shared;
+using Logic.Shared.Interfaces;
 using Shared.Enums;
 using Shared.Models.User;
 using System.Globalization;

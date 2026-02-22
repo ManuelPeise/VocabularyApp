@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Core.App.ViewModels;
-using Services.Shared;
-using Services.Shared.Interfaces;
-using Services.Shared.UiModels;
+using Logic.Shared;
+using Logic.Shared.Interfaces;
 using Shared.Enums;
+using Shared.Models.UiModels;
+using Shared.Models.User;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 

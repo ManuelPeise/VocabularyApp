@@ -1,7 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Services.Shared.Interfaces;
-using Services.Shared.UiModels;
+﻿using CommunityToolkit.Mvvm.Input;
+using Logic.Shared.Interfaces;
 
 namespace Core.App.ViewModels
 {
