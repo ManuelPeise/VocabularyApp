@@ -1,5 +1,4 @@
-﻿using Data.Accessor;
-using Data.Accessor.Interfaces;
+﻿using Data.Accessor.Interfaces;
 using Logic.Shared.Interfaces;
 using Shared.Enums;
 using Shared.Models.Authentication;

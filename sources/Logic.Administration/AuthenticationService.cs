@@ -1,5 +1,4 @@
 ﻿using Data.Accessor.Interfaces;
-using Data.Database;
 using Data.Database.Entities.User;
 using Logic.Shared;
 using Logic.Shared.Interfaces;
