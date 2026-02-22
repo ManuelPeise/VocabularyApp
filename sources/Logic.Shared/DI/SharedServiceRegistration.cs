@@ -7,9 +7,9 @@ namespace Logic.Shared.DI
     {
         public static void RegisterSharedServices(this IServiceCollection services)
         {
+            services.AddScoped(typeof(ILogger<>), typeof(Logger<>));
             services.AddScoped<IHttpClient, ApiHttpClient>();
             services.AddScoped<ISecureStorageHandler, SecureStorageHandler>();
-            services.AddScoped(typeof(ILogger<>), typeof(Logger<>));
             services.AddSingleton<ILocalizationResourceManager, LocalizationResourceManager>();
         }
     }

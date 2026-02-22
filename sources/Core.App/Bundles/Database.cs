@@ -1,7 +1,5 @@
 ﻿using Data.Database;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
-
 namespace Core.App.Bundles
 {
     internal static class Database

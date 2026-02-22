@@ -18,7 +18,5 @@ namespace Core.App.ViewModels
         {
             await CurrentUserService.SignOutAsync();
         }
-
-
     }
 }

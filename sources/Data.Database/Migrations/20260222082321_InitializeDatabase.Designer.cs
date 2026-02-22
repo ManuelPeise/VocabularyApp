@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260220151437_InitializeDatabase")]
+    [Migration("20260222082321_InitializeDatabase")]
     partial class InitializeDatabase
     {
         /// <inheritdoc />
@@ -156,10 +156,6 @@ namespace Data.Database.Migrations
 
                     b.Property<int>("UserCredentialsId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserIdExternal")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserRole")
                         .HasColumnType("INTEGER");

@@ -1,6 +1,7 @@
 ﻿using Core.App.ViewModels;
 using Core.App.Views.Private.User.Profile;
 using Core.App.Views.Public;
+
 namespace Core.App
 {
     public partial class AppShell : Shell

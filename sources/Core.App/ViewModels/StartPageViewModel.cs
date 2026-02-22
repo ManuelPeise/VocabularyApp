@@ -8,10 +8,7 @@ namespace Core.App.ViewModels
        
         public StartPageViewModel(
             ISecureStorageHandler secureStorageHandler,
-            ILocalizationResourceManager localizationResourceManager) : base(secureStorageHandler, localizationResourceManager)
-        {
-
-        }
+            ILocalizationResourceManager localizationResourceManager) : base(secureStorageHandler, localizationResourceManager) { }
 
         [RelayCommand]
         private async Task NavigateToLogin()

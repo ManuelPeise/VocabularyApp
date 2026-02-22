@@ -120,6 +120,7 @@ namespace Logic.Administration
         {
             return await _secureStorageHandler.GetValue<CurrentUser>(StorageKeys.UserDataKey) ?? null;
         }
+
         private async Task<UserDataSyncModel?> ProcessRemoteAuthenticationResult(AuthenticationResult? result)
         {
             UserDataSyncModel? userSync = null;

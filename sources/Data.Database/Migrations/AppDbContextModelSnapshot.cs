@@ -154,10 +154,6 @@ namespace Data.Database.Migrations
                     b.Property<int>("UserCredentialsId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("UserIdExternal")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("UserRole")
                         .HasColumnType("INTEGER");
 

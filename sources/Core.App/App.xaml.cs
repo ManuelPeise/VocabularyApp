@@ -12,7 +12,10 @@ namespace Core.App
         private readonly ICurrentUserService _currentUserService;
         private readonly ISecureStorageHandler _secureStorageHandler;
         private readonly ILocalizationResourceManager _localizationResourceManager;
-        public App(ICurrentUserService currentUserService, ISecureStorageHandler secureStorageHandler, ILocalizationResourceManager localizationResourceManager)
+        public App(
+            ICurrentUserService currentUserService, 
+            ISecureStorageHandler secureStorageHandler, 
+            ILocalizationResourceManager localizationResourceManager)
         {
             InitializeComponent();
             _currentUserService = currentUserService;
@@ -46,6 +49,7 @@ namespace Core.App
         {
             var cultureString = "en-Us";
             var cultureKey = CultureEnum.English;
+         
             var savedLanguage = await _secureStorageHandler.GetValue<string>(StorageKeys.LanguagePreferenceKey);
 
             if (!string.IsNullOrEmpty(savedLanguage))

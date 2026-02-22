@@ -1,4 +1,5 @@
 ﻿using Data.Accessor.Interfaces;
+using Logic.Shared;
 using Logic.Shared.Interfaces;
 using Shared.Enums;
 using Shared.Models.Authentication;
@@ -11,6 +12,7 @@ namespace Logic.Administration
     public class CurrentUserService : ICurrentUserService, INotifyPropertyChanged
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISecureStorageHandler _secureStorageHandler;
         private readonly IAuthenticationService _authenticationService;
         private readonly ILogger<CurrentUserService> _logger;
 
@@ -35,6 +37,7 @@ namespace Logic.Administration
         }
 
         public CurrentUserService(
+            ISecureStorageHandler secureStorageHandler,
             IUnitOfWork unitOfWork,
             ILogger<CurrentUserService> logger,
             IAuthenticationService authenticationService)
@@ -42,13 +45,14 @@ namespace Logic.Administration
             _authenticationService = authenticationService;
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _secureStorageHandler = secureStorageHandler;
 
             _ = Task.Run(async () => await Initialize());
         }
 
         private async Task Initialize()
         {
-            UserData = await _authenticationService.GetCurrentUser();
+            UserData = await _secureStorageHandler.GetValue<CurrentUser>(StorageKeys.UserDataKey) ?? new CurrentUser();
         }
 
         public async Task<bool> AuthenticateUser(AuthenticationRequestModel authData) => await _authenticationService.AuthenticateUser(authData, UserData);
