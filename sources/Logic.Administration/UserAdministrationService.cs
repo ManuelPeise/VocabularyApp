@@ -30,6 +30,11 @@ namespace Logic.Administration
                     return new UserRegistrationResult { Result = false };
                 }
 
+                if (!await _httpClient.IsApiAvailableAsync)
+                {
+                    return new UserRegistrationResult { Result = false, Message = "Api is not reachable." };
+                }
+
                 var response = await _httpClient.SendPostRequest("useradministration/registeruser", null, registrationRequestModel);
 
                 response.EnsureSuccessStatusCode();
