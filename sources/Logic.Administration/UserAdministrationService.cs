@@ -11,11 +11,12 @@ namespace Logic.Administration
     {
         private readonly ILogger<UserAdministrationService> _logger;
         private readonly IUnitOfWork _administrationUnitOfWork;
-
-        public UserAdministrationService(ILogger<UserAdministrationService> logger, IUnitOfWork administrationUnitOfWork)
+        private readonly IHttpClient _httpClient;
+        public UserAdministrationService(ILogger<UserAdministrationService> logger, IUnitOfWork administrationUnitOfWork, IHttpClient httpClient)
         {
             _administrationUnitOfWork = administrationUnitOfWork;
             _logger = logger;
+            _httpClient = httpClient;
         }
 
         public async Task<UserRegistrationResult> CreateUserProfile(UserRegistrationRequestModel registrationRequestModel)
@@ -29,39 +30,9 @@ namespace Logic.Administration
                     return new UserRegistrationResult { Result = false };
                 }
 
-                var idExternal = Guid.NewGuid();
+                var response = await _httpClient.SendPostRequest("useradministration/registeruser", null, registrationRequestModel);
 
-                var entity = new UserEntity
-                {
-                    IdExternal = idExternal,
-                    FirstName = registrationRequestModel.FirstName,
-                    LastName = registrationRequestModel.LastName,
-                    EmailAddress = registrationRequestModel.EmailAddress,
-                    ProfileImage = [],
-                    DateOfBirth = registrationRequestModel.DateOfBirth,
-                    UserRole = UserRoleEnum.User,
-                    UserCredentials = new UserCredentialsEntity
-                    {
-                        IdExternal = Guid.NewGuid(),
-                        PasswordHash = PasswordHasher.HashPassword(registrationRequestModel.Password),
-                        ExpireDate = DateTime.UtcNow.AddDays(30),
-                        RefreshToken = null,
-                        IsDirty = true,
-                    },
-                    UserSettings = new UserSettingsEntity
-                    {
-                        IdExternal = Guid.NewGuid(),
-                        IsAutoDataSyncEnabled = false,
-                        UseLocalDataStore = false,
-                        Culture = CultureEnum.English,
-                        IsDirty = true,
-                    },
-                };
-
-                await _administrationUnitOfWork.UserRepository.AddAsync(entity, x => x.UserName == entity.UserName && x.IdExternal == idExternal);
-
-                await _administrationUnitOfWork.SaveChangesAsync("System");
-
+                response.EnsureSuccessStatusCode();
 
                 return new UserRegistrationResult { Result = true };
             }

@@ -186,29 +186,29 @@ namespace Logic.Shared
 
         private static string GetBaseUrl()
         {
-#if ANDROID
-            // Priority order for Android:
-            // 1. Physical device via USB with ADB forwarding (most reliable for debugging)
-            // 2. Emulator using 10.0.2.2
-            // 3. Physical device on same WiFi network
+//#if ANDROID
+//            // Priority order for Android:
+//            // 1. Physical device via USB with ADB forwarding (most reliable for debugging)
+//            // 2. Emulator using 10.0.2.2
+//            // 3. Physical device on same WiFi network
             
-            if (DeviceInfo.DeviceType == DeviceType.Virtual)
-            {
-                // Android Emulator
-                return ApiConstants.AndroidEmulatorUrl;
-            }
-            else
-            {
-                // Physical Device - Try USB forwarding first
-                // To enable: Run in command prompt: adb forward tcp:5218 tcp:5218
-                return ApiConstants.AndroidUsbUrl;
+//            if (DeviceInfo.DeviceType == DeviceType.Virtual)
+//            {
+//                // Android Emulator
+//                return ApiConstants.AndroidEmulatorUrl;
+//            }
+//            else
+//            {
+//                // Physical Device - Try USB forwarding first
+//                // To enable: Run in command prompt: adb forward tcp:5218 tcp:5218
+//                return ApiConstants.AndroidUsbUrl;
                 
-                // Alternative: Use WiFi network (if both devices on same network)
-                // return ApiConstants.LocalNetworkUrl;
-            }
-#else
-            return ApiConstants.LocalhostUrl;
-#endif
+//                // Alternative: Use WiFi network (if both devices on same network)
+//                // return ApiConstants.LocalNetworkUrl;
+//            }
+//#else
+            return ApiConstants.DockerhostUrl;
+//#endif
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Core.App.ViewModels
         private readonly IUserAdministrationService _userAdministration;
         private readonly IHttpClient _httpClient;
         [ObservableProperty]
-        private UserRegistrationRequestModel _registrationRequestModel;
+        private UserRegistrationRequestModel _registrationRequestModel = new UserRegistrationRequestModel();
 
         [ObservableProperty]
         private DateTime _maxDate = DateTime.Now.Date;
@@ -50,11 +50,6 @@ namespace Core.App.ViewModels
                 }
 
                 IsBusy = true;
-
-                if (await _httpClient.IsApiAvailableAsync)
-                {
-
-                }
 
                 var registration = await _userAdministration.CreateUserProfile(RegistrationRequestModel);
 
