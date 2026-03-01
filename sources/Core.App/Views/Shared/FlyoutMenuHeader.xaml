@@ -32,7 +32,7 @@
                    FontAttributes="Bold"
                    Padding="20,0"
                    Margin="0" />
-            <Grid ColumnDefinitions="20,*,*"
+            <!--<Grid ColumnDefinitions="20,*,*"
                   Padding="20,0">
                 <Label Grid.Column="0"
                        Grid.ColumnSpan="1"
@@ -44,7 +44,7 @@
                        Grid.Column="1"
                        Grid.ColumnSpan="2"
                        TextColor="{StaticResource TextOrange}"
-                       Text="{Binding UserName, Source={x:Reference root}}"
+                       Text="{Binding Email, Source={x:Reference root}}"
                        FontAttributes="None"
                        FontSize="20"
                        Margin="5,0" />
@@ -59,7 +59,7 @@
                         Margin="10,0,0,0"
                         HorizontalOptions="End"
                         VerticalOptions="Center" />
-            </Grid>
+            </Grid>-->
         </VerticalStackLayout>
 
     </Grid>

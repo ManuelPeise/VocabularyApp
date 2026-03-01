@@ -15,7 +15,7 @@
         <Grid Grid.Row="1">
             <Grid RowDefinitions="*,Auto,*">
                 <Label Grid.Row="1"
-                       Text="{Binding AuthResult.UserName}"
+                       Text="{Binding UserData.Email}"
                        VerticalOptions="Center"
                        HorizontalOptions="Center" />
 

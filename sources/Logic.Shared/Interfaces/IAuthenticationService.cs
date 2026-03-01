@@ -5,7 +5,7 @@ namespace Logic.Shared.Interfaces
 {
     public interface IAuthenticationService
     {
-        Task<bool> AuthenticateUser(AuthenticationRequestModel authRequest, CurrentUser? currentUser);
+        Task<CurrentUser?> AuthenticateUser(AuthenticationRequestModel authRequest);
         Task SignOutAsync(CurrentUser? userData);
         Task<CurrentUser?> GetCurrentUser();
     }

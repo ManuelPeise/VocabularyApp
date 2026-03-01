@@ -9,29 +9,17 @@ namespace Core.App.ViewModels
 {
     public partial class PrivateViewModelBase : ViewModelBase
     {
-        private CurrentUser? _userData;
-        private PropertyChangedEventHandler? _authenticationResultHandler;
-
+        // Expose current user data directly from the user service so all view models
+        // (including AppShell) always see the same instance and updates.
         public CurrentUser? UserData
         {
-            get => _userData;
+            get => CurrentUserService.UserData;
             set
             {
-                if (_userData != value)
+                if (!ReferenceEquals(CurrentUserService.UserData, value))
                 {
-                    if (_userData is INotifyPropertyChanged oldNotify && _authenticationResultHandler != null)
-                    {
-                        oldNotify.PropertyChanged -= _authenticationResultHandler;
-                    }
-
-                    _userData = value;
+                    CurrentUserService.UserData = value;
                     OnPropertyChanged(nameof(UserData));
-
-                    if (_userData is INotifyPropertyChanged newNotify)
-                    {
-                        _authenticationResultHandler = AuthenticationResult_PropertyChanged;
-                        newNotify.PropertyChanged += _authenticationResultHandler;
-                    }
                 }
             }
         }
@@ -47,7 +35,6 @@ namespace Core.App.ViewModels
             ILocalizationResourceManager localizationResourceManager) : base(secureStorageHandler, localizationResourceManager)
         {
             CurrentUserService = currentUserService;
-            UserData = CurrentUserService.UserData ?? new CurrentUser();
             SecureStorageHandler = secureStorageHandler;
             
             if (CurrentUserService is INotifyPropertyChanged notify)
@@ -75,19 +62,12 @@ namespace Core.App.ViewModels
             await Shell.Current.GoToAsync("UserProfilePage");
         }
 
-        private void AuthenticationResult_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(CurrentUserService.UserData.Email))
-            {
-                UserData = CurrentUserService.UserData;
-            }
-        }
-
         private void CurrentUserService_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(CurrentUserService.UserData))
             {
-                UserData = CurrentUserService.UserData;
+                // Bubble up changes from the service so bindings to UserData.Email update
+                OnPropertyChanged(nameof(UserData));
             }
         }
     }

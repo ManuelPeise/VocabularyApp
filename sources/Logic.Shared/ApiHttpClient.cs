@@ -49,10 +49,10 @@ namespace Logic.Shared
 
                 if (refreshResult?.Result == true &&
                     !string.IsNullOrEmpty(refreshResult.AccessToken) &&
-                    !string.IsNullOrEmpty(refreshResult.RefreshToken))
+                    !string.IsNullOrEmpty(refreshResult.RefeshToken))
                 {
                     await _secureStorageHandler.SetValue(StorageKeys.AccessTokenKey, refreshResult.AccessToken);
-                    await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, refreshResult.RefreshToken);
+                    await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, refreshResult.RefeshToken);
 
                     SetJwtToken(refreshResult.AccessToken);
 

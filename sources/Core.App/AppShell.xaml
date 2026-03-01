@@ -9,8 +9,8 @@
        Padding="0">
 
     <Shell.FlyoutHeader>
-        <shared:FlyoutMenuHeader UserName="{Binding UserData.Email}"
-                                 LogoutCommand="{Binding HandleLogoutCommand}" />
+        <!-- Bind to the current user's email exposed via PrivateViewModelBase.UserData -->
+        <shared:FlyoutMenuHeader />
     </Shell.FlyoutHeader>
     <FlyoutItem Title="Home"
                 Route="HomePage"

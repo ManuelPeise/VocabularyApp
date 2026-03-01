@@ -11,6 +11,7 @@ namespace Logic.Shared.DI
             services.AddScoped<IHttpClient, ApiHttpClient>();
             services.AddScoped<ISecureStorageHandler, SecureStorageHandler>();
             services.AddSingleton<ILocalizationResourceManager, LocalizationResourceManager>();
+            services.AddScoped<IDataSyncService, DataSyncService>();
         }
     }
 }

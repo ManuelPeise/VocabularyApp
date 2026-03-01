@@ -29,7 +29,7 @@ namespace Logic.Administration
             _logger = logger;
         }
 
-        public async Task<bool> AuthenticateUser(AuthenticationRequestModel authRequest, CurrentUser? userData)
+        public async Task<CurrentUser?> AuthenticateUser(AuthenticationRequestModel authRequest)
         {
             try
             {
@@ -41,10 +41,19 @@ namespace Logic.Administration
                 }
 
                 var userEntity = await _unitOfWork.UserRepository.FirstOrDefaultAsync(u => u.EmailAddress == authRequest.Email);
-                await _unitOfWork.UserCredentialsRepository.FirstOrDefaultByIdAsync(userEntity?.UserCredentialsId ?? 0);
+
+                if (userEntity != null)
+                {
+                    await _unitOfWork.UserCredentialsRepository.FirstOrDefaultByIdAsync(userEntity.UserCredentialsId);
+                }
 
                 if (userEntity == null || userEntity.UserCredentials == null)
                 {
+                    if (!await _httpClient.IsApiAvailableAsync)
+                    {
+                        throw new Exception("Api is not available.");
+                    }
+
                     var response = await _httpClient.SendPostRequest("userauthentication/authenticateuser", null, authRequest);
 
                     response.EnsureSuccessStatusCode();
@@ -61,33 +70,34 @@ namespace Logic.Administration
                     var userSync = await ProcessRemoteAuthenticationResult(result);
 
                     var userId = await StoreUserInDatabase(userSync);
-                    
+
                     if (userSync == null || userId == -1)
                     {
-                        return false;
+                        throw new Exception("User scnc data could not be null.");
                     }
 
-                    userData = new CurrentUser
+                    var userData = new CurrentUser
                     {
                         UserId = userId,
                         Email = userSync.EmailAddress,
                         ProfileImage = userSync.ProfileImage,
                     };
 
-                    return true;
+                    return userData;
                 }
 
-                if (userEntity.UserCredentials.PasswordHash == PasswordHasher.HashPassword(authRequest.Password))
+                // Verify that the provided password matches the stored hash
+                if (!PasswordHasher.VerifyPassword(authRequest.Password, userEntity.UserCredentials.PasswordHash))
                 {
-                    userData = new CurrentUser
-                    {
-                        UserId = userEntity.Id,
-                        Email = userEntity.EmailAddress,
-                        ProfileImage = userEntity.ProfileImage,
-                    };
+                    throw new Exception("Password does not match.");
                 }
 
-                return userData != null;
+                return new CurrentUser
+                {
+                    UserId = userEntity.Id,
+                    Email = userEntity.EmailAddress,
+                    ProfileImage = userEntity.ProfileImage
+                };
             }
             catch (Exception exception)
             {
@@ -97,7 +107,7 @@ namespace Logic.Administration
                     exception);
             }
 
-            return false;
+            return null;
         }
 
         public async Task SignOutAsync(CurrentUser? userData)
@@ -125,15 +135,15 @@ namespace Logic.Administration
         {
             UserDataSyncModel? userSync = null;
 
-            if (result == null || string.IsNullOrEmpty(result.AccessToken) || string.IsNullOrEmpty(result.RefreshToken))
+            if (result == null || string.IsNullOrEmpty(result.AccessToken) || string.IsNullOrEmpty(result.RefeshToken))
             {
                 throw new Exception("Invalid authentication result received from remote service.");
             }
 
             await _secureStorageHandler.SetValue(StorageKeys.AccessTokenKey, result.AccessToken);
-            await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, result.RefreshToken);
+            await _secureStorageHandler.SetValue(StorageKeys.RefreshTokenKey, result.RefeshToken);
 
-            var response = await _httpClient.SendGetRequest("userauthentication/getcurrentuser");
+            var response = await _httpClient.SendGetRequest("syncronization/pulluserdata");
 
             response.EnsureSuccessStatusCode();
 

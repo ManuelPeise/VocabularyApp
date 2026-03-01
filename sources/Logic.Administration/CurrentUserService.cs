@@ -14,6 +14,7 @@ namespace Logic.Administration
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISecureStorageHandler _secureStorageHandler;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IDataSyncService _syncService;
         private readonly ILogger<CurrentUserService> _logger;
 
         #region INotifyPropertyChanged
@@ -23,6 +24,7 @@ namespace Logic.Administration
         #endregion
 
         private CurrentUser? _userData = new CurrentUser();
+        
         public CurrentUser? UserData
         {
             get => _userData;
@@ -31,7 +33,7 @@ namespace Logic.Administration
                 if (_userData != value)
                 {
                     _userData = value;
-                    OnPropertyChanged(nameof(UserData));
+                    OnPropertyChanged(nameof(UserData)); // this is correct
                 }
             }
         }
@@ -39,11 +41,13 @@ namespace Logic.Administration
         public CurrentUserService(
             ISecureStorageHandler secureStorageHandler,
             IUnitOfWork unitOfWork,
+            IDataSyncService syncService,
             ILogger<CurrentUserService> logger,
             IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
             _logger = logger;
+            _syncService = syncService;
             _unitOfWork = unitOfWork;
             _secureStorageHandler = secureStorageHandler;
 
@@ -55,11 +59,21 @@ namespace Logic.Administration
             UserData = await _secureStorageHandler.GetValue<CurrentUser>(StorageKeys.UserDataKey) ?? new CurrentUser();
         }
 
-        public async Task<bool> AuthenticateUser(AuthenticationRequestModel authData) => await _authenticationService.AuthenticateUser(authData, UserData);
+        public async Task<bool> AuthenticateUser(AuthenticationRequestModel authData)
+        {
+            UserData = await _authenticationService.AuthenticateUser(authData);
+
+            if (UserData != null)
+            {
+                await _syncService.SyncVocabularyMetaData();
+
+                return true;
+            }
+
+            return false;
+        }
 
         public async Task SignOutAsync() => await _authenticationService.SignOutAsync(UserData);
-
-
 
         public async Task<UserSettingsModel> GetCurrentUserSettings(int userId)
         {
